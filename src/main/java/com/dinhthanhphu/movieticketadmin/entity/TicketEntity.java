@@ -1,5 +1,6 @@
 package com.dinhthanhphu.movieticketadmin.entity;
 
+import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -7,6 +8,7 @@ import java.util.UUID;
 
 @Table(name = "Tickets")
 @Entity
+@Data
 public class TicketEntity extends BaseEntity {
 
     @Id

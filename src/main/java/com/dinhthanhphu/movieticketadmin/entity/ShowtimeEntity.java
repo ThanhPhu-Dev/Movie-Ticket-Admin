@@ -1,10 +1,13 @@
 package com.dinhthanhphu.movieticketadmin.entity;
 
+import lombok.Data;
+
 import javax.persistence.*;
 import java.util.Date;
 
 @Table(name = "showtimes")
 @Entity
+@Data
 public class ShowtimeEntity extends BaseEntity {
 
     @Id
