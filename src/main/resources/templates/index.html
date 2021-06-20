@@ -1,10 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
+
+<!--  main-fragment (title, otherStaticResources, header, nav, mainContent, footer)  -->
+<html th:replace="~{layouts/main-layout :: main-fragment(
+                                                ~{::title},
+                                                ~{:: #home-static-resources},
+                                                ~{:: #home-main-content}
+                                               )}"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Hello</title>
+    <title>Helo world</title>
+
+   <!-- <th:block id="home-static-resources">
+
+        &lt;!&ndash;<script type="text/javascript" src="../static/home.js" th:src="@{/home.js}"></script>
+        <link rel="stylesheet" type="text/css" href="../static/home.css" th:href="@{/home.css}"/>&ndash;&gt;
+
+    </th:block>-->
+
 </head>
 <body>
-  <h1>Hello world</h1>
+<div id="home-main-content">
+    <h2>asdasd content</h2>
+    <div>Content of Home Page</div>
+</div>
 </body>
 </html>

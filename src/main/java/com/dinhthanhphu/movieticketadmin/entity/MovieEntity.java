@@ -1,0 +1,45 @@
+package com.dinhthanhphu.movieticketadmin.entity;
+
+import javax.persistence.*;
+import java.util.Date;
+import java.util.List;
+
+@Table(name = "Movies")
+@Entity
+public class MovieEntity extends BaseEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long Id;
+
+    @Column
+    private String name;
+
+    @Column
+    private Integer times;
+
+    @Column(name = "description", columnDefinition = "TEXT")
+    private String description;
+
+    @Column
+    private Date openDate;
+
+    @Column
+    private String posterUrl;
+
+    @Column
+    private String posterPublicId;
+
+    @Column
+    private String trailerUrl;
+
+    @Column
+    private String trailerPublicid;
+
+    @OneToMany(mappedBy = "movie")
+    private List<ShowtimeEntity> showtime;
+
+    @OneToMany(mappedBy = "movie")
+    private List<ImageEntity> image;
+
+}
