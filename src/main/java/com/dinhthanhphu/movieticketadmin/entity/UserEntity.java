@@ -11,7 +11,6 @@ import java.util.UUID;
 @Table(name = "users")
 public class UserEntity extends BaseEntity {
 
-
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(
@@ -30,12 +29,6 @@ public class UserEntity extends BaseEntity {
     @Column(name = "fullName")
     private String fullname;
 
-    @Column(name = "phoneName")
-    private String phoneName;
-
     @Column(name = "active")
     private boolean active;
-
-
-
 }

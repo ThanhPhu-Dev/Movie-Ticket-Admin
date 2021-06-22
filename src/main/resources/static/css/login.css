@@ -1,0 +1,23 @@
+.login__social{
+    margin-top: 10px;
+    text-align: center;
+}
+.login__social > button{
+    position: relative;
+    margin: 0 12px;
+    border: 1px solid #555;
+    width: 98px;
+    height: 34px;
+}
+
+.login__social > button > a{
+    display: block;
+    color: #555;
+}
+
+.login__social > button > a >i{
+    position: relative;
+    left: -6px;
+    font-size: 14px;
+    vertical-align: middle;
+}
