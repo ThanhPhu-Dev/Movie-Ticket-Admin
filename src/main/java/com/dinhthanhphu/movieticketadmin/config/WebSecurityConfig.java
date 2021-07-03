@@ -1,5 +1,6 @@
 package com.dinhthanhphu.movieticketadmin.config;
 
+import com.dinhthanhphu.movieticketadmin.security.CustomfailureHandler;
 import com.dinhthanhphu.movieticketadmin.service.impl.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -31,6 +32,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
+    @Bean
+    public CustomfailureHandler customeFailureHandler() {
+        return new CustomfailureHandler();
+    }
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth)throws Exception {
         auth.userDetailsService(userService) // Cung cáp userservice cho spring security
@@ -40,13 +46,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable().authorizeRequests()
-                .antMatchers("/login*", "/css/**", "/js/**", "/register").permitAll()
-                .anyRequest().authenticated().and().formLogin()
-                .loginPage("/login").usernameParameter("email")
-                .defaultSuccessUrl("/index.html")
-                .failureUrl("/login.html?error=true")
-                .and().logout().logoutUrl("/logout")
-                .deleteCookies("JSESSIONID").invalidateHttpSession(true)
-                .logoutSuccessUrl("/login/html");
+                .antMatchers("/login*", "/css/**", "/js/**", "/register", "/registerconfirm*", "/404*").permitAll()
+                .anyRequest().authenticated()
+                .and()
+                .formLogin().permitAll()
+                    .loginPage("/login")
+                    .usernameParameter("email")
+                    .passwordParameter("motdepass")
+                    .loginProcessingUrl("/j_spring_security_check")
+                .defaultSuccessUrl("/")
+//                .failureUrl("/login?error=true")
+                .failureHandler(customeFailureHandler())
+                .and()
+                .logout()
+                    .logoutUrl("/logout")
+                    .deleteCookies("JSESSIONID").invalidateHttpSession(true)
+                    .logoutSuccessUrl("/login/html");
     }
 }

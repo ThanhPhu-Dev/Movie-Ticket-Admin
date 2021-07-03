@@ -1,6 +1,6 @@
 package com.dinhthanhphu.movieticketadmin.entity;
 
-import lombok.Data;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -8,6 +8,9 @@ import java.util.UUID;
 
 @Data
 @Entity
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "users")
 public class UserEntity extends BaseEntity {
 
@@ -31,4 +34,8 @@ public class UserEntity extends BaseEntity {
 
     @Column(name = "active")
     private boolean active;
+
+    @Column(name = "code")
+    private String code;
+
 }
