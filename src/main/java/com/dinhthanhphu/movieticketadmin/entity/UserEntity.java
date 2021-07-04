@@ -4,6 +4,7 @@ import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.security.Provider;
 import java.util.UUID;
 
 @Data
@@ -38,4 +39,7 @@ public class UserEntity extends BaseEntity {
     @Column(name = "code")
     private String code;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "auth_provider")
+    private AuthenticationProvider provider;
 }

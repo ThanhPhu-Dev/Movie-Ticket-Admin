@@ -3,6 +3,7 @@ package com.dinhthanhphu.movieticketadmin.service.impl;
 import com.dinhthanhphu.movieticketadmin.convert.UserConvert;
 import com.dinhthanhphu.movieticketadmin.customException.UserAlreadyExistException;
 import com.dinhthanhphu.movieticketadmin.dto.UserDTO;
+import com.dinhthanhphu.movieticketadmin.entity.AuthenticationProvider;
 import com.dinhthanhphu.movieticketadmin.entity.UserEntity;
 import com.dinhthanhphu.movieticketadmin.repository.IUserRepository;
 import com.dinhthanhphu.movieticketadmin.service.IUserService;
@@ -60,7 +61,22 @@ public class UserService implements IUserService, UserDetailsService {
                         .fullname(username)
                         .hasedPassword(passwordEncoder.encode(password))
                         .code(RandomStringUtils.randomAlphabetic(10))
+                        .provider(AuthenticationProvider.LOCAL)
                         .active(false)
+                        .build()
+        ));
+    }
+
+    @Override
+    public UserDTO save(String username, String email, AuthenticationProvider provider) {
+        return usercvt.convertToDTO(userRepository.save(
+                UserEntity.builder()
+                        .email(email)
+                        .fullname(username)
+                        .code(null)
+                        .hasedPassword(null)
+                        .provider(provider)
+                        .active(true)
                         .build()
         ));
     }
