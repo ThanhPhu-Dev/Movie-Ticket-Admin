@@ -47,6 +47,7 @@ public class UserDTO extends BaseDTO implements UserDetails {
         return true;
     }
 
+
     @Override
     public boolean isAccountNonLocked() {
         return true;

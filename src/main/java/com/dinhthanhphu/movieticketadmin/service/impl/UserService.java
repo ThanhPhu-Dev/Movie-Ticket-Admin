@@ -31,14 +31,13 @@ public class UserService implements IUserService, UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException, UserAlreadyExistException {
         UserDTO user = usercvt.convertToDTO(userRepository.findOneByEmail(email));
-        if (user == null) {
-            throw new UsernameNotFoundException("emailNotFound");
+        if (user != null) {
+            if (user.isActive() == false) {
+                throw new UserAlreadyExistException("emailNotActive");
+            }
+            return user;
         }
-        if (user.isActive() == false) {
-            throw new UserAlreadyExistException("emailNotActive");
-        }
-
-        return user;
+        throw new UsernameNotFoundException("emailNotFound");
     }
 
     public UserDTO findOneByEmail(String email) {

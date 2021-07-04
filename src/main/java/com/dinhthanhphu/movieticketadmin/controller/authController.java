@@ -41,7 +41,7 @@ public class authController {
     }
 
     @PostMapping("/perform_login")
-    public String loginPost(@RequestBody LoginRequest formlogin) {
+    public String loginPost() {
         int x= 2;
         return null;
     }
