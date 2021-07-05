@@ -30,8 +30,6 @@ public class UserDTO extends BaseDTO implements UserDetails {
         return Collections.singleton(new SimpleGrantedAuthority("ROLE_USER"));
     }
 
-
-
     @Override
     public String getPassword() {
         return hasedPassword;
@@ -46,7 +44,6 @@ public class UserDTO extends BaseDTO implements UserDetails {
     public boolean isAccountNonExpired() {
         return true;
     }
-
     @Override
     public boolean isAccountNonLocked() {
         return true;

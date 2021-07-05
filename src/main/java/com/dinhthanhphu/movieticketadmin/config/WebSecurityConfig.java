@@ -1,6 +1,8 @@
 package com.dinhthanhphu.movieticketadmin.config;
 
 import com.dinhthanhphu.movieticketadmin.security.CustomfailureHandler;
+import com.dinhthanhphu.movieticketadmin.security.OAuth2LoginSuccessHandler;
+import com.dinhthanhphu.movieticketadmin.service.impl.CustomOAuth2UserService;
 import com.dinhthanhphu.movieticketadmin.service.impl.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -20,6 +22,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private CustomOAuth2UserService oauth2UserService;
+
+    @Autowired
+    private OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -46,7 +54,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable().authorizeRequests()
-                .antMatchers("/login*", "/css/**", "/js/**", "/register", "/registerconfirm*", "/404*").permitAll()
+                .antMatchers("/login*", "/css/**", "/js/**", "/register",
+                            "/registerconfirm*", "/404*", "/oauth2/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().permitAll()
@@ -54,9 +63,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .usernameParameter("email")
                     .passwordParameter("motdepass")
                     .loginProcessingUrl("/j_spring_security_check")
-                .defaultSuccessUrl("/")
-//                .failureUrl("/login?error=true")
-                .failureHandler(customeFailureHandler())
+                    .defaultSuccessUrl("/")
+                    .failureHandler(customeFailureHandler())
+                .and()
+                .oauth2Login()
+                    .loginPage("/login")
+                    .userInfoEndpoint().userService(oauth2UserService)
+                    .and()
+                    .successHandler(oAuth2LoginSuccessHandler)
                 .and()
                 .logout()
                     .logoutUrl("/logout")
