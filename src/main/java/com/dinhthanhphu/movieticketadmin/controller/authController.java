@@ -34,18 +34,6 @@ public class authController {
         return "views/auth/login";
     }
 
-    @PostMapping("/as")
-    public String performlogin() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return "views/auth/login";
-    }
-
-    @PostMapping("/perform_login")
-    public String loginPost(@RequestBody LoginRequest formlogin) {
-        int x= 2;
-        return null;
-    }
-
     @GetMapping("/register")
     public String signup(@RequestParam(value = "alert", required = false) String alert,
                          @RequestParam(value = "message", required = false) String message,

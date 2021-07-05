@@ -24,16 +24,6 @@ public class SendMailUtils {
         helper.setFrom("cinema@gmail.com", "Cinema District 8");
         helper.setTo(recipientEmail);
 
-//        String subject = "Here's the link to reset your password";
-
-//        String content = "<p>Hello,</p>"
-//                + "<p>You have requested to reset your password.</p>"
-//                + "<p>Click the link below to change your password:</p>"
-//                + "<p><a href=\"" + link + "\">Change my password</a></p>"
-//                + "<br>"
-//                + "<p>Ignore this email if you do remember your password, "
-//                + "or you have not made the request.</p>";
-
         helper.setSubject(subject);
 
         helper.setText(content, true);
@@ -48,6 +38,4 @@ public class SendMailUtils {
         content.append("click here for complete confirmation</a>");
         return content.toString();
     }
-
-
 }
