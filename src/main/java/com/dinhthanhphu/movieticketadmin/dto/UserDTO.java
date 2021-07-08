@@ -8,6 +8,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.validation.constraints.Email;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.UUID;
@@ -19,11 +20,13 @@ import java.util.UUID;
 public class UserDTO extends BaseDTO implements UserDetails {
 
     private UUID id;
+    @Email(message = "email không hợp lệ.")
     private String email;
     private String hasedPassword;
     private String fullname;
     private boolean active;
     private String code;
+    private String provider;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

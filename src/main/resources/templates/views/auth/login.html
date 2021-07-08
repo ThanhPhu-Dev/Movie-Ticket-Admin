@@ -12,10 +12,28 @@
 
 <body>
 
-<div class="p-5" id="home-main-content" style="padding-top: 142px !important;">
+<div class="p-5" id="home-main-content" style="padding-top: 60px !important;">
     <div class="text-center">
         <h1 class="h4 text-gray-900 mb-4">Đăng Nhập</h1>
     </div>
+    <button class="btn bt-social btn-social-google">
+        <a th:href="@{/oauth2/authorization/google}">
+            <i class="fab fa-google"></i>
+            <span>Đăng nhập bằng Google</span>
+        </a>
+    </button>
+    <button class="btn bt-social btn-social-facebook">
+        <a th:href="@{/oauth2/authorization/facebook}">
+            <i class="fab fa-facebook-f"></i>
+            <span>Đăng nhập bằng Facebook</span>
+        </a>
+    </button>
+    <button class="btn bt-social btn-social-github">
+        <a th:href="@{/oauth2/authorization/github}">
+            <i class="fab fa-github"></i>
+            <span>Đăng nhập bằng Github</span>
+        </a>
+    </button>
     <form class="user" method="POST" th:action="@{/j_spring_security_check}">
         <div class="form-group">
             <input aria-describedby="emailHelp" autofocus
@@ -36,21 +54,12 @@
     <hr>
     <div class="text-center d-flex justify-content-between">
         <a class="small" href="/register">Tạo Tài Khoản</a>
-        <a class="small" href="/forgetpassword">Quên Mật Khẩu?</a>
+        <a class="small" th:href="@{/forgetpassword}">Quên Mật Khẩu?</a>
     </div>
     <div class="login__social">
-        <button>
-            <a th:href="@{/oauth2/authorization/google}">
-                <i class="fab fa-google"></i>
-                Google
-            </a>
-        </button>
-        <button>
-            <a th:href="@{/oauth2/authorization/facebook}">
-                <i class="fab fa-facebook-f"></i>
-                Facebook
-            </a>
-        </button>
+
+
+
     </div>
 </div>
 </body>

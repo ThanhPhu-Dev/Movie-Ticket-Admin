@@ -39,7 +39,6 @@ public class UserEntity extends BaseEntity {
     @Column(name = "code")
     private String code;
 
-    @Enumerated(EnumType.STRING)
     @Column(name = "auth_provider")
-    private AuthenticationProvider provider;
+    private String provider;
 }

@@ -21,3 +21,40 @@
     font-size: 14px;
     vertical-align: middle;
 }
+
+.bt-social{
+    width: 100%;
+    margin-bottom: 15px;
+    height: 43px;
+}
+
+.bt-social span{
+    color: #fff;
+    padding: 5px 0 8px 20px;
+    display: inline-block;
+}
+
+.bt-social i{
+    font-size: 1.25rem;
+    text-align: center;
+    width: 20%;
+    height: 35px;
+    border-right: 1px solid rgba(255,255,255,.3);
+    float: left;
+    padding: 5px 0;
+    color: white;
+}
+
+.btn-social-google{
+    background: #d34836;
+}
+
+.btn-social-facebook{
+    background: #3b5998;
+}
+
+.btn-social-github{
+    background: black;
+}
+
+

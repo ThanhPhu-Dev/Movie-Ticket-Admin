@@ -3,7 +3,6 @@ package com.dinhthanhphu.movieticketadmin.service.impl;
 import com.dinhthanhphu.movieticketadmin.convert.UserConvert;
 import com.dinhthanhphu.movieticketadmin.customException.UserAlreadyExistException;
 import com.dinhthanhphu.movieticketadmin.dto.UserDTO;
-import com.dinhthanhphu.movieticketadmin.entity.AuthenticationProvider;
 import com.dinhthanhphu.movieticketadmin.entity.UserEntity;
 import com.dinhthanhphu.movieticketadmin.repository.IUserRepository;
 import com.dinhthanhphu.movieticketadmin.service.IUserService;
@@ -54,37 +53,30 @@ public class UserService implements IUserService, UserDetailsService {
         return usercvt.convertToDTO(userRepository.findById(id).get());
     }
 
-    public UserDTO save(String username, String email, String password) {
+    @Override
+    public UserDTO findOneByEmailAndProvider(String email, String provider) {
+        return usercvt.convertToDTO(userRepository.findByEmailAndProvider(email,provider));
+    }
+
+    public UserDTO save(String username, String email, String password, String provider) {
+        String hasd =null;
+        if(password !=null){
+            hasd = passwordEncoder.encode(password);
+        }
         return usercvt.convertToDTO(userRepository.save(
                 UserEntity.builder()
                         .email(email)
                         .fullname(username)
-                        .hasedPassword(passwordEncoder.encode(password))
+                        .hasedPassword(hasd)
                         .code(RandomStringUtils.randomAlphabetic(10))
-                        .provider(AuthenticationProvider.LOCAL)
+                        .provider(provider)
                         .active(false)
                         .build()
         ));
     }
 
     @Override
-    public UserDTO save(String username, String email, AuthenticationProvider provider) {
-        return usercvt.convertToDTO(userRepository.save(
-                UserEntity.builder()
-                        .email(email)
-                        .fullname(username)
-                        .code(null)
-                        .hasedPassword(null)
-                        .provider(provider)
-                        .active(true)
-                        .build()
-        ));
-    }
-
-    @Override
     public UserDTO update(UserDTO userDTO) {
-//        UserEntity u =
-//                usercvt.convertToEntity(userDTO, )
         return usercvt.convertToDTO(userRepository.findById(userDTO.getId())
                 .map(u -> userRepository.save(usercvt.convertToEntity(userDTO, u))).orElse(null));
     }
