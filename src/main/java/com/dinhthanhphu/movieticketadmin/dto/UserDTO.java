@@ -40,7 +40,7 @@ public class UserDTO extends BaseDTO implements UserDetails {
 
     @Override
     public String getUsername() {
-        return email;
+        return fullname;
     }
 
     @Override
@@ -59,6 +59,6 @@ public class UserDTO extends BaseDTO implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return active;
     }
 }

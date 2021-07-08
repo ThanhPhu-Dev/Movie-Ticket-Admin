@@ -99,16 +99,15 @@ public class authController {
 
     @GetMapping("/registerconfirm")
     public String registerConfirm(@RequestParam String id, @RequestParam String code) {
-        Authentication authentication = null;
         String url = null;
         try {
             UserDTO u = userService.findOneById(id);
-            if (u != null || !Objects.requireNonNull(u).getCode().equals(code)) {
+            if (u != null && Objects.requireNonNull(u).getCode().equals(code)) {
                 u.setCode(null);
                 u.setActive(true);
                 userService.update(u);
-                authentication = authenticationManager.authenticate(
-                        new UsernamePasswordAuthenticationToken(u.getUsername(), u.getPassword()));
+                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+                        u, null, u.getAuthorities());
                 SecurityContextHolder.getContext().setAuthentication(authentication);
                 url = "redirect:/";
             } else {
@@ -124,19 +123,20 @@ public class authController {
     public ModelAndView perform_forgetpassword(@RequestParam(value = "email") String email) {
         ModelAndView mav = new ModelAndView("redirect:/forgetpassword");
         UserDTO user = userService.findOneByEmailAndProvider(email, "Local");
-        if (user != null || !Objects.requireNonNull(user).isActive()) {
+        if (user != null || Objects.requireNonNull(user).isActive()) {
             user.setCode(RandomStringUtils.randomAlphabetic(10));
             userService.update(user);
             try {
                 sendMailUtils.sendEmail(email, "Quên mật khẩu", SendMailUtils.mailforgetPassword(user.getId().toString(), user.getCode()));
             } catch (MessagingException | UnsupportedEncodingException e) {
+                System.out.println("fail send mail");
                 e.printStackTrace();
             }
             mav.addObject("alert", "success");
             mav.addObject("message", "sendMail_success");
         } else {
             mav.addObject("alert", "danger");
-            mav.addObject("message", "notFound_Email");
+            mav.addObject("message", "notFound_Email_Or_NotActive");
         }
         return mav;
     }
@@ -148,7 +148,7 @@ public class authController {
             mav.addObject("alert", "danger");
             mav.addObject("message", "email_exists");
         } else {
-            UserDTO u = userService.save(form.getUsername(), form.getEmail(), form.getPassword(), "Local");
+            UserDTO u = userService.save(form);
             if (u != null) {
                 try {
                     sendMailUtils.sendEmail(form.getEmail(), "Register Confirm", SendMailUtils.mailRegister(u.getId().toString(), u.getCode()));

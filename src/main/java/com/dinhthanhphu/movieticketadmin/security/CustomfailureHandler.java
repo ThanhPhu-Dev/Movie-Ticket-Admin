@@ -18,10 +18,12 @@ public class CustomfailureHandler extends SimpleUrlAuthenticationFailureHandler 
         setDefaultFailureUrl("/login?error=true");
         String errorMessage= null;
         super.onAuthenticationFailure(request, response, exception);
-        if(exception.getMessage().equalsIgnoreCase("emailNotActive")){
+        if(exception.getMessage().equalsIgnoreCase("User is disabled")){
             errorMessage = "Email chưa được kích hoạt";
         }else if(exception.getMessage().equalsIgnoreCase("emailNotFound")){
             errorMessage = "Email Không tìm thấy";
+        }else if(exception.getMessage().equalsIgnoreCase("Bad credentials")){
+            errorMessage = "Mật Khẩu không chính xát";
         }
         request.getSession().setAttribute("message", errorMessage);
     }

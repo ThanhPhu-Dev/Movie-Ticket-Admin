@@ -26,7 +26,7 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
         System.out.println("Email: " + email);
         UserDTO user = userService.findOneByEmail(email);
         if(user == null){
-            userService.save(oAuthUser.getName(),email,null, oAuthUser.getClientName());
+            userService.save(oAuthUser);
         }
         super.onAuthenticationSuccess(request, response, authentication);
     }
