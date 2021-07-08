@@ -38,4 +38,12 @@ public class SendMailUtils {
         content.append("click here for complete confirmation</a>");
         return content.toString();
     }
+
+    public static String mailforgetPassword(String id, String code){
+        StringBuilder content = new StringBuilder("<p>Hello,</p>");
+        content.append("<p>To retrieve password, please click<p>");
+        content.append("<a href=\""+URLUtils.getSiteURL()+"/confirmforgetpassword?id="+id+"&code="+code+"\">");
+        content.append("this</a>");
+        return content.toString();
+    }
 }

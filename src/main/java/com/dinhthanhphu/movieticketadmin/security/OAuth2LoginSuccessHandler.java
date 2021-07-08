@@ -2,7 +2,6 @@ package com.dinhthanhphu.movieticketadmin.security;
 
 import com.dinhthanhphu.movieticketadmin.dto.CustomOAuth2User;
 import com.dinhthanhphu.movieticketadmin.dto.UserDTO;
-import com.dinhthanhphu.movieticketadmin.entity.AuthenticationProvider;
 import com.dinhthanhphu.movieticketadmin.service.impl.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -27,7 +26,7 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
         System.out.println("Email: " + email);
         UserDTO user = userService.findOneByEmail(email);
         if(user == null){
-            userService.save(oAuthUser.getName(),email, AuthenticationProvider.FACEBOOK);
+            userService.save(oAuthUser.getName(),email,null, oAuthUser.getClientName());
         }
         super.onAuthenticationSuccess(request, response, authentication);
     }
