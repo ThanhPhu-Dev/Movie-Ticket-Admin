@@ -12,36 +12,83 @@
 
     <!-- Heading -->
     <!-- Nav Item - Pages Collapse Menu -->
-    <li class="nav-item">
+    <li class="nav-item" id="tabMovie" onclick="showItem(this)">
         <a aria-controls="collapseTwo"
            aria-expanded="true"
-           class="nav-link collapsed"
-           href="/admin/"
+           class="nav-link collapsed d-flex justify-content-between"
+           href="#"
         >
-            <i class="fas fa-video"></i>
-            <span>Quản Lý Rạp</span>
+            <div>
+                <i class="fas fa-film"></i>
+                <span>Quản Lý phim</span>
+            </div>
+            <div class="sb-sidenav-collapse-arrow icon-show">
+                <i class="fas fa-angle-right"></i>
+            </div>
         </a>
+        <div class="tabItem">
+            <nav class="sb-sidenav-menu-nested nav">
+                <a class="nav-link pl-5" href="layout-static.html"><i class="fas fa-plus"></i> Thêm Phim</a>
+                <a class="nav-link pl-5" href="layout-sidenav-light.html"><i class="fas fa-list"></i> Danh sách phim</a>
+            </nav>
+        </div>
     </li>
+
+    <li class="nav-item" onclick="showItem(this)">
+        <a aria-controls="collapseTwo"
+           aria-expanded="true"
+           class="nav-link collapsed  d-flex justify-content-between"
+           href="#"
+        >
+            <div>
+                <i class="fas fa-users"></i>
+                <span>Quản Lý Diễn Viên</span>
+            </div>
+            <div class="sb-sidenav-collapse-arrow icon-show">
+                <i class="fas fa-angle-right"></i>
+            </div>
+        </a>
+        <div class="tabItem">
+            <nav class="sb-sidenav-menu-nested nav">
+                <a class="nav-link pl-5" href="layout-static.html"><i class="fas fa-user-plus"></i> Thêm Diễn Viên</a>
+                <a class="nav-link pl-5" href="layout-sidenav-light.html"><i class="fas fa-user-tag"></i> Danh sách Diễn Viên</a>
+            </nav>
+        </div>
+    </li>
+
+    <!--Rap-->
+    <li class="nav-item" onclick="showItem(this)">
+        <a aria-controls="collapseTwo"
+           aria-expanded="true"
+           class="nav-link collapsed  d-flex justify-content-between"
+           href="#"
+        >
+            <div>
+                <i class="fas fa-video"></i>
+                <span>Quản Lý Rạp</span>
+            </div>
+            <div class="sb-sidenav-collapse-arrow icon-show">
+                <i class="fas fa-angle-right"></i>
+            </div>
+        </a>
+        <div class="tabItem">
+            <nav class="sb-sidenav-menu-nested nav">
+                <a class="nav-link pl-5" href="layout-static.html">Thêm Rạp</a>
+                <a class="nav-link pl-5" href="layout-sidenav-light.html">Danh sách rạp</a>
+            </nav>
+        </div>
+    </li>
+
+    <!--Cụm Rạp-->
     <li class="nav-item">
         <a
                 aria-controls="collapseTwo"
                 aria-expanded="true"
                 class="nav-link collapsed"
-                href="/admin/cum-rap"
+                href="#"
         >
             <i class="fas fa-fw fa-wrench"></i>
             <span>Quản Lý Cụm Rạp</span>
-        </a>
-    </li>
-    <li class="nav-item">
-        <a
-                aria-controls="collapseTwo"
-                aria-expanded="true"
-                class="nav-link collapsed"
-                href="/admin/phim"
-        >
-            <i class="fas fa-film"></i>
-            <span>Quản Lý Phim</span>
         </a>
     </li>
     <li class="nav-item">
@@ -53,24 +100,30 @@
             <span>Quản Lý Suất Chiếu</span>
         </a>
     </li>
-    <li class="nav-item">
+    <li class="nav-item" onclick="showItem(this)">
         <a aria-controls="collapseTwo"
            aria-expanded="true"
-           class="nav-link collapsed"
-           href="/admin/thong-ke/">
-            <i class="fas fa-fw fa-chart-area"></i>
-            <span>Doanh Thu Cụm Rạp</span>
+           class="nav-link collapsed  d-flex justify-content-between"
+           href="#"
+        >
+            <div>
+                <i class="fas fa-chart-pie"></i>
+                <span>Doanh Thu</span>
+            </div>
+            <div class="sb-sidenav-collapse-arrow icon-show">
+                <i class="fas fa-angle-right"></i>
+            </div>
         </a>
+        <div class="tabItem">
+            <nav class="sb-sidenav-menu-nested nav">
+                <a class="nav-link pl-5" href="layout-static.html"><i class="fas fa-fw fa-chart-area"></i>
+                    <span>Doanh Thu Cụm Rạp</span></a>
+                <a class="nav-link pl-5" href="layout-sidenav-light.html"><i class="fas fa-chart-line"></i>
+                    <span>Doanh Thu Phim</span></a>
+            </nav>
+        </div>
     </li>
-    <li class="nav-item">
-        <a aria-controls="collapseTwo"
-           aria-expanded="true"
-           class="nav-link collapsed"
-           href="/admin/thong-ke/phim">
-            <i class="fas fa-chart-line"></i>
-            <span>Doanh Thu Phim</span>
-        </a>
-    </li>
+
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block"/>
 
@@ -79,3 +132,4 @@
         <button class="rounded-circle border-0" id="sidebarToggle"></button>
     </div>
 </ul>
+

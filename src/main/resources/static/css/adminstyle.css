@@ -136,3 +136,9 @@
   height: auto;
   background: gray;
   animation: xoayvong 2s linear 0s infinite; }
+
+.tabItem{
+  display: none;
+  background: #4e73df
+}
+
