@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+
+<html
+	th:replace="~{layouts/main-layout :: main-fragment(
+                                                ~{::title},
+                                                ~{:: #home-static-resources},
+                                                ~{:: #home-main-content}
+                                               )}"
+	xmlns:th="http://www.thymeleaf.org">
+<th:block id="home-static-resources">
+	<link rel="stylesheet" th:href="@{/css/admin/addActorStyle.css}"
+		type="text/css" />
+	<script th:src="@{/js/addActor.js}"></script>
+	<script th:src="@{/ckeditor/ckeditor.js}"></script>
+</th:block>
+
+<title>Helo world</title>
+
+
+<div id="home-main-content">
+	<div class="link-ref shadow">
+		<span>Quản Lý Nhân Viên/</span> <a th:href="@{/edit-actor}"
+			style="color: gray;">Thêm Nhân Viên</a>
+	</div>
+	<form id="form">
+		<div class="form-content shadow">
+			<div class="d-flex">
+				<div class="poster">
+					<div id="avatar">
+						<img height="auto" src="http://placehold.it/800x800"
+							style="max-height: 350px" width="300px">
+					</div>
+					<div class="input-avatar">
+						<input class="custom-file-poster-input" type="file">
+					</div>
+				</div>
+				<div style="width: 72%;">
+					<div class="mb-3">
+						<label class="form-label" for="name">Họ Tên</label> <input
+							class="form-control" id="name" name="name" required type="text">
+					</div>
+					<textarea cols="100" id="editor1" name="editor1" rows="15"></textarea>
+				</div>
+
+			</div>
+			<div style="text-align: center;">
+				<button type="submit" style="margin-top: 24px;"
+					class="btn btn-primary">Thêm Diễn Viên</button>
+			</div>
+		</div>
+	</form>
+	<script>
+		var editror = '';
+		$(document).ready(function() {
+			editror = CKEDITOR.replace('editor1');
+		})
+	</script>
+
+</div>

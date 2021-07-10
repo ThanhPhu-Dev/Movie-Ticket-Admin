@@ -1,29 +1,38 @@
 .dtMovie__header {
   font-size: 30px;
   padding: 10px 0; }
-  .dtMovie__header strong {
-    text-decoration: underline; }
+
+.dtMovie__header strong {
+    text-decoration: underline;
+}
 
 .dtMovie__poster {
   font-size: 12px;
-  text-align: center; }
-  .dtMovie__poster img {
+  text-align: center;
+}
+
+.dtMovie__poster img {
     width: 100%; }
 
 .dtMovie__info {
-  margin-bottom: 20px; }
-  .dtMovie__info--items {
+  margin-bottom: 20px;
+}
+
+.dtMovie__info--items {
     margin: 3px 0;
-    font-size: 24px; }
+    font-size: 24px;
+}
 
 .dtMovie__lable--big {
   font-size: 28px;
   text-align: center;
-  margin: 0 0 15px; }
+  margin: 0 0 15px;
+}
 
 .dtMovie__carousel, .dtMovie__play {
   padding: 20px 0;
-  border-top: 1px solid; }
+  border-top: 1px solid;
+}
 
 .swiper-container {
   width: 100%;
@@ -136,9 +145,4 @@
   height: auto;
   background: gray;
   animation: xoayvong 2s linear 0s infinite; }
-
-.tabItem{
-  display: none;
-  background: #4e73df
-}
 
