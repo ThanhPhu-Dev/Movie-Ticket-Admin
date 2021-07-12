@@ -45,4 +45,7 @@ public class MovieEntity extends BaseEntity {
     @OneToMany(mappedBy = "movie")
     private List<ImageEntity> image;
 
+    @ManyToMany(mappedBy = "movies")
+    private List<ActorEntity> actors;
+
 }

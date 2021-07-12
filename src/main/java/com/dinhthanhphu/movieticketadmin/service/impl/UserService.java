@@ -1,6 +1,5 @@
 package com.dinhthanhphu.movieticketadmin.service.impl;
 
-import com.dinhthanhphu.movieticketadmin.convert.UserConvert;
 import com.dinhthanhphu.movieticketadmin.customException.UserAlreadyExistException;
 import com.dinhthanhphu.movieticketadmin.dto.CustomOAuth2User;
 import com.dinhthanhphu.movieticketadmin.dto.UserDTO;
@@ -8,8 +7,10 @@ import com.dinhthanhphu.movieticketadmin.entity.UserEntity;
 import com.dinhthanhphu.movieticketadmin.payload.RegisterRequest;
 import com.dinhthanhphu.movieticketadmin.repository.IUserRepository;
 import com.dinhthanhphu.movieticketadmin.service.IUserService;
+import com.dinhthanhphu.movieticketadmin.utils.MapperModelUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -28,11 +29,11 @@ public class UserService implements IUserService, UserDetailsService {
     private IUserRepository userRepository;
 
     @Autowired
-    private UserConvert usercvt;
+    private MapperModelUtils cvt;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException, UserAlreadyExistException {
-        UserDTO user = usercvt.convertToDTO(userRepository.findOneByEmail(email));
+        UserDTO user = cvt.convertToDTO(new UserDTO(), userRepository.findOneByEmail(email));
         if (user != null) {
             return user;
         }
@@ -40,28 +41,28 @@ public class UserService implements IUserService, UserDetailsService {
     }
 
     public UserDTO findOneByEmail(String email) {
-        return usercvt.convertToDTO(userRepository.findOneByEmail(email));
+        return cvt.convertToDTO(new UserDTO(), userRepository.findOneByEmail(email));
     }
 
 
 
     public UserDTO findOneById(String id) {
-        return usercvt.convertToDTO(userRepository.findById(UUID.fromString(id)).get());
+        return cvt.convertToDTO(new UserDTO(), userRepository.findById(UUID.fromString(id)).get());
     }
 
     @Override
     public UserDTO findOneById(UUID id) {
-        return usercvt.convertToDTO(userRepository.findById(id).get());
+        return cvt.convertToDTO(new UserDTO(), userRepository.findById(id).get());
     }
 
     @Override
     public UserDTO findOneByEmailAndProvider(String email, String provider) {
-        return usercvt.convertToDTO(userRepository.findByEmailAndProvider(email, provider));
+        return cvt.convertToDTO(new UserDTO(), userRepository.findByEmailAndProvider(email, provider));
     }
 
     @Override
     public UserDTO save(CustomOAuth2User oAuth2User) {
-        return usercvt.convertToDTO(userRepository.save(
+        return cvt.convertToDTO(new UserDTO(), userRepository.save(
                 UserEntity.builder()
                         .email(oAuth2User.getEmail())
                         .fullname(oAuth2User.getName())
@@ -75,7 +76,7 @@ public class UserService implements IUserService, UserDetailsService {
 
     @Override
     public UserDTO save(RegisterRequest form) {
-        return usercvt.convertToDTO(userRepository.save(
+        return cvt.convertToDTO(new UserDTO(), userRepository.save(
                 UserEntity.builder()
                         .email(form.getEmail())
                         .fullname(form.getUsername())
@@ -89,7 +90,7 @@ public class UserService implements IUserService, UserDetailsService {
 
     @Override
     public UserDTO update(UserDTO userDTO) {
-        return usercvt.convertToDTO(userRepository.findById(userDTO.getId())
-                .map(u -> userRepository.save(usercvt.convertToEntity(userDTO, u))).orElse(null));
+        return cvt.convertToDTO(new UserDTO(), userRepository.findById(userDTO.getId())
+                .map(u -> userRepository.save(cvt.convertToEntity(userDTO, u))).orElse(null));
     }
 }

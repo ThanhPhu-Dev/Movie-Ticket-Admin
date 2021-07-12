@@ -1,59 +1,125 @@
 <!DOCTYPE html>
 
 <html
-	th:replace="~{layouts/main-layout :: main-fragment(
+        th:replace="~{layouts/main-layout :: main-fragment(
                                                 ~{::title},
                                                 ~{:: #home-static-resources},
                                                 ~{:: #home-main-content}
                                                )}"
-	xmlns:th="http://www.thymeleaf.org">
+        xmlns:th="http://www.thymeleaf.org">
 <th:block id="home-static-resources">
-	<link rel="stylesheet" th:href="@{/css/admin/addActorStyle.css}"
-		type="text/css" />
-	<script th:src="@{/js/addActor.js}"></script>
-	<script th:src="@{/ckeditor/ckeditor.js}"></script>
+    <link rel="stylesheet" th:href="@{/css/admin/addActorStyle.css}"
+          type="text/css"/>
+    <script th:src="@{/js/addActor.js}"></script>
+    <script th:src="@{/ckeditor/ckeditor.js}"></script>
 </th:block>
 
 <title>Helo world</title>
 
 
 <div id="home-main-content">
-	<div class="link-ref shadow">
-		<span>Quản Lý Nhân Viên/</span> <a th:href="@{/edit-actor}"
-			style="color: gray;">Thêm Nhân Viên</a>
-	</div>
-	<form id="form">
-		<div class="form-content shadow">
-			<div class="d-flex">
-				<div class="poster">
-					<div id="avatar">
-						<img height="auto" src="http://placehold.it/800x800"
-							style="max-height: 350px" width="300px">
-					</div>
-					<div class="input-avatar">
-						<input class="custom-file-poster-input" type="file">
-					</div>
-				</div>
-				<div style="width: 72%;">
-					<div class="mb-3">
-						<label class="form-label" for="name">Họ Tên</label> <input
-							class="form-control" id="name" name="name" required type="text">
-					</div>
-					<textarea cols="100" id="editor1" name="editor1" rows="15"></textarea>
-				</div>
+    <div class="link-ref shadow">
+        <span>Quản Lý Diễn Viên/</span> <a style="color: gray;"
+                                           th:href="@{/edit-actor}">Thêm Nhân Viên</a>
+    </div>
+    <form enctype="multipart/form-data" id="formSubmit">
+        <div class="form-content shadow">
+            <div class="d-flex">
+                <div class="poster">
+                    <div id="avatar">
+                        <img height="auto" src="http://placehold.it/800x800"
+                             style="max-height: 350px" width="300px">
+                    </div>
+                    <div class="input-avatar">
+                        <input class="custom-file-poster-input" id="avatarinput"
+                               name="avatar"
+                               onchange="ImagesFileAsURL()" type="file">
+                    </div>
+                </div>
+                <div style="width: 72%;">
+                    <div class="mb-3">
+                        <label class="form-label" for="name">Họ Tên</label>
+                        <input class="form-control" id="name" name="name" required type="text">
+                    </div>
+                    <textarea cols="100" id="biography" name="biography" rows="15"></textarea>
+                </div>
 
-			</div>
-			<div style="text-align: center;">
-				<button type="submit" style="margin-top: 24px;"
-					class="btn btn-primary">Thêm Diễn Viên</button>
-			</div>
-		</div>
-	</form>
-	<script>
-		var editror = '';
-		$(document).ready(function() {
-			editror = CKEDITOR.replace('editor1');
-		})
-	</script>
+            </div>
+            <div style="text-align: center;">
+                <button class="btn btn-primary" id="btnadd" style="margin-top: 24px;"
+                        >Thêm Diễn Viên
+                </button>
+            </div>
+        </div>
+    </form>
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+        function ImagesFileAsURL() {
+            var fileSelected = document.getElementById('avatarinput').files;
+            if (fileSelected.length > 0) {
+                var fileToLoad = fileSelected[0];
+                var fileReader = new FileReader();
+                fileReader.onload = function (fileLoaderEvent) {
+                    var srcData = fileLoaderEvent.target.result;
+                    var newImage = document.createElement('img');
+                    newImage.style.height = "auto";
+                    newImage.style.width = "300px"
+                    newImage.style.maxHeight = "350px";
+                    newImage.src = srcData;
+                    document.getElementById('avatar').innerHTML = newImage.outerHTML;
+                }
+                fileReader.readAsDataURL(fileToLoad);
+            }
+        }
+
+        var editror = '';
+        $(document).ready(function () {
+            editror = CKEDITOR.replace('biography');
+        })
+
+        $("#btnadd").click(function (e) {
+            e.preventDefault();
+            $('#loading').css({ display: 'block' });
+
+            let avar = $('input[type=file]')[0].files[0];
+            let biography = editror.getData();
+
+            let formData = $('#formSubmit')[0];
+            let data = new FormData(formData);
+
+            data.append('avatar', avar);
+            data.append('biography', biography);
+
+            console.log(data);
+            addNew(data);
+        })
+
+        async function addNew(data) {
+                axios.post(
+                	"/api/edit-actor", data,{
+                        headers: {
+                            "Content-Type": "multipart/form-data"
+                        }
+                    }
+                ).then(function (response){
+                    $('#loading').css({ display: 'none' });
+                    Swal.fire({
+                        icon: 'success',
+                        title: '',
+                        text: 'Thêm Diễn Viên Thành Công!',
+                        timer: 1000
+                    })
+                }).catch(function (error){
+                    $('#loading').css({ display: 'none' });
+                    Swal.fire({
+                        icon: 'error',
+                        title: '',
+                        text: 'Thêm Diễn Viên Thất Bại!',
+                        timer: 1000
+                    })
+                })
+        }
+    </script>
 
 </div>
