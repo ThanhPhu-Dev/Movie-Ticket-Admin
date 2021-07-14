@@ -1,0 +1,41 @@
+.link-ref{
+    padding: 10px 50px;
+    width: 90%;
+    margin: auto;
+}
+
+.link-ref a:hover{
+    color: #007bff;
+}
+
+.link-ref a{
+    color: gray;
+}
+
+.content{
+    width: 90%;
+    margin: 20px auto;
+    padding: 20px;
+    text-align: center;
+}
+
+.name-actor{
+    text-align: center;
+}
+
+.name-actor span{
+    color: gray;
+}
+
+.actor-info{
+    width: 200px;
+}
+
+.actor-info a:hover{
+    text-decoration: none;
+}
+
+.active-cyan-2 input.form-control[type=text]:focus:not([readonly]) {
+    border-bottom: 1px solid #4dd0e1;
+    box-shadow: 0 1px 0 0 #4dd0e1;
+}

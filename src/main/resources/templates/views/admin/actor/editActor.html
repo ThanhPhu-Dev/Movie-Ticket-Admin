@@ -14,20 +14,19 @@
     <script th:src="@{/ckeditor/ckeditor.js}"></script>
 </th:block>
 
-<title>Helo world</title>
+<title>Thêm Diễn Viên</title>
 
 
 <div id="home-main-content">
     <div class="link-ref shadow">
-        <span>Quản Lý Diễn Viên/</span> <a style="color: gray;"
-                                           th:href="@{/edit-actor}">Thêm Nhân Viên</a>
+        <span>Quản Lý Diễn Viên/</span> <a  th:href="@{/edit-actor}">Thêm Nhân Viên</a>
     </div>
     <form enctype="multipart/form-data" id="formSubmit">
         <div class="form-content shadow">
             <div class="d-flex">
-                <div class="poster">
+                <div class="poster ">
                     <div id="avatar">
-                        <img height="auto" src="http://placehold.it/800x800"
+                        <img height="auto" src="http://placehold.it/1000x1500"
                              style="max-height: 350px" width="300px">
                     </div>
                     <div class="input-avatar">
@@ -36,7 +35,7 @@
                                onchange="ImagesFileAsURL()" type="file">
                     </div>
                 </div>
-                <div style="width: 72%;">
+                <div style="width: 72%;" >
                     <div class="mb-3">
                         <label class="form-label" for="name">Họ Tên</label>
                         <input class="form-control" id="name" name="name" required type="text">
@@ -45,7 +44,7 @@
                 </div>
 
             </div>
-            <div style="text-align: center;">
+            <div style="text-align: center;" >
                 <button class="btn btn-primary" id="btnadd" style="margin-top: 24px;"
                         >Thêm Diễn Viên
                 </button>
@@ -65,7 +64,7 @@
                     var newImage = document.createElement('img');
                     newImage.style.height = "auto";
                     newImage.style.width = "300px"
-                    newImage.style.maxHeight = "350px";
+                    newImage.style.maxHeight = "450px";
                     newImage.src = srcData;
                     document.getElementById('avatar').innerHTML = newImage.outerHTML;
                 }
