@@ -53,3 +53,7 @@
     padding: 48px;
     
 }
+
+.ck-editor__editable{
+    min-height: 280px;
+}

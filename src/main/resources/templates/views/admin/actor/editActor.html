@@ -11,7 +11,6 @@
     <link rel="stylesheet" th:href="@{/css/admin/addActorStyle.css}"
           type="text/css"/>
     <script th:src="@{/js/addActor.js}"></script>
-    <script th:src="@{/ckeditor/ckeditor.js}"></script>
 </th:block>
 
 <title>Thêm Diễn Viên</title>
@@ -19,41 +18,62 @@
 
 <div id="home-main-content">
     <div class="link-ref shadow">
-        <span>Quản Lý Diễn Viên/</span> <a  th:href="@{/edit-actor}">Thêm Nhân Viên</a>
+        <span>Quản Lý Diễn Viên/</span>
+
+        <a th:if="${idol == null}"  th:href="@{/edit-actor}" >Thêm Diễn Viên</a>
+        <a th:if="${idol != null}" th:href="@{/actorlist}">Danh sách Diễn Viên</a>
+        <span th:if="${idol != null}">/ </span><a th:if="${idol != null}" th:href="@{/actor/detail/{id}(id=${idol.id})}">Thông tin diễn viên</a>
+        <span th:if="${idol != null}">/ </span><a th:if="${idol != null}" th:href="@{/edit-actor(id=${idol.id})}">Chỉnh sửa diễn viên</a>
     </div>
     <form enctype="multipart/form-data" id="formSubmit">
+
+
         <div class="form-content shadow">
             <div class="d-flex">
-                <div class="poster ">
+                <div class="poster">
                     <div id="avatar">
-                        <img height="auto" src="http://placehold.it/1000x1500"
+                        <img  height="auto" th:src="${idol == null ? 'http://placehold.it/1000x1500' : idol.public_url}"
                              style="max-height: 350px" width="300px">
                     </div>
                     <div class="input-avatar">
-                        <input class="custom-file-poster-input" id="avatarinput"
+                        <input  class="custom-file-poster-input" id="avatarinput"
                                name="avatar"
+                               th:value="${idol == null ? '' : idol.public_url}"
                                onchange="ImagesFileAsURL()" type="file">
                     </div>
                 </div>
                 <div style="width: 72%;" >
                     <div class="mb-3">
                         <label class="form-label" for="name">Họ Tên</label>
-                        <input class="form-control" id="name" name="name" required type="text">
+                        <input class="form-control" id="name" th:value="${idol == null ? '' : idol.name}" name="name" required type="text">
                     </div>
-                    <textarea cols="100" id="biography" name="biography" rows="15"></textarea>
+<!--                    <textarea cols="100" th:utext="${idol == null ? '' : idol.biography}" id="biography" name="biography" rows="15"></textarea>-->
+                    <div id="biography" style="height: 500px">
+                        <p th:utext="${idol == null ? '' : idol.biography}">This is some sample content.</p>
+                    </div>
                 </div>
-
+                <input type="hidden" id="id" name="id" th:if="${idol != null}" th:value="${idol.id}">
             </div>
             <div style="text-align: center;" >
-                <button class="btn btn-primary" id="btnadd" style="margin-top: 24px;"
-                        >Thêm Diễn Viên
-                </button>
+                <button class="btn btn-primary" th:text="${idol == null ? 'Thêm diễn viên' : 'Cập nhật diễn viên'}" id="btnadd" style="margin-top: 24px;"
+                        ></button>
             </div>
         </div>
     </form>
 
+    <script src="https://cdn.ckeditor.com/ckeditor5/29.0.0/classic/ckeditor.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script>
+        let editor;
+        ClassicEditor
+            .create( document.querySelector( '#biography' ) )
+            .then( newEditor => {
+                editor = newEditor;
+            } )
+            .catch( error => {
+                console.error( error );
+            } );
+
         function ImagesFileAsURL() {
             var fileSelected = document.getElementById('avatarinput').files;
             if (fileSelected.length > 0) {
@@ -72,29 +92,63 @@
             }
         }
 
-        var editror = '';
-        $(document).ready(function () {
-            editror = CKEDITOR.replace('biography');
-        })
-
-        $("#btnadd").click(function (e) {
+        $("#btnadd").click( async  function (e) {
             e.preventDefault();
             $('#loading').css({ display: 'block' });
 
-            let avar = $('input[type=file]')[0].files[0];
-            let biography = editror.getData();
-
+            let biography = editor.getData();
             let formData = $('#formSubmit')[0];
             let data = new FormData(formData);
-
-            data.append('avatar', avar);
-            data.append('biography', biography);
-
-            console.log(data);
-            addNew(data);
+            data.append("biography", biography);
+            if(data.get("id") != null){
+                updateActor(data)
+                setTimeout(function () {
+                    window.location.href = "/actorlist";
+                }, 800);
+            }else{
+                await addActor(data);
+                setvalueDefaul();
+            }
         })
 
-        async function addNew(data) {
+        function setvalueDefaul(){
+            var newImage = document.createElement('img');
+            newImage.style.height = "auto";
+            newImage.style.width = "300px"
+            newImage.style.maxHeight = "450px";
+            newImage.src = "http://placehold.it/1000x1500";
+            document.getElementById('avatar').innerHTML = newImage.outerHTML;
+            editor.setData("");
+            document.getElementById("name").value = '';
+        }
+
+        async function updateActor(data) {
+            axios.post(
+                "/api/edit-actor", data,{
+                    headers: {
+                        "Content-Type": "multipart/form-data"
+                    }
+                }
+            ).then(function (response){
+                $('#loading').css({ display: 'none' });
+                Swal.fire({
+                    icon: 'success',
+                    title: '',
+                    text: 'Cập nhật Diễn Viên Thành Công!',
+                    timer: 1000
+                })
+            }).catch(function (error){
+                $('#loading').css({ display: 'none' });
+                Swal.fire({
+                    icon: 'error',
+                    title: '',
+                    text: 'Cập nhật Diễn Viên Thất Bại!',
+                    timer: 1000
+                })
+            })
+        }
+
+        async function addActor(data) {
                 axios.post(
                 	"/api/edit-actor", data,{
                         headers: {

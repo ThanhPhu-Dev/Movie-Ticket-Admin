@@ -5,7 +5,6 @@ import com.dinhthanhphu.movieticketadmin.payload.ActorRequest;
 import com.dinhthanhphu.movieticketadmin.service.IActorService;
 import com.dinhthanhphu.movieticketadmin.utils.CloudinaryUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,14 +23,19 @@ public class ActorAPI {
 
     @PostMapping(value = "/edit-actor")
     public ActorDTO editActor(@ModelAttribute ActorRequest formData) {
+        ActorDTO dto;
+        if(formData.getId() != null){
+            dto = actorService.findById(formData.getId());
+        }else{
+            dto = new ActorDTO();
+        }
         Map uploadResult = null;
-        ActorDTO dto = new ActorDTO();
-        if (formData.getAvatar() != null) {
+        if (formData.getAvatar().getSize() != 0) {
             uploadResult = cloudUtil.uploadImage(formData.getAvatar());
             dto.setPublic_id(uploadResult.get("public_id").toString());
             dto.setPublic_url(uploadResult.get("url").toString());
         }
-        dto.setBiography(formData.getBiography().substring(1));
+        dto.setBiography(formData.getBiography());
         dto.setName(formData.getName());
         return actorService.save(dto);
     }
