@@ -37,6 +37,9 @@ public class MovieEntity extends BaseEntity {
     private String trailerUrl;
 
     @Column
+    private String nation;
+
+    @Column
     private String trailerPublicid;
 
     @OneToMany(mappedBy = "movie")
@@ -48,4 +51,6 @@ public class MovieEntity extends BaseEntity {
     @ManyToMany(mappedBy = "movies")
     private List<ActorEntity> actors;
 
+    @ManyToMany(mappedBy = "movies")
+    private List<CategoryEntity> categories;
 }

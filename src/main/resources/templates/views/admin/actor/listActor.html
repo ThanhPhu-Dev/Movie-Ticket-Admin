@@ -48,6 +48,7 @@
         let all_delete_text = document.getElementById("icon-deleteAll-text");
         const btnSubmit = document.getElementById("form-submit");
 
+
         input.addEventListener("input", (e) => {
             if (e.target.value.length == 0) {
                 all_delete_text.style.display = "none"
@@ -64,6 +65,7 @@
 
         all_delete_text.addEventListener("click", e => {
             input.value = '';
+            all_delete_text.style.display = "none"
             findByName("");
         })
 

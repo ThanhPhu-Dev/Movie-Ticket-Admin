@@ -1,0 +1,59 @@
+.link-ref{
+    padding: 10px 50px;
+    width: 90%;
+    margin: auto;
+}
+
+.link-ref a:hover{
+    color: #007bff;
+}
+
+.link-ref a{
+    color: gray;
+}
+
+.poster{
+    width: 45%;
+    text-align: center;
+}
+
+.custom-file-poster-input{
+    width: 130px;
+    margin-top: 10px;
+}
+
+.custom-file-poster-input::-webkit-file-upload-button {
+    visibility: hidden;
+}
+.custom-file-poster-input::before {
+    content: 'Select some files';
+    display: inline-block;
+    background: linear-gradient(top, #f9f9f9, #e3e3e3);
+    border: 1px solid #999;
+    border-radius: 3px;
+    padding: 5px 8px;
+    outline: none;
+    white-space: nowrap;
+    -webkit-user-select: none;
+    cursor: pointer;
+    text-shadow: 1px 1px #fff;
+    font-weight: 700;
+    font-size: 10pt;
+}
+.custom-file-poster-input:hover::before {
+    border-color: black;
+}
+.custom-file-poster-input:active::before {
+    background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9);
+}
+
+.form-content{
+    width: 90%;
+    margin: 26px auto;
+    padding: 48px;
+
+}
+
+.ck-editor__editable{
+    min-height: 280px;
+}

@@ -5,7 +5,7 @@
     <!-- Sidebar - Brand -->
     <a
             class="sidebar-brand d-flex align-items-center justify-content-center"
-            href="index.html"
+            th:href="@{/}"
     >
         <div class="sidebar-brand-text mx-3">Admin</div>
     </a>
@@ -28,7 +28,7 @@
         </a>
         <div class="tabItem">
             <nav class="sb-sidenav-menu-nested nav">
-                <a class="nav-link pl-5" href="layout-static.html"><i class="fas fa-plus"></i> Thêm Phim</a>
+                <a class="nav-link pl-5" th:href="@{/edit-movie}"><i class="fas fa-plus"></i> Thêm Phim</a>
                 <a class="nav-link pl-5" href="layout-sidenav-light.html"><i class="fas fa-list"></i> Danh sách phim</a>
             </nav>
         </div>

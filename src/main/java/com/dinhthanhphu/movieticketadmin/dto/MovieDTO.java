@@ -1,5 +1,6 @@
 package com.dinhthanhphu.movieticketadmin.dto;
 
+import com.dinhthanhphu.movieticketadmin.entity.CategoryEntity;
 import com.dinhthanhphu.movieticketadmin.entity.ImageEntity;
 import com.dinhthanhphu.movieticketadmin.entity.ShowtimeEntity;
 import lombok.Data;
@@ -15,10 +16,12 @@ public class MovieDTO extends BaseDTO{
     private Integer times;
     private String description;
     private Date openDate;
+    private String nation;
     private String posterUrl;
     private String posterPublicId;
     private String trailerUrl;
     private String trailerPublicid;
     private List<ShowtimeEntity> showtime;
     private List<ImageEntity> image;
+    private List<CategoryEntity> categories;
 }
