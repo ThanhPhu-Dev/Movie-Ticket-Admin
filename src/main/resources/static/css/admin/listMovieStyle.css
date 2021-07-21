@@ -1,0 +1,33 @@
+.link-ref{
+    padding: 10px 50px;
+    width: 90%;
+    margin: auto;
+}
+
+.link-ref a:hover{
+    color: #007bff;
+}
+
+.link-ref a{
+    color: gray;
+}
+
+.movie_content{
+    margin: 10px auto;
+    padding: 25px;
+    width: 90%;
+    text-align: center;
+}
+
+.movie-info{
+    width: 200px;
+}
+
+.movie-info p{
+    text-align: center;
+}
+
+.active-cyan-2 input.form-control[type=text]:focus:not([readonly]) {
+    border-bottom: 1px solid #4dd0e1;
+    box-shadow: 0 1px 0 0 #4dd0e1;
+}

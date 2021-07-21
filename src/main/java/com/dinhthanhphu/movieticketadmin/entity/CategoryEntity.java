@@ -23,10 +23,6 @@ public class CategoryEntity extends BaseEntity {
     @Column
     private String name;
 
-    @ManyToMany()
-    @JoinTable(name = "category_movie",
-                joinColumns = @JoinColumn(name = "category_id"),
-                inverseJoinColumns = @JoinColumn(name = "movie_id")
-            )
+    @ManyToMany(mappedBy = "categories")
     private List<MovieEntity> movies;
 }

@@ -40,7 +40,7 @@ public class ActorService implements IActorService {
         if(name != null){
             nameidol = name;
         }
-        return actorRepository.findByNameContaining(nameidol).stream()
+        return actorRepository.findByNameContainingCustome(nameidol).stream()
                 .map(m -> cvt.convertToDTO(new ActorDTO(), m))
                 .collect(Collectors.toList());
     }

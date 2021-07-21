@@ -24,12 +24,14 @@ public class CloudinaryUtils {
         cloud = getcloudinaryUtils();
     }
 
-    private Map upload(MultipartFile file , String folder) {
+    public Map upload(MultipartFile file , String folder) {
         Map uploadResult;
         try {
             uploadResult = cloud.uploader().upload(file.getBytes(),
-                    ObjectUtils.asMap("resource_type", "auto",
-                            "folder", folder == null ? "" : folder + "/"));
+                    ObjectUtils.asMap(
+                            "resource_type", "auto",
+                            "folder", folder == null ? "" : folder + "/"
+                            ));
             return uploadResult;
         } catch (IOException e) {
             e.printStackTrace();
@@ -37,12 +39,36 @@ public class CloudinaryUtils {
         }
     }
 
-    public Map<String,String> uploadImage(MultipartFile file){
-
-        Map<String,String> result = new HashMap<String, String>();
-        Map uploadResult = upload(file,"movieCinema");
-        result.put("public_id", (String) uploadResult.get("public_id"));
-        result.put("url", (String) uploadResult.get("url"));
-        return result;
+    public Map upload(MultipartFile file , String folder, String filename) {
+        Map uploadResult;
+        try {
+            uploadResult = cloud.uploader().upload(file.getBytes(),
+                    ObjectUtils.asMap(
+                            "resource_type", "auto",
+                            "folder", folder == null ? "" : folder + "/",
+                            "public_id", filename));
+            return uploadResult;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
+
+//    public Map<String,String> uploadImage(MultipartFile file, String folder){
+//
+//        Map<String,String> result = new HashMap<String, String>();
+//        Map uploadResult = upload(file,folder);
+//        result.put("public_id", (String) uploadResult.get("public_id"));
+//        result.put("url", (String) uploadResult.get("url"));
+//        return result;
+//    }
+//
+//    public Map<String,String> uploadImage(MultipartFile file, String folder, String fileName){
+//
+//        Map<String,String> result = new HashMap<String, String>();
+//        Map uploadResult = fileName != null ? upload(file,folder,fileName) : upload(file,folder);
+//        result.put("public_id", (String) uploadResult.get("public_id"));
+//        result.put("url", (String) uploadResult.get("url"));
+//        return result;
+//    }
 }

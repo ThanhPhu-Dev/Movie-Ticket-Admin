@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+
+<!--  main-fragment (title, otherStaticResources, header, nav, mainContent, footer)  -->
+<html       th:replace="~{layouts/main-layout :: main-fragment(
+                                                ~{::title},
+                                                ~{:: #home-static-resources},
+                                                ~{:: #home-main-content}
+                                               )}"
+            xmlns:th="http://www.thymeleaf.org">
+  <title>Chi Tiết Phim</title>
+
+   <th:block id="home-static-resources">
+
+       <link rel="stylesheet" type="text/css" th:href="@{/}"/>
+
+   </th:block>
+
+<div id="home-main-content">
+  <h1>Chi Tiết Phim</h1>
+</div>

@@ -31,7 +31,7 @@ public class ActorAPI {
         }
         Map uploadResult = null;
         if (formData.getAvatar().getSize() != 0) {
-            uploadResult = cloudUtil.uploadImage(formData.getAvatar());
+            uploadResult = cloudUtil.upload(formData.getAvatar(), "movieCinema/actor", dto.getPublic_id());
             dto.setPublic_id(uploadResult.get("public_id").toString());
             dto.setPublic_url(uploadResult.get("url").toString());
         }
@@ -43,6 +43,12 @@ public class ActorAPI {
     @GetMapping(value = {"/idol", "/idol/{name}"})
     public List<ActorDTO> findNameIdol(@PathVariable( required = false) String name){
         List<ActorDTO> lst = actorService.findByNameContaining(name);
+        return lst;
+    }
+
+    @GetMapping(value = "/allIdol")
+    public List<ActorDTO> findAll(){
+        List<ActorDTO> lst = actorService.findAll();
         return lst;
     }
 

@@ -45,12 +45,19 @@ public class MovieEntity extends BaseEntity {
     @OneToMany(mappedBy = "movie")
     private List<ShowtimeEntity> showtime;
 
-    @OneToMany(mappedBy = "movie")
+    @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL)
     private List<ImageEntity> image;
 
-    @ManyToMany(mappedBy = "movies")
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "Actor_Movie",
+            joinColumns = @JoinColumn(name = "movie_id"),
+            inverseJoinColumns = @JoinColumn(name = "actor_id"))
     private List<ActorEntity> actors;
 
-    @ManyToMany(mappedBy = "movies")
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "category_movie",
+            joinColumns = @JoinColumn(name = "movie_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id")
+    )
     private List<CategoryEntity> categories;
 }

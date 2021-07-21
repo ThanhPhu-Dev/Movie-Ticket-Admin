@@ -27,9 +27,6 @@ public class ActorEntity extends BaseEntity {
     @Column(name = "biography", length = 4000)
     private String biography;
 
-    @ManyToMany
-    @JoinTable(name = "Actor_Movie",
-                joinColumns = @JoinColumn(name = "actor_id"),
-                inverseJoinColumns = @JoinColumn(name = "movie_id"))
+    @ManyToMany(mappedBy = "actors", fetch = FetchType.LAZY)
     private List<MovieEntity> movies;
 }

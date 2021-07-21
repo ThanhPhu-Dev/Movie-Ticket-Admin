@@ -90,6 +90,17 @@
             divitem.style.display = 'block';
         }
     }
+
+    function TurnOfLoading(){
+        $('#loading').css({display: 'block'});
+        window.scrollTo(0, 0);
+        document.body.style.overflow = 'hidden';
+    }
+
+    function TurnOfLoading(){
+        $('#loading').css({display: 'none'});
+        document.body.style.overflow = 'scroll';
+    }
 </script>
 </body>
 

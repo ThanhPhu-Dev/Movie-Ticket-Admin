@@ -94,8 +94,7 @@
 
         $("#btnadd").click( async  function (e) {
             e.preventDefault();
-            $('#loading').css({ display: 'block' });
-
+            TurnOfLoading();
             let biography = editor.getData();
             let formData = $('#formSubmit')[0];
             let data = new FormData(formData);
@@ -130,7 +129,7 @@
                     }
                 }
             ).then(function (response){
-                $('#loading').css({ display: 'none' });
+                TurnOfLoading();
                 Swal.fire({
                     icon: 'success',
                     title: '',
@@ -138,7 +137,7 @@
                     timer: 1000
                 })
             }).catch(function (error){
-                $('#loading').css({ display: 'none' });
+                TurnOfLoading();
                 Swal.fire({
                     icon: 'error',
                     title: '',
@@ -156,7 +155,7 @@
                         }
                     }
                 ).then(function (response){
-                    $('#loading').css({ display: 'none' });
+                    TurnOfLoading();
                     Swal.fire({
                         icon: 'success',
                         title: '',
@@ -164,7 +163,7 @@
                         timer: 1000
                     })
                 }).catch(function (error){
-                    $('#loading').css({ display: 'none' });
+                    TurnOfLoading();
                     Swal.fire({
                         icon: 'error',
                         title: '',

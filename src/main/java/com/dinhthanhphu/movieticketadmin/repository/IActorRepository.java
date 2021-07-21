@@ -8,6 +8,6 @@ import java.util.List;
 
 public interface IActorRepository extends JpaRepository<ActorEntity, Long> {
     @Query("select a from ActorEntity a where upper(a.name) like upper(concat('%', ?1,'%'))")
-    List<ActorEntity> findByNameContaining(String name);
-
+    List<ActorEntity> findByNameContainingCustome(String name);
+    ActorEntity findByNameContaining(String name);
 }
