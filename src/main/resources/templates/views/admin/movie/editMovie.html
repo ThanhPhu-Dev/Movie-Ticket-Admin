@@ -160,13 +160,12 @@
 
         $("#btnadd").click(async function (e) {
             e.preventDefault();
-            TurnOfLoading();
-            // body.scrollLeft = 0;
-            // let description = editor.getData();
-            // let formData = $('#formSubmit')[0];
-            // let data = new FormData(formData);
-            // data.append("description", description);
-            // await addMovie(data);
+            TurnOnLoading();
+            let description = editor.getData();
+            let formData = $('#formSubmit')[0];
+            let data = new FormData(formData);
+            data.append("description", description);
+            await addMovie(data);
             setvalueDefaul();
         })
 

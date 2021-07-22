@@ -10,5 +10,5 @@ public class ImageDTO extends BaseDTO{
     private Long id;
     private String publicId;
     private  String publicUrl;
-    private MovieEntity movie;
+    private MovieDTO movie;
 }

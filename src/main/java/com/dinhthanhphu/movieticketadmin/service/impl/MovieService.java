@@ -76,6 +76,7 @@ public class MovieService implements IMovieService {
             for(String nameActor : form.getActor()){
                 actor = actorRepository.findByNameContaining(nameActor);
                 if(actor != null) {
+//                    actor.getMovies().add(movie);
                     lstActor.add(actor);
                 }
             }
@@ -122,4 +123,16 @@ public class MovieService implements IMovieService {
     public List<MovieDTO> findAll() {
         return movieRepository.findAll().stream().map(m -> cvt.convertToDTO(new MovieDTO(), m)).collect(Collectors.toList());
     }
+
+    @Override
+    public MovieDTO findOneById(String id) {
+        MovieEntity movie = movieRepository.findById(Long.parseLong(id)).get();
+        MovieDTO movieDTO = new MovieDTO();
+        movieDTO.setCategories(movie.getCategories().stream().map(m -> cvt.convertToDTO(new CategoryDTO(), m)).collect(Collectors.toList()));
+        movieDTO.setActors(movie.getActors().stream().map(m -> cvt.convertToDTO(new ActorDTO(), m)).collect(Collectors.toList()));
+        movieDTO.setImage(movie.getImage().stream().map(m -> cvt.convertToDTO(new ImageDTO(), m)).collect(Collectors.toList()));
+        return cvt.convertToDTO(movieDTO,movie);
+    }
+
+
 }

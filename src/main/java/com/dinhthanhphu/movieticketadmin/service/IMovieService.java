@@ -8,4 +8,6 @@ import java.util.List;
 public interface IMovieService {
     MovieDTO save(MovieRequest form);
     List<MovieDTO> findAll();
+    MovieDTO findOneById(String id);
+
 }

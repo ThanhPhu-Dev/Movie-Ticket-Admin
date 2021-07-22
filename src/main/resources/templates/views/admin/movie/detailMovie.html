@@ -1,20 +1,163 @@
 <!DOCTYPE html>
 
 <!--  main-fragment (title, otherStaticResources, header, nav, mainContent, footer)  -->
-<html       th:replace="~{layouts/main-layout :: main-fragment(
+<html th:replace="~{layouts/main-layout :: main-fragment(
                                                 ~{::title},
                                                 ~{:: #home-static-resources},
                                                 ~{:: #home-main-content}
                                                )}"
-            xmlns:th="http://www.thymeleaf.org">
-  <title>Chi Tiết Phim</title>
+      xmlns:th="http://www.thymeleaf.org">
+<title>Chi Tiết Phim</title>
 
-   <th:block id="home-static-resources">
+<th:block id="home-static-resources">
 
-       <link rel="stylesheet" type="text/css" th:href="@{/}"/>
+    <link rel="stylesheet" th:href="@{/css/admin/detailMovieStyle.css}" type="text/css"/>
+    <!--    <link href="https://unpkg.com/swiper/swiper-bundle.css" rel="stylesheet"/>-->
+    <!--    <link href="https://unpkg.com/swiper/swiper-bundle.min.css" rel="stylesheet"/>-->
+    <!-- Link Swiper's CSS -->
+    <link
+            href="https://unpkg.com/swiper/swiper-bundle.min.css"
+            rel="stylesheet"
+    />
 
-   </th:block>
+    <script src="https://unpkg.com/swiper/swiper-bundle.js"></script>
+
+    <style>
+        .swiper-container {
+            width: 100%;
+            height: 400px;
+        }
+    </style>
+</th:block>
 
 <div id="home-main-content">
-  <h1>Chi Tiết Phim</h1>
+    <div class="link-ref shadow">
+        <span>Quản Lý Diễn Viên /</span> <a th:href="@{/listMovie}">Danh Sách Phim</a><span> / </span>
+        <a th:href="@{/listMovie}">Thông Tin Phim</a>
+    </div>
+
+    <div class="shadow content">
+        <div style="text-align: right; margin-bottom: 10px">
+            <a th:href="@{/edit-movie(id=${movie.id})}">
+                <button class="btn btn-warning" type="button">Cập nhật</button>
+            </a>
+            <button class="btn btn-danger" id="btn-delete_movie" th:attr="data-id=${movie.id}" type="button">Xóa
+            </button>
+        </div>
+        <div class="swiper-container mySwiper">
+            <div class="swiper-wrapper">
+                <!--                Slides-->
+                <div class="swiper-slide">
+                    <video autoplay id="video" onclick="videoplay()"
+                           style=" height: 100%; max-width: 100%; width: 100%;">
+                        <source th:src="${movie.trailerUrl}" type="video/mp4">
+                    </video>
+                </div>
+                <th:block th:each="image : ${movie.image}">
+                    <div class="swiper-slide">
+                        <img
+                                style="max-width: 600px"
+                                th:src="${image.publicUrl}"
+                                width="auto">
+                    </div>
+                </th:block>
+            </div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+        </div>
+        <div class="d-flex mt-4" th:object="${movie}">
+            <img height="auto" th:src="*{posterUrl}"
+                 width="45%">
+
+            <div class="ml-5 info-movie" style="width: 72%">
+                <div class="name-movie">Phim: <span th:text="*{name}"></span></div>
+                <div class="d-flex justify-content-between">
+                    <div>Người Tạo: <span th:text="*{createBy}"></span></div>
+                    <div>Ngày tạo: <span th:text="*{#dates.format(createDate, 'dd-MM-yyyy')}"></span></div>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <div>Người Cập Nhật: <span th:text="*{modifyBy}"></span></div>
+                    <div>Ngày Cập Nhật: <span th:text="*{#dates.format(modifyDate, 'dd-MM-yyyy')}"></span></div>
+                </div>
+                <div>Thời Lượng: <span th:text="*{times}"></span></div>
+                <div>Ngày Công Chiếu: <span th:text="*{#dates.format(openDate, 'dd-MM-yyyy')}"></span></div>
+                <div>Quốc Gia: <span th:text="*{nation}"></span></div>
+                <div>Diễn viên:
+                    <th:block th:each="actor : ${movie.actors}">
+                        <span th:text="${actor.name + ','}"></span>
+                    </th:block>
+                </div>
+                <div>Thể Loại:
+                    <th:block th:each="category : ${movie.categories}">
+                        <span th:text="${category.name + ','}"></span>
+                    </th:block>
+                </div>
+                <div>Mô Tả:
+                    <div th:utext="*{description}"></div>
+                </div>
+            </div>
+        </div>
+        <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
+        <!-- Initialize Swiper -->
+        <script>
+            var swiper = new Swiper(".mySwiper", {
+                navigation: {
+                    nextEl: ".swiper-button-next",
+                    prevEl: ".swiper-button-prev",
+                },
+            });
+
+            function videoplay() {
+                const video = document.querySelector("#video");
+                if (video.paused)
+                    video.play();
+                else
+                    video.pause();
+            }
+
+            let btn_delete = document.getElementById("btn-delete_movie");
+            btn_delete.addEventListener("click", () => {
+                Swal.fire({
+                    title: 'Bạn có chắc chắn?',
+                    text: "Thao tác này sẽ xóa vĩnh viễn Phim này!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Xóa',
+                    cancelButtonText: 'Hủy bỏ'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        deleteActor()
+                    }
+                })
+            })
+
+            function deleteActor() {
+                let id = btn_delete.dataset.id;
+                alert(id);
+                // let url = "/api/delete/actor/" + id;
+                // axios.delete(url).then(async function (response) {
+                //     Swal.fire({
+                //         icon: 'success',
+                //         title: 'Xóa!',
+                //         text: 'Xóa Phim thành công.',
+                //         timer: 1500
+                //     })
+                //     setTimeout(function () {
+                //         window.location.href = "/actorlist";
+                //     }, 800);
+                //
+                // }).catch(function (err) {
+                //     Swal.fire({
+                //         icon: 'error',
+                //         title: 'Xóa!',
+                //         text: 'Xóa phim không thành công.',
+                //         timer: 1500
+                //     })
+                // })
+            }
+        </script>
+    </div>
 </div>

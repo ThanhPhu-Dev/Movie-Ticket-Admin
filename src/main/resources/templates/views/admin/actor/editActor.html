@@ -93,8 +93,9 @@
         }
 
         $("#btnadd").click( async  function (e) {
+
             e.preventDefault();
-            TurnOfLoading();
+            TurnOnLoading();
             let biography = editor.getData();
             let formData = $('#formSubmit')[0];
             let data = new FormData(formData);
@@ -102,7 +103,7 @@
             if(data.get("id") != null){
                 updateActor(data)
                 setTimeout(function () {
-                    window.location.href = "/actorlist";
+                    window.location.href = "/actor/detail/" + data.get("id");
                 }, 800);
             }else{
                 await addActor(data);

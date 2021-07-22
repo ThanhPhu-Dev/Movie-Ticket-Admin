@@ -31,3 +31,13 @@
     border-bottom: 1px solid #4dd0e1;
     box-shadow: 0 1px 0 0 #4dd0e1;
 }
+
+.movie-info--img{
+    height: 300px;
+    display: flex;
+    align-items: center;
+}
+
+.movie-info p{
+    color: gray;
+}

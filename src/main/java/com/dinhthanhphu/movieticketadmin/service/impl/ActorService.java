@@ -1,8 +1,11 @@
 package com.dinhthanhphu.movieticketadmin.service.impl;
 
 import com.dinhthanhphu.movieticketadmin.dto.ActorDTO;
+import com.dinhthanhphu.movieticketadmin.dto.MovieDTO;
 import com.dinhthanhphu.movieticketadmin.entity.ActorEntity;
+import com.dinhthanhphu.movieticketadmin.entity.MovieEntity;
 import com.dinhthanhphu.movieticketadmin.repository.IActorRepository;
+import com.dinhthanhphu.movieticketadmin.repository.IMovieRepository;
 import com.dinhthanhphu.movieticketadmin.service.IActorService;
 import com.dinhthanhphu.movieticketadmin.utils.MapperModelUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +23,9 @@ public class ActorService implements IActorService {
 
     @Autowired
     private IActorRepository actorRepository;
+
+    @Autowired
+    private IMovieRepository movieRepository;
 
     @Override
     public ActorDTO save(ActorDTO actorDTO) {
@@ -61,5 +67,11 @@ public class ActorService implements IActorService {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public List<ActorDTO> findByMovie_id(String movie_id) {
+        return movieRepository.findById(Long.parseLong(movie_id)).get().getActors()
+                .stream().map(m -> cvt.convertToDTO(new ActorDTO(), m)).collect(Collectors.toList());
     }
 }

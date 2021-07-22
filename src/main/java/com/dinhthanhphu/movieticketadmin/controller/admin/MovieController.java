@@ -1,8 +1,11 @@
 package com.dinhthanhphu.movieticketadmin.controller.admin;
 
+import com.dinhthanhphu.movieticketadmin.dto.ActorDTO;
+import com.dinhthanhphu.movieticketadmin.dto.ImageDTO;
 import com.dinhthanhphu.movieticketadmin.dto.MovieDTO;
 import com.dinhthanhphu.movieticketadmin.service.IActorService;
 import com.dinhthanhphu.movieticketadmin.service.ICategoryService;
+import com.dinhthanhphu.movieticketadmin.service.IImageService;
 import com.dinhthanhphu.movieticketadmin.service.IMovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,6 +27,10 @@ public class MovieController {
     @Autowired
     private IMovieService movieService;
 
+    @Autowired
+    private IImageService imageService;
+
+
     @GetMapping("/edit-movie")
     public ModelAndView editMovie(){
         ModelAndView mav = new ModelAndView("/views/admin/movie/editMovie");
@@ -43,8 +50,8 @@ public class MovieController {
     @GetMapping("/movie/{id}")
     public ModelAndView findMovieById(@PathVariable("id") String id){
         ModelAndView mav = new ModelAndView("/views/admin/movie/detailMovie");
+        MovieDTO movie = movieService.findOneById(id);
+        mav.addObject("movie", movie);
         return mav;
     }
-
-
 }

@@ -19,6 +19,6 @@ public class ImageEntity extends BaseEntity {
     @Column
     private  String publicUrl;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private MovieEntity movie;
 }
