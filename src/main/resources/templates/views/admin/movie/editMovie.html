@@ -18,15 +18,15 @@
 <div id="home-main-content">
     <div class="link-ref shadow">
         <span>Quản Lý Phim/</span>
-        <a th:href="@{/edit-actor}" th:if="${idol == null}">Thêm Phim</a>
+        <a th:href="@{/edit-actor}" th:if="${movie == null}">Thêm Phim</a>
     </div>
     <form enctype="multipart/form-data" id="formSubmit">
         <div class="form-content shadow">
             <div class="d-flex">
                 <div class="poster">
                     <div id="avatar">
-                        <img height="auto" src="http://placehold.it/300x350"
-                             style="max-height: 350px" width="300px">
+                        <img height="auto" style="max-height: 350px"
+                             th:src="${movie != null ? movie.posterUrl : 'http://placehold.it/300x350'}" width="300px">
                     </div>
                     <div class="input-avatar">
                         <input class="custom-file-poster-input" id="avatarinput"
@@ -41,7 +41,31 @@
                         </div>
                         <div class="list_attach">
                             <ul class="dandev_attach_view">
-
+                                <th:block th:each="image, state : ${movie.image}" th:if="${movie != null}">
+                                    <li th:id="${'li_files_' + state.index}">
+                                        <div class="img-wrap">
+                                                <span class="close"
+                                                      th:attr="onclick=|removeImageDescriptionExists('${'li_files_' + state.index}','${image.publicId}')|">x</span>
+                                            <div class="img-wrap-box">
+                                                <img th:src="${image.publicUrl}">
+                                            </div>
+                                        </div>
+                                        <div th:class="${state.index}">
+                                            <input class="hidden" onchange="uploadImg(this)"
+                                                   th:id="${'file_'+ state.index}" type="file"/>
+                                        </div>
+                                    </li>
+                                </th:block>
+                                <li class="li_file_hide" id="li_files_${_time}" th:if="${movie != null}">
+                                    <div class="img-wrap">
+                                        <span class="close" onclick="DelImg(this)">x</span>
+                                        <div class="img-wrap-box"></div>
+                                    </div>
+                                    <div class="${_time}">
+                                        <input class="hidden" id="file_${_time}" name="imageDescription" onchange="uploadImg(this)"
+                                               type="file"/>
+                                    </div>
+                                </li>
                             </ul>
                             <span class="dandev_insert_attach"><i class="fas fa-plus"
                                                                   style="padding: 20px; border: 1px dashed "></i></span>
@@ -53,21 +77,25 @@
                     <div class="d-flex justify-content-between">
                         <div class="mb-3 w-75 mr-2">
                             <label class="form-label" for="name">Tên Phim</label>
-                            <input class="form-control" id="name" name="name" required type="text">
+                            <input class="form-control" id="name" name="name"
+                                   required th:value="${movie != null ? movie.name : ''}" type="text">
                         </div>
                         <div class="mb-3 w-25">
                             <label class="form-label" for="time">Thời lượng</label>
-                            <input class="form-control" id="time" name="time" required type="text">
+                            <input class="form-control" id="time" name="time"
+                                   required th:value="${movie != null ? movie.times : ''}" type="text">
                         </div>
                     </div>
                     <div class="d-flex justify-content-between">
                         <div class="mb-3 w-50 mr-2">
                             <label class="form-label" for="openDate">Ngày công chiếu</label>
-                            <input class="form-control" id="openDate" name="openDate" required type="date">
+                            <input class="form-control" id="openDate" name="openDate"
+                                   required th:value="${movie != null ? #dates.format(movie.openDate, 'yyyy-MM-dd') : ''}" type="date">
                         </div>
                         <div class="mb-3 w-50">
                             <label class="form-label" for="nation">Quốc Gia</label>
-                            <input class="form-control" id="nation" name="nation" required type="text">
+                            <input class="form-control" id="nation" name="nation"
+                                   required th:value="${movie != null ? movie.nation : ''}" type="text">
                         </div>
                     </div>
                     <div class="d-flex justify-content-between mb-3">
@@ -83,6 +111,22 @@
                                         class="fas fa-plus"></i></span>
                             </div>
 
+                            <th:block th:each="actorSelect, state : ${movie.actors}" th:if="${movie != null}">
+                                <div class="mt-2 d-flex align-items-center" th:id="${state.index+'actor'}">
+                                    <input class="form-control" name="actor"
+                                           placeholder="Diễn Viên" th:list="${state.index+1}"
+                                           th:value="${actorSelect.name}">
+                                    <datalist th:id="${state.index+1}">
+                                        <th:block th:each="actor : ${lstActor}">
+                                            <option th:value="${actor.name}">
+                                        </th:block>
+                                    </datalist>
+                                    <span class="cursorAdd"
+                                          th:attr="onclick=|removeElement('${state.index+'actor'}')|"><i
+                                            class="fas fa-minus"></i></span>
+                                </div>
+                            </th:block>
+
                         </div>
 
                         <div class="ml-2 w-50" id="category">
@@ -96,13 +140,29 @@
                                 <span class="cursorAdd" onclick="addCategory('category')"><i
                                         class="fas fa-plus"></i></span>
                             </div>
+
+                            <th:block th:each="movieSelect, state : ${movie.actors}" th:if="${movie != null}">
+                                <div class="mt-2 d-flex align-items-center" th:id="${state.index +'cate'}">
+                                    <input class="form-control" name="category"
+                                           placeholder="Thể Loại" th:list="${state.index+1}"
+                                           th:value="${movieSelect.name}">
+                                    <datalist th:id="${state.index+1}">
+                                        <th:block th:each="cate : ${lstCategory}">
+                                            <option th:value="${cate.name}">
+                                        </th:block>
+                                    </datalist>
+                                    <span class="cursorAdd"
+                                          th:attr="onclick=|removeElement('${state.index +'cate'}')|"><i
+                                            class="fas fa-minus"></i></span>
+                                </div>
+                            </th:block>
                         </div>
                     </div>
-                    <div id="description">
+                    <div id="description" th:utext="${movie != null ? movie.description : ''}">
                         <p>This is some sample content.</p>
                     </div>
                 </div>
-                <!--                <input id="id" name="id" th:if="${idol != null}" th:value="${idol.id}" type="hidden">-->
+                <input id="id" name="id" th:if="${movie != null}" th:value="${movie.id}" type="hidden">
             </div>
             <div>
                 <div class="input-avatar">
@@ -111,12 +171,16 @@
                            onchange="videoFileAsURL()" type="file">
                 </div>
                 <div id="video">
-                    <img height="auto" src="http://placehold.it/1040x500"
+                    <img height="auto" src="http://placehold.it/1040x500" th:if="${movie == null}"
                          width="auto">
+                    <video controls height="auto" style="width: 100%;"
+                           th:if="${movie != null}">
+                        <source th:src="${movie.trailerUrl}" type="video/mp4">
+                    </video>
                 </div>
             </div>
             <div style="text-align: center;">
-                <button class="btn btn-primary" id="btnadd" style="margin-top: 24px;"
+                <button class="btn btn-primary" id="btnadd" style="margin-top: 24px;" th:text="${movie != null ? 'Cập Nhật Phim' : 'Thêm Phim'}"
                 >Thêm Phim
                 </button>
             </div>
@@ -128,6 +192,7 @@
         let editor;
         let Idol;
         let Category;
+        let ImageDelete;
         ClassicEditor
             .create(document.querySelector('#description'))
             .then(newEditor => {
@@ -140,20 +205,21 @@
         window.onload = (event) => {
             findAllIdol();
             findAllCategory();
+            ImageDelete = [];
         };
 
-        async function findAllIdol(){
-            axios.get("/api/allIdol").then(function (response){
+        async function findAllIdol() {
+            axios.get("/api/allIdol").then(function (response) {
                 Idol = response.data;
-            }).catch(function (error){
+            }).catch(function (error) {
                 console.log("error call find all idol")
             });
         }
 
-        async function findAllCategory(){
-            axios.get("/api/allCategory").then(function (response){
+        async function findAllCategory() {
+            axios.get("/api/allCategory").then(function (response) {
                 Category = response.data;
-            }).catch(function (error){
+            }).catch(function (error) {
                 console.log("error call find all idol")
             });
         }
@@ -165,64 +231,115 @@
             let formData = $('#formSubmit')[0];
             let data = new FormData(formData);
             data.append("description", description);
-            await addMovie(data);
-            setvalueDefaul();
+            if(data.get("id") != null){
+                ImageDelete.map( e => {
+                    data.append("imageDelete", e);
+                })
+                await updateMovie(data);
+                window.location.href = "/movie/" + data.get("id");
+            }else{
+                await addMovie(data);
+                setvalueDefaul();
+            }
         })
 
-        function setvalueDefaul(){
+        function setvalueDefaul() {
             let input = document.getElementsByTagName("input");
-            input.forEach( e => {
+            input.forEach(e => {
                 e.value = '';
             });
             editor.setData('');
-            document.getElementById("avatar").getElementsByTagName('img')[0].src= 'http://placehold.it/300x350';
+            document.getElementById("avatar").getElementsByTagName('img')[0].src = 'http://placehold.it/300x350';
             document.getElementById("video").innerHTML = `<img height="auto" src="http://placehold.it/1040x500" width="auto">`;
             let imgedes = document.getElementsByClassName('dandev_attach_view')[0];
-            imgedes.innerHTML='';
+            imgedes.innerHTML = '';
             imgedes.parentElement.classList.remove('show-btn');
 
             let actorDiv = document.getElementById("actor").getElementsByTagName('div');
-            for(let i = actorDiv.length -1; i>0;i--){
+            for (let i = actorDiv.length - 1; i > 0; i--) {
                 actorDiv[i].parentNode.removeChild(actorDiv[i]);
             }
 
             let categoryDiv = document.getElementById("category").getElementsByTagName('div');
-            for(let i = categoryDiv.length -1; i>0;i--){
+            for (let i = categoryDiv.length - 1; i > 0; i--) {
                 categoryDiv[i].parentNode.removeChild(categoryDiv[i]);
             }
         }
 
+        async function updateMovie(data){
+            try{
+                return new Promise((resolve, reject) => {
+                    axios.post(
+                        "/api/edit-movie", data, {
+                            headers: {
+                                "Content-Type": "multipart/form-data"
+                            }
+                        }
+                    ).then(function (response) {
+                        TurnOfLoading();
+                        Swal.fire({
+                            icon: 'success',
+                            title: '',
+                            text: 'Cập Nhật Phim Thành Công!',
+                            timer: 1000
+                        })
+                        return resolve(response);
+                    }).catch(function (error) {
+                        TurnOfLoading();
+                        Swal.fire({
+                            icon: 'error',
+                            title: '',
+                            text: 'Cập Nhật Phim Thất Bại!',
+                            timer: 1000
+                        })
+                        return reject(error);
+                    })
+                });
+            }catch (error){
+                alert(error);
+            }
+        }
+
         async function addMovie(data) {
-            axios.post(
-                "/api/edit-movie", data, {
-                    headers: {
-                        "Content-Type": "multipart/form-data"
-                    }
-                }
-            ).then(function (response) {
-                TurnOfLoading();
-                Swal.fire({
-                    icon: 'success',
-                    title: '',
-                    text: 'Thêm Phim Thành Công!',
-                    timer: 1000
-                })
-            }).catch(function (error) {
-                TurnOfLoading();
-                Swal.fire({
-                    icon: 'error',
-                    title: '',
-                    text: 'Thêm Phim Thất Bại!',
-                    timer: 1000
-                })
-            })
+            try {
+                return new Promise((resolve, reject) => {
+                    axios.post(
+                        "/api/edit-movie", data, {
+                            headers: {
+                                "Content-Type": "multipart/form-data"
+                            }
+                        }
+                    ).then(function (response) {
+                        TurnOfLoading();
+                        Swal.fire({
+                            icon: 'success',
+                            title: '',
+                            text: 'Thêm Phim Thành Công!',
+                            timer: 1000
+                        })
+                        return resolve(response);
+                    }).catch(function (error) {
+                        TurnOfLoading();
+                        Swal.fire({
+                            icon: 'error',
+                            title: '',
+                            text: 'Thêm Phim Thất Bại!',
+                            timer: 1000
+                        })
+                        return reject(error);
+                    })
+                });
+            } catch (error) {
+                alert(error)
+            }
+
         }
 
         function addActor(el) {
             let div = document.getElementById(el);
             var d = new Date();
             var _time = d.getTime();
-            var option = Idol.map(el =>{
+            var option = Idol.map(el => {
                 return `<option value="${el.name}">`;
             })
             let _html = `<div class="mt-2 d-flex align-items-center" id="${_time}">
@@ -230,7 +347,7 @@
                                 <datalist id="${_time + 1}">
                                     ${option.join('')}
                                 </datalist>
-                                <span class="cursorAdd" onclick="removeActor(${_time})"><i class="fas fa-minus"></i></span>
+                                <span class="cursorAdd" onclick="removeElement(${_time})"><i class="fas fa-minus"></i></span>
                             </div>`;
             div.insertAdjacentHTML('beforeend', _html);
         }
@@ -239,7 +356,7 @@
             let div = document.getElementById(el);
             var d = new Date();
             var _time = d.getTime();
-            var option = Category.map(el =>{
+            var option = Category.map(el => {
                 return `<option value="${el.name}">`;
             })
             let _html = `<div class="mt-2 d-flex align-items-center" id="${_time}">
@@ -247,14 +364,20 @@
                                 <datalist id="${_time + 1}">
                                     ${option.join('')}
                                 </datalist>
-                                <span class="cursorAdd" onclick="removeActor(${_time})"><i class="fas fa-minus"></i></span>
+                                <span class="cursorAdd" onclick="removeElement(${_time})"><i class="fas fa-minus"></i></span>
                             </div>`;
             div.insertAdjacentHTML('beforeend', _html);
         }
 
-        function removeActor(el) {
+        function removeElement(el) {
             var child = document.getElementById(el);
             child.parentNode.removeChild(child);
+        }
+
+        function removeImageDescriptionExists(el, publicid) {
+            var child = document.getElementById(el);
+            child.parentNode.removeChild(child);
+            ImageDelete.push(publicid);
         }
 
         /*upload 1 video*/
@@ -314,7 +437,7 @@
                             <div class="img-wrap-box"></div>
                             </div>
                             <div class="${_time}">
-                             <input type="file" name="${'imageDecription'}" class="hidden" onchange="uploadImg(this)" id="file_${_time}" multiple />
+                             <input type="file" name="imageDescription" class="hidden" onchange="uploadImg(this)" id="file_${_time}" multiple />
                             </div>
                             </li>`;
                 jQuery('.dandev_attach_view').append(_html);

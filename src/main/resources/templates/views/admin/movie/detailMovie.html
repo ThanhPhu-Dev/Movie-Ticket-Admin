@@ -12,9 +12,6 @@
 <th:block id="home-static-resources">
 
     <link rel="stylesheet" th:href="@{/css/admin/detailMovieStyle.css}" type="text/css"/>
-    <!--    <link href="https://unpkg.com/swiper/swiper-bundle.css" rel="stylesheet"/>-->
-    <!--    <link href="https://unpkg.com/swiper/swiper-bundle.min.css" rel="stylesheet"/>-->
-    <!-- Link Swiper's CSS -->
     <link
             href="https://unpkg.com/swiper/swiper-bundle.min.css"
             rel="stylesheet"
@@ -38,7 +35,7 @@
 
     <div class="shadow content">
         <div style="text-align: right; margin-bottom: 10px">
-            <a th:href="@{/edit-movie(id=${movie.id})}">
+            <a th:href="@{/edit-movie/{id}(id=${movie.id})}">
                 <button class="btn btn-warning" type="button">Cập nhật</button>
             </a>
             <button class="btn btn-danger" id="btn-delete_movie" th:attr="data-id=${movie.id}" type="button">Xóa
@@ -98,7 +95,7 @@
             </div>
         </div>
         <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
         <!-- Initialize Swiper -->
         <script>
             var swiper = new Swiper(".mySwiper", {
@@ -129,6 +126,7 @@
                     cancelButtonText: 'Hủy bỏ'
                 }).then((result) => {
                     if (result.isConfirmed) {
+                        TurnOnLoading();
                         deleteActor()
                     }
                 })
@@ -136,27 +134,28 @@
 
             function deleteActor() {
                 let id = btn_delete.dataset.id;
-                alert(id);
-                // let url = "/api/delete/actor/" + id;
-                // axios.delete(url).then(async function (response) {
-                //     Swal.fire({
-                //         icon: 'success',
-                //         title: 'Xóa!',
-                //         text: 'Xóa Phim thành công.',
-                //         timer: 1500
-                //     })
-                //     setTimeout(function () {
-                //         window.location.href = "/actorlist";
-                //     }, 800);
-                //
-                // }).catch(function (err) {
-                //     Swal.fire({
-                //         icon: 'error',
-                //         title: 'Xóa!',
-                //         text: 'Xóa phim không thành công.',
-                //         timer: 1500
-                //     })
-                // })
+                let url = "/api/delete/movie/" + id;
+                axios.delete(url).then(async function (response) {
+                    TurnOfLoading();
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Xóa!',
+                        text: 'Xóa Phim thành công.',
+                        timer: 1500
+                    })
+                    setTimeout(function () {
+                        window.location.href = "/listMovie";
+                    }, 800);
+
+                }).catch(function (err) {
+                    TurnOfLoading();
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Xóa!',
+                        text: 'Xóa phim không thành công.',
+                        timer: 1500
+                    })
+                })
             }
         </script>
     </div>

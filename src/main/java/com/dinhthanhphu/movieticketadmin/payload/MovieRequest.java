@@ -6,7 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Data
 public class MovieRequest {
-
+    private String id;
     private MultipartFile avatar;
     private String name;
     private String time;
@@ -16,5 +16,6 @@ public class MovieRequest {
     private String[] category;
     private MultipartFile video;
     private String description;
-    public MultipartFile[] imageDecription;
+    public MultipartFile[] imageDescription;
+    private String[] imageDelete;
 }

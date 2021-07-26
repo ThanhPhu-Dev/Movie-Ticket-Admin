@@ -26,9 +26,11 @@ public class MovieAPI {
     }
 
     @DeleteMapping("/delete/movie/{id}")
-    public ResponseEntity<?> deleteMovie(@PathVariable("id") String id){
-
-        return null;
+    public ResponseEntity<?> deleteMovie(@PathVariable String id){
+        if (movieService.delete(id) == true){
+            return ResponseEntity.accepted().build();
+        }
+        return ResponseEntity.badRequest().build();
     }
 
 }

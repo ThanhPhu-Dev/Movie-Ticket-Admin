@@ -31,7 +31,11 @@ public class ActorAPI {
         }
         Map uploadResult = null;
         if (formData.getAvatar().getSize() != 0) {
-            uploadResult = cloudUtil.upload(formData.getAvatar(), "movieCinema/actor", dto.getPublic_id());
+            if(formData.getId() != null){
+                uploadResult = cloudUtil.uploadPublicId(formData.getAvatar(), dto.getPublic_id());
+            }else{
+                uploadResult = cloudUtil.uploadCloudinary(formData.getAvatar(),"movieCinema/actor");
+            }
             dto.setPublic_id(uploadResult.get("public_id").toString());
             dto.setPublic_url(uploadResult.get("url").toString());
         }

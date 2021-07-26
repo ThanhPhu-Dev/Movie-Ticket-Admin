@@ -24,7 +24,7 @@ public class CloudinaryUtils {
         cloud = getcloudinaryUtils();
     }
 
-    public Map upload(MultipartFile file , String folder) {
+    public Map uploadCloudinary(MultipartFile file , String folder) {
         Map uploadResult;
         try {
             uploadResult = cloud.uploader().upload(file.getBytes(),
@@ -39,18 +39,28 @@ public class CloudinaryUtils {
         }
     }
 
-    public Map upload(MultipartFile file , String folder, String filename) {
+    public Map uploadPublicId(MultipartFile file , String publicId) {
         Map uploadResult;
         try {
             uploadResult = cloud.uploader().upload(file.getBytes(),
                     ObjectUtils.asMap(
                             "resource_type", "auto",
-                            "folder", folder == null ? "" : folder + "/",
-                            "public_id", filename));
+                            "public_id", publicId));
             return uploadResult;
         } catch (IOException e) {
             e.printStackTrace();
             return null;
+        }
+    }
+
+    public boolean delete(String publicId) {
+        try {
+           cloud.uploader().destroy(publicId,
+                    ObjectUtils.emptyMap());
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
         }
     }
 

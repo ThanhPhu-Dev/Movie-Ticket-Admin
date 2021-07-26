@@ -9,5 +9,5 @@ public interface IMovieService {
     MovieDTO save(MovieRequest form);
     List<MovieDTO> findAll();
     MovieDTO findOneById(String id);
-
+    boolean delete(String id);
 }

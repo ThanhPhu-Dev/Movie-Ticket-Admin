@@ -10,4 +10,6 @@ public interface IImageRepository extends JpaRepository<ImageEntity, Long> {
 
     @Query(value = "select * from images where movie_id = ?1", nativeQuery = true)
     List<ImageEntity> findAllByMovie_id(Integer movie_id);
+
+    ImageEntity findByPublicId(String publicId);
 }

@@ -31,9 +31,13 @@ public class MovieController {
     private IImageService imageService;
 
 
-    @GetMapping("/edit-movie")
-    public ModelAndView editMovie(){
+    @GetMapping(value = {"/edit-movie", "/edit-movie/{id}"})
+    public ModelAndView editMovie(@PathVariable(required = false) String id){
         ModelAndView mav = new ModelAndView("/views/admin/movie/editMovie");
+        if(id != null){
+            MovieDTO movie = movieService.findOneById(id);
+            mav.addObject("movie", movie);
+        }
         mav.addObject("lstActor", actorService.findAll());
         mav.addObject("lstCategory", categoryService.findAll());
         return mav;

@@ -13,7 +13,6 @@ import com.dinhthanhphu.movieticketadmin.repository.IActorRepository;
 import com.dinhthanhphu.movieticketadmin.repository.ICategoryRepository;
 import com.dinhthanhphu.movieticketadmin.repository.IImageRepository;
 import com.dinhthanhphu.movieticketadmin.repository.IMovieRepository;
-import com.dinhthanhphu.movieticketadmin.service.IActorService;
 import com.dinhthanhphu.movieticketadmin.service.IMovieService;
 import com.dinhthanhphu.movieticketadmin.utils.CloudinaryUtils;
 import com.dinhthanhphu.movieticketadmin.utils.MapperModelUtils;
@@ -22,7 +21,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -54,7 +52,12 @@ public class MovieService implements IMovieService {
     @Transactional
     public MovieDTO save(MovieRequest form) {
         try {
-            MovieEntity movie = new MovieEntity();
+            MovieEntity movie = null;
+            if (form.getId() != null) {
+                movie = movieRepository.findById(Long.parseLong(form.getId())).get();
+            } else {
+                movie = new MovieEntity();
+            }
             List<ImageEntity> lstImage = new ArrayList<>();
             List<ActorEntity> lstActor = new ArrayList<>();
             List<CategoryEntity> lstCategory = new ArrayList<>();
@@ -63,33 +66,36 @@ public class MovieService implements IMovieService {
             CategoryEntity category = null;
             Map uploadResult = null;
             if (form.getAvatar().getSize() > 0) {
-                uploadResult = cloudUtil.upload(form.getAvatar(), "movieCinema/PosterMovie");
+                uploadResult = cloudUtil.uploadCloudinary(form.getAvatar(), "movieCinema/PosterMovie");
                 movie.setPosterPublicId(uploadResult.get("public_id").toString());
                 movie.setPosterUrl(uploadResult.get("url").toString());
             }
             if (form.getVideo().getSize() > 0) {
-                uploadResult = cloudUtil.upload(form.getVideo(), "movieCinema/VideoMovie");
+                uploadResult = cloudUtil.uploadCloudinary(form.getVideo(), "movieCinema/VideoMovie");
                 movie.setTrailerPublicid(uploadResult.get("public_id").toString());
                 movie.setTrailerUrl(uploadResult.get("url").toString());
             }
 
-            for(String nameActor : form.getActor()){
-                actor = actorRepository.findByNameContaining(nameActor);
-                if(actor != null) {
+            for (String nameActor : form.getActor()) {
+                if (!nameActor.equals("")) {
+                    actor = actorRepository.findByNameContaining(nameActor);
+                    if (actor != null) {
 //                    actor.getMovies().add(movie);
-                    lstActor.add(actor);
+                        lstActor.add(actor);
+                    }
                 }
             }
-            for(String nameCategory : form.getCategory()){
-                category = categoryRepository.findByNameContaining(nameCategory);
-                if(category != null) {
-                    lstCategory.add(category);
+            for (String nameCategory : form.getCategory()) {
+                if (!nameCategory.equals("")) {
+                    category = categoryRepository.findByNameContaining(nameCategory);
+                    if (category != null) {
+                        lstCategory.add(category);
+                    }
                 }
             }
             movie.setName(form.getName());
             movie.setDescription(form.getDescription());
             movie.setNation(form.getNation());
-            movie.setImage(lstImage);
             movie.setTimes(Integer.parseInt(form.getTime()));
             movie.setOpenDate(new SimpleDateFormat("yyyy-MM-dd").parse(form.getOpenDate()));
 
@@ -98,20 +104,29 @@ public class MovieService implements IMovieService {
 
             movieRepository.save(movie);
 
-            for (MultipartFile i : form.getImageDecription()) {
-                image = new ImageEntity();
-                uploadResult = cloudUtil.upload(i, "movieCinema/ImageDescription");
-                image.setPublicId(uploadResult.get("public_id").toString());
-                image.setPublicUrl(uploadResult.get("url").toString());
-                image.setMovie(movie);
-                imageRepository.save(image);
-                lstImage.add(image);
+            for (MultipartFile i : form.getImageDescription()) {
+                if (i.getSize() > 0) {
+                    image = new ImageEntity();
+                    uploadResult = cloudUtil.uploadCloudinary(i, "movieCinema/ImageDescription");
+                    image.setPublicId(uploadResult.get("public_id").toString());
+                    image.setPublicUrl(uploadResult.get("url").toString());
+                    image.setMovie(movie);
+                    imageRepository.save(image);
+                    lstImage.add(image);
+                }
+            }
+            if(form.getImageDelete() != null){
+                for (String imagedelete : form.getImageDelete()){
+                    image = imageRepository.findByPublicId(imagedelete);
+                    imageRepository.delete(image);
+                    cloudUtil.delete(imagedelete);
+                }
             }
             return cvt.convertToDTO(MovieDTO.builder()
-                                    .image(lstImage.stream().map(m -> cvt.convertToDTO(new ImageDTO(), m)).collect(Collectors.toList()))
-                                    .actors(lstActor.stream().map(m -> cvt.convertToDTO(new ActorDTO(), m)).collect(Collectors.toList()))
-                                    .categories(lstCategory.stream().map(m -> cvt.convertToDTO(new CategoryDTO(), m)).collect(Collectors.toList()))
-                                    .build(), movie);
+                    .image(lstImage.stream().map(m -> cvt.convertToDTO(new ImageDTO(), m)).collect(Collectors.toList()))
+                    .actors(lstActor.stream().map(m -> cvt.convertToDTO(new ActorDTO(), m)).collect(Collectors.toList()))
+                    .categories(lstCategory.stream().map(m -> cvt.convertToDTO(new CategoryDTO(), m)).collect(Collectors.toList()))
+                    .build(), movie);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -131,7 +146,24 @@ public class MovieService implements IMovieService {
         movieDTO.setCategories(movie.getCategories().stream().map(m -> cvt.convertToDTO(new CategoryDTO(), m)).collect(Collectors.toList()));
         movieDTO.setActors(movie.getActors().stream().map(m -> cvt.convertToDTO(new ActorDTO(), m)).collect(Collectors.toList()));
         movieDTO.setImage(movie.getImage().stream().map(m -> cvt.convertToDTO(new ImageDTO(), m)).collect(Collectors.toList()));
-        return cvt.convertToDTO(movieDTO,movie);
+        return cvt.convertToDTO(movieDTO, movie);
+    }
+
+    @Override
+    @Transactional
+    public boolean delete(String id) {
+        try {
+            MovieEntity movie = movieRepository.findById(Long.parseLong(id)).get();
+            if (movie != null) {
+
+                movieRepository.delete(movie);
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception error) {
+            return false;
+        }
     }
 
 
