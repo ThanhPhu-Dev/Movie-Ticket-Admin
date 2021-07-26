@@ -54,7 +54,7 @@
             <!--            <th:block th:if="${not #lists.isEmpty(idol.movies)}"></th:block>-->
             <th:block th:each="movie : ${idol.movies}">
                 <div class="actor-info d-inline-block ml-3 mr-2 mb-1 mt-2" th:object="${movie}">
-                    <a href="#">
+                    <a th:href="@{/movie/{id}(id=*{id})}">
                         <img height="350px"
                              th:src="*{posterUrl}"
                              width="200px">
