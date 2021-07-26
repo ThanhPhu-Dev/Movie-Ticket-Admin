@@ -54,7 +54,9 @@ public class ActorService implements IActorService {
     @Override
     public ActorDTO findById(String id) {
         ActorEntity entity = actorRepository.findById(Long.parseLong(id)).orElse(null);
-        return cvt.convertToDTO(new ActorDTO(), entity);
+        ActorDTO actor = new ActorDTO();
+        actor.setMovies(entity.getMovies().stream().map(m -> cvt.convertToDTO(new MovieDTO(), m)).collect(Collectors.toList()));
+        return cvt.convertToDTO(actor, entity);
     }
 
     @Override
