@@ -182,5 +182,17 @@ public class MovieService implements IMovieService {
         return lstMovie.stream().map(m -> cvt.convertToDTO(new MovieDTO(), m)).collect(Collectors.toList());
     }
 
-
+    @Override
+    public List<MovieDTO> findByIdCategory(String idCategory) {
+        CategoryEntity category = categoryRepository.findById(Long.parseLong(idCategory)).orElse(null);
+        List<MovieEntity> result = null;
+        if(category == null){
+            result = movieRepository.findAll();
+        }else {
+            result = category.getMovies();
+        }
+        return result.stream()
+                     .map(m -> cvt.convertToDTO(new MovieDTO(), m))
+                     .collect(Collectors.toList());
+    }
 }

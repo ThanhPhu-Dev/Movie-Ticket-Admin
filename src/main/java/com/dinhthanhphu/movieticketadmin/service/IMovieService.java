@@ -11,4 +11,5 @@ public interface IMovieService {
     MovieDTO findOneById(String id);
     boolean delete(String id);
     List<MovieDTO> findByNameAndIdCategory(String name, String idCategory);
+    List<MovieDTO> findByIdCategory(String idCategory);
 }

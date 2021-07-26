@@ -40,4 +40,10 @@ public class MovieAPI {
         List<MovieDTO> result = movieService.findByNameAndIdCategory(name,idCategory);
         return result;
     }
+
+    @GetMapping(value = {"/category-movie/{idCategory}"})
+    public List<MovieDTO> findByIdCategory(@PathVariable String idCategory){
+        List<MovieDTO> result = movieService.findByIdCategory(idCategory);
+        return result;
+    }
 }
