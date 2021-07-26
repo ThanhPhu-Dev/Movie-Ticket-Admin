@@ -18,5 +18,5 @@ public class ActorDTO {
     private String biography;
     private String public_url;
     private String public_id;
-    private List<MovieEntity> movies;
+    private List<MovieDTO> movies;
 }

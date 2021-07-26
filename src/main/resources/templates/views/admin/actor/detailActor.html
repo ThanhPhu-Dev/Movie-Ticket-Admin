@@ -51,16 +51,19 @@
         </div>
         <div class="shadow m-auto" style="width: 90%;">
             <p class="movie-attend-title">Các bộ phim tham gia</p>
-            <div class="actor-info d-inline-block ml-3 mr-2 mb-1 mt-2" th:if="${not #lists.isEmpty(idol.movies)}">
-                <a href="#">
-                    <img height="200px"
-                         src="123"
-                         width="200px">
-                    <div class="name-actor">
-                        <span>.</span>
-                    </div>
-                </a>
-            </div>
+            <!--            <th:block th:if="${not #lists.isEmpty(idol.movies)}"></th:block>-->
+            <th:block th:each="movie : ${idol.movies}">
+                <div class="actor-info d-inline-block ml-3 mr-2 mb-1 mt-2" th:object="${movie}">
+                    <a href="#">
+                        <img height="350px"
+                             th:src="*{posterUrl}"
+                             width="200px">
+                        <div class="name-actor">
+                            <span th:text="*{name}"></span>
+                        </div>
+                    </a>
+                </div>
+            </th:block>
         </div>
 
     </div>

@@ -41,7 +41,6 @@ public class ActorController {
     public ModelAndView DetailActor(@PathVariable String id){
         ModelAndView mav = new ModelAndView("views/admin/actor/detailACtor");
         ActorDTO dto = actorService.findById(id);
-//        dto.getMovies().size()
         mav.addObject("idol", dto);
         return mav;
     }

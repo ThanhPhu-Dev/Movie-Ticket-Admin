@@ -1,6 +1,7 @@
 package com.dinhthanhphu.movieticketadmin.service.impl;
 
 import com.dinhthanhphu.movieticketadmin.dto.ActorDTO;
+import com.dinhthanhphu.movieticketadmin.dto.MovieDTO;
 import com.dinhthanhphu.movieticketadmin.entity.ActorEntity;
 import com.dinhthanhphu.movieticketadmin.repository.IActorRepository;
 import com.dinhthanhphu.movieticketadmin.service.IActorService;
@@ -48,7 +49,9 @@ public class ActorService implements IActorService {
     @Override
     public ActorDTO findById(String id) {
         ActorEntity entity = actorRepository.findById(Long.parseLong(id)).orElse(null);
-        return cvt.convertToDTO(new ActorDTO(), entity);
+        ActorDTO actor = new ActorDTO();
+        actor.setMovies(entity.getMovies().stream().map(m -> cvt.convertToDTO(new MovieDTO(), m)).collect(Collectors.toList()));
+        return cvt.convertToDTO(actor, entity);
     }
 
     @Override
