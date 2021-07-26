@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -33,4 +34,10 @@ public class MovieAPI {
         return ResponseEntity.badRequest().build();
     }
 
+    @GetMapping(value = {"/movie/{idCategory}/{name}", "//movie/{idCategory}"})
+    public List<MovieDTO> findByNameAndCategoryName(@PathVariable String idCategory,
+                                                    @PathVariable(required = false) String name){
+        List<MovieDTO> result = movieService.findByNameAndIdCategory(name,idCategory);
+        return result;
+    }
 }

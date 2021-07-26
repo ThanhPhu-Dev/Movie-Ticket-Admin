@@ -141,7 +141,7 @@
                                         class="fas fa-plus"></i></span>
                             </div>
 
-                            <th:block th:each="movieSelect, state : ${movie.actors}" th:if="${movie != null}">
+                            <th:block th:each="movieSelect, state : ${movie.categories}" th:if="${movie != null}">
                                 <div class="mt-2 d-flex align-items-center" th:id="${state.index +'cate'}">
                                     <input class="form-control" name="category"
                                            placeholder="Thể Loại" th:list="${state.index+1}"

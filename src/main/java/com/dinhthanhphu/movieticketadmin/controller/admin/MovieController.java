@@ -1,6 +1,7 @@
 package com.dinhthanhphu.movieticketadmin.controller.admin;
 
 import com.dinhthanhphu.movieticketadmin.dto.ActorDTO;
+import com.dinhthanhphu.movieticketadmin.dto.CategoryDTO;
 import com.dinhthanhphu.movieticketadmin.dto.ImageDTO;
 import com.dinhthanhphu.movieticketadmin.dto.MovieDTO;
 import com.dinhthanhphu.movieticketadmin.service.IActorService;
@@ -47,7 +48,9 @@ public class MovieController {
     public ModelAndView findAll(){
         ModelAndView mav = new ModelAndView("/views/admin/movie/listMovie");
         List<MovieDTO> lst = movieService.findAll();
+        List<CategoryDTO> lstCategory = categoryService.findAll();
         mav.addObject("listMovie", lst);
+        mav.addObject("lstCategory", lstCategory);
         return mav;
     }
 

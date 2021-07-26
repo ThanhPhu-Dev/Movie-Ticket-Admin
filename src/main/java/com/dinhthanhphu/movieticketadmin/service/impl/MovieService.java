@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
+import java.math.BigInteger;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -115,8 +116,8 @@ public class MovieService implements IMovieService {
                     lstImage.add(image);
                 }
             }
-            if(form.getImageDelete() != null){
-                for (String imagedelete : form.getImageDelete()){
+            if (form.getImageDelete() != null) {
+                for (String imagedelete : form.getImageDelete()) {
                     image = imageRepository.findByPublicId(imagedelete);
                     imageRepository.delete(image);
                     cloudUtil.delete(imagedelete);
@@ -164,6 +165,21 @@ public class MovieService implements IMovieService {
         } catch (Exception error) {
             return false;
         }
+    }
+
+    @Override
+    public List<MovieDTO> findByNameAndIdCategory(String name, String idCategory) {
+        List<MovieEntity> lstMovie = null;
+        String namemovie = "";
+        if(name != null){
+            namemovie = name;
+        }
+        if (Integer.parseInt(idCategory) == 0) {
+            lstMovie = movieRepository.findByNameContainingCustom(namemovie);
+        } else {
+            lstMovie = movieRepository.findByNameContainingAndNameCategoryCustom(namemovie, Integer.parseInt(idCategory));
+        }
+        return lstMovie.stream().map(m -> cvt.convertToDTO(new MovieDTO(), m)).collect(Collectors.toList());
     }
 
 
