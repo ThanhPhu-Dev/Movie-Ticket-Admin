@@ -90,7 +90,9 @@ public class UserService implements IUserService, UserDetailsService {
 
     @Override
     public UserDTO update(UserDTO userDTO) {
-        return cvt.convertToDTO(new UserDTO(), userRepository.findById(userDTO.getId())
-                .map(u -> userRepository.save(cvt.convertToEntity(userDTO, u))).orElse(null));
+        UUID id = userDTO.getId();
+        UserEntity entity = userRepository.findById(id).get();
+        entity = cvt.convertToEntity(userDTO,entity);
+        return cvt.convertToDTO(new UserDTO(), userRepository.save(entity));
     }
 }

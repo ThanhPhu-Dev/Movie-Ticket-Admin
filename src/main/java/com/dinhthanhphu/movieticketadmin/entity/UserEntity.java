@@ -2,12 +2,15 @@ package com.dinhthanhphu.movieticketadmin.entity;
 
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Proxy;
 
 import javax.persistence.*;
 import java.security.Provider;
 import java.util.UUID;
 
-@Data
+@Setter
+@Getter
+@Proxy(lazy = false)
 @Entity
 @Builder
 @AllArgsConstructor

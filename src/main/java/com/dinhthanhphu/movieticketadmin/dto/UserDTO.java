@@ -1,9 +1,6 @@
 package com.dinhthanhphu.movieticketadmin.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,14 +12,14 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.UUID;
 
-@Data
+@Setter
+@Getter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserDTO extends BaseDTO implements UserDetails, OAuth2User {
 
     private UUID id;
-    @Email(message = "email không hợp lệ.")
     private String email;
     private String hasedPassword;
     private String fullname;
@@ -82,7 +79,5 @@ public class UserDTO extends BaseDTO implements UserDetails, OAuth2User {
         return oauth2User.getAttribute("name");
     }
 
-    public String getEmail() {
-        return oauth2User.<String>getAttribute("email");
-    }
+
 }
