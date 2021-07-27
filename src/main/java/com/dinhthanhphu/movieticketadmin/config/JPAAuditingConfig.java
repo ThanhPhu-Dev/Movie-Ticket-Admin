@@ -27,6 +27,9 @@ public class JPAAuditingConfig {
             if(authentication == null || !authentication.isAuthenticated()) {
                 return null;
             }
+            if(authentication.getPrincipal().equals("anonymousUser")){
+                return Optional.empty();
+            }
             UserDTO u =(UserDTO) authentication.getPrincipal();
 
             return Optional.ofNullable(u.getUsername());
