@@ -144,7 +144,7 @@ public class authController {
     @PostMapping("/register")
     public ModelAndView register( @ModelAttribute RegisterRequest form) {
         ModelAndView mav = new ModelAndView("redirect:/register");
-        if (userService.findOneByEmail(form.getEmail()) != null) {
+        if (userService.findOneByEmailAndProvider(form.getEmail(), "Local") != null) {
             mav.addObject("alert", "danger");
             mav.addObject("message", "email_exists");
         } else {

@@ -1,6 +1,5 @@
 package com.dinhthanhphu.movieticketadmin.security;
 
-import com.dinhthanhphu.movieticketadmin.dto.CustomOAuth2User;
 import com.dinhthanhphu.movieticketadmin.dto.UserDTO;
 import com.dinhthanhphu.movieticketadmin.service.impl.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,12 +20,15 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-        CustomOAuth2User oAuthUser = (CustomOAuth2User) authentication.getPrincipal();
-        String email = oAuthUser.getEmail();
-        System.out.println("Email: " + email);
-        UserDTO user = userService.findOneByEmail(email);
-        if(user == null){
-            userService.save(oAuthUser);
+        try {
+            UserDTO oAuthUser = (UserDTO) authentication.getPrincipal();
+            String email = oAuthUser.getEmail();
+            UserDTO user = userService.findOneByEmailAndProvider(email, oAuthUser.getProvider());
+            if (user == null) {
+                userService.save(oAuthUser);
+            }
+        }catch (Exception e){
+            System.out.println(e.getMessage());
         }
         super.onAuthenticationSuccess(request, response, authentication);
     }

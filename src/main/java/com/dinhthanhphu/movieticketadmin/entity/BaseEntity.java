@@ -5,14 +5,17 @@ import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
 import java.util.Date;
 
 @Data
 @MappedSuperclass
+@EntityListeners(AuditingEntityListener.class)
 public abstract class BaseEntity {
 
     @Column(name = "createBy")
@@ -24,10 +27,10 @@ public abstract class BaseEntity {
     private Date createDate;
 
     @Column(name = "modifyBy")
-    @LastModifiedDate
+    @LastModifiedBy
     private String modifyBy;
 
     @Column(name = "modifyDate")
-    @LastModifiedBy
+    @LastModifiedDate
     private Date modifyDate;
 }

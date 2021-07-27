@@ -13,6 +13,7 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>MovieTicketAdmin</name>
     <description>Demo project for Spring Boot</description>
+
     <properties>
         <java.version>1.8</java.version>
         <lombok.version>1.18.4</lombok.version>
@@ -56,11 +57,20 @@
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-config</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.thymeleaf.extras</groupId>
+            <artifactId>thymeleaf-extras-springsecurity5</artifactId>
+        </dependency>
 
         <!-- mailler -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-mail</artifactId>
+        </dependency>
+        <!--Email validation-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
 
         <!-- tien ich string -->
@@ -100,6 +110,8 @@
             <artifactId>spring-social-security</artifactId>
             <version>${spring.social}</version>
         </dependency>
+
+
         <!--login facebook-->
         <dependency>
             <groupId>org.springframework.social</groupId>
@@ -166,11 +178,7 @@
 
 
 
-        <!--Email validation-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-validation</artifactId>
-        </dependency>
+
 
         <!-- cloudinary -->
         <dependency>

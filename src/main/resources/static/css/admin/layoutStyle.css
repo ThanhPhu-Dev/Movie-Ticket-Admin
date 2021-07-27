@@ -1,3 +1,8 @@
+.img-profile{
+    height: 2rem;
+    width: 2rem;
+}
+
 .tabItem{
     display: none;
     background: #4e73df

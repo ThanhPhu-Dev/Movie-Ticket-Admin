@@ -7,17 +7,19 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import javax.validation.constraints.Email;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Map;
 import java.util.UUID;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserDTO extends BaseDTO implements UserDetails {
+public class UserDTO extends BaseDTO implements UserDetails, OAuth2User {
 
     private UUID id;
     @Email(message = "email không hợp lệ.")
@@ -27,10 +29,19 @@ public class UserDTO extends BaseDTO implements UserDetails {
     private boolean active;
     private String code;
     private String provider;
+    private OAuth2User oauth2User;
+
+    @Override
+    public Map<String, Object> getAttributes() {
+        return oauth2User.getAttributes();
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singleton(new SimpleGrantedAuthority("ROLE_USER"));
+        if (provider.equals("Local"))
+            return Collections.singleton(new SimpleGrantedAuthority("ROLE_USER"));
+        else
+            return oauth2User.getAuthorities();
     }
 
     @Override
@@ -40,13 +51,17 @@ public class UserDTO extends BaseDTO implements UserDetails {
 
     @Override
     public String getUsername() {
-        return fullname;
+        if (provider.equals("Local"))
+            return fullname;
+        else
+            return oauth2User.getAttribute("name");
     }
 
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
+
     @Override
     public boolean isAccountNonLocked() {
         return true;
@@ -60,5 +75,14 @@ public class UserDTO extends BaseDTO implements UserDetails {
     @Override
     public boolean isEnabled() {
         return active;
+    }
+
+    @Override
+    public String getName() {
+        return oauth2User.getAttribute("name");
+    }
+
+    public String getEmail() {
+        return oauth2User.<String>getAttribute("email");
     }
 }

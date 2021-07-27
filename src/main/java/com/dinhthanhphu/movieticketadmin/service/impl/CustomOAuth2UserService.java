@@ -1,6 +1,6 @@
 package com.dinhthanhphu.movieticketadmin.service.impl;
 
-import com.dinhthanhphu.movieticketadmin.dto.CustomOAuth2User;
+import com.dinhthanhphu.movieticketadmin.dto.UserDTO;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
@@ -14,6 +14,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         String clientName = userRequest.getClientRegistration().getClientName();
         OAuth2User user =  super.loadUser(userRequest);
-        return new CustomOAuth2User(user,clientName);
+        return UserDTO.builder().oauth2User(user).provider(clientName).build();
     }
 }

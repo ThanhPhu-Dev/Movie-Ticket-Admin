@@ -1,7 +1,6 @@
 package com.dinhthanhphu.movieticketadmin.service.impl;
 
 import com.dinhthanhphu.movieticketadmin.customException.UserAlreadyExistException;
-import com.dinhthanhphu.movieticketadmin.dto.CustomOAuth2User;
 import com.dinhthanhphu.movieticketadmin.dto.UserDTO;
 import com.dinhthanhphu.movieticketadmin.entity.UserEntity;
 import com.dinhthanhphu.movieticketadmin.payload.RegisterRequest;
@@ -33,11 +32,12 @@ public class UserService implements IUserService, UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException, UserAlreadyExistException {
-        UserDTO user = cvt.convertToDTO(new UserDTO(), userRepository.findOneByEmail(email));
+        UserDTO user = cvt.convertToDTO(new UserDTO(), userRepository.findByEmailAndProvider(email,"Local"));
         if (user != null) {
             return user;
+        }else{
+            throw new UsernameNotFoundException("emailNotFound");
         }
-        throw new UsernameNotFoundException("emailNotFound");
     }
 
     public UserDTO findOneByEmail(String email) {
@@ -61,14 +61,14 @@ public class UserService implements IUserService, UserDetailsService {
     }
 
     @Override
-    public UserDTO save(CustomOAuth2User oAuth2User) {
+    public UserDTO save(UserDTO oAuth2User) {
         return cvt.convertToDTO(new UserDTO(), userRepository.save(
                 UserEntity.builder()
                         .email(oAuth2User.getEmail())
                         .fullname(oAuth2User.getName())
                         .hasedPassword(null)
                         .code(null)
-                        .provider(oAuth2User.getClientName())
+                        .provider(oAuth2User.getProvider())
                         .active(true)
                         .build()
         ));

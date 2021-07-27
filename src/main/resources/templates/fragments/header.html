@@ -1,30 +1,55 @@
-<nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow" th:fragment="header">
-    <!-- Topbar Navbar -->
-    <ul class="navbar-nav ml-auto">
-      <!-- Nav Item - User Information -->
-      <li class="nav-item dropdown no-arrow">
-        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
-           aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small">
-                   Thành Phú
-                </span>
-          <img class="img-profile rounded-circle"
-               src="https://res.cloudinary.com/duobkg5np/image/upload/v1621126689/movie/admin_inihil.jpg">
-        </a>
-        <!-- Dropdown - User Information -->
-        <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+<!--<nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow" th:fragment="header">-->
+<!--    &lt;!&ndash; Topbar Navbar &ndash;&gt;-->
+<!--    <ul class="navbar-nav ml-auto">-->
+<!--      &lt;!&ndash; Nav Item - User Information &ndash;&gt;-->
+<!--      <li class="nav-item dropdown no-arrow">-->
+<!--        <a class="nav-link btn btn-secondary dropdown-toggle" href="#" id="userDropdown" data-toggle="dropdown"-->
+<!--           aria-haspopup="true" aria-expanded="false">-->
+<!--                <span class="mr-2 d-none d-lg-inline text-gray-600 small" th:text="${#authentication.getPrincipal().getUsername()}">-->
+<!--                </span>-->
+<!--          <img class="img-profile rounded-circle"-->
+<!--               src="https://res.cloudinary.com/duobkg5np/image/upload/v1621126689/movie/admin_inihil.jpg">-->
+<!--        </a>-->
+<!--          <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">-->
+<!--              <li><a class="dropdown-item" href="#">Action</a></li>-->
+<!--              <li><a class="dropdown-item" href="#">Another action</a></li>-->
+<!--              <li><a class="dropdown-item" href="#">Something else here</a></li>-->
+<!--          </ul>-->
+<!--        &lt;!&ndash; Dropdown - User Information &ndash;&gt;-->
+<!--&lt;!&ndash;        <div class="dropdown-menu dropdown-menu-right shadow animated&#45;&#45;grow-in" aria-labelledby="userDropdown">&ndash;&gt;-->
 
-          <a class="dropdown-item" href="#" data-toggle="modal" data-target="#modelchangePass">
-            <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-            Thay Đổi Mật Khẩu
-          </a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="/admin/dang-nhap/dang-xuat">
-            <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-            Đăng Xuất
-          </a>
+<!--&lt;!&ndash;          <a class="dropdown-item" href="#" data-toggle="modal" data-target="#modelchangePass">&ndash;&gt;-->
+<!--&lt;!&ndash;            <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>&ndash;&gt;-->
+<!--&lt;!&ndash;            Thay Đổi Mật Khẩu&ndash;&gt;-->
+<!--&lt;!&ndash;          </a>&ndash;&gt;-->
+<!--&lt;!&ndash;          <div class="dropdown-divider"></div>&ndash;&gt;-->
+<!--&lt;!&ndash;          <a class="dropdown-item" href="/admin/dang-nhap/dang-xuat">&ndash;&gt;-->
+<!--&lt;!&ndash;            <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>&ndash;&gt;-->
+<!--&lt;!&ndash;            Đăng Xuất&ndash;&gt;-->
+<!--&lt;!&ndash;          </a>&ndash;&gt;-->
+<!--&lt;!&ndash;        </div>&ndash;&gt;-->
+<!--      </li>-->
+
+<!--    </ul>-->
+<!--  </nav>-->
+<nav class="navbar navbar-expand-lg" th:fragment="header">
+    <div class="container-fluid">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDarkDropdown" aria-controls="navbarNavDarkDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse d-flex justify-content-end" id="navbarNavDarkDropdown">
+            <ul class="navbar-nav">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <span class="mr-2 d-none d-lg-inline text-gray-600 small" th:text="${#authentication.getPrincipal().getUsername()}"></span>
+                        <img class="img-profile rounded-circle"
+                             src="https://res.cloudinary.com/duobkg5np/image/upload/v1621126689/movie/admin_inihil.jpg">
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+                        <li><a class="dropdown-item" th:href="@{/logout}"> Đăng Xuất</a></li>
+                    </ul>
+                </li>
+            </ul>
         </div>
-      </li>
-
-    </ul>
-  </nav>
+    </div>
+</nav>
