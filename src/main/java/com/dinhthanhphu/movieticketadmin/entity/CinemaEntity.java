@@ -26,9 +26,6 @@ public class CinemaEntity extends BaseEntity {
     @Column
     private Integer width;
 
-    @ManyToOne
-    @JoinColumn(name = "theater_id")
-    private TheatersEntity theater;
 
     @OneToMany(mappedBy = "cinema")
     private List<ShowtimeEntity> showtime;
