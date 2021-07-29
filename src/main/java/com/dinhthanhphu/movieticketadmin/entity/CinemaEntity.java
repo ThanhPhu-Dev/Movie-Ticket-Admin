@@ -1,13 +1,17 @@
 package com.dinhthanhphu.movieticketadmin.entity;
 
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Table(name = "cinemas")
 @Entity
-@Data
+@Setter
+@Getter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class CinemaEntity extends BaseEntity {
 
     @Id
@@ -18,7 +22,7 @@ public class CinemaEntity extends BaseEntity {
     private String name;
 
     @Column
-    private String type;
+    private String address;
 
     @Column
     private Integer lenght;

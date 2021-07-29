@@ -1,0 +1,43 @@
+.link-ref {
+    padding: 10px 50px;
+    width: 90%;
+    margin: auto;
+}
+
+.link-ref a:hover {
+    color: #007bff;
+}
+
+.link-ref a {
+    color: gray;
+}
+
+.content {
+    width: 90%;
+    margin: 20px auto;
+    padding: 20px;
+}
+
+
+#new-search-area {
+    width: 100%;
+    clear: both;
+    padding-top: 20px;
+}
+
+#new-search-area input {
+    width: 600px;
+    border-top: 0;
+    border-right: 0;
+    border-left: 0;
+    border-bottom: 1px solid #cecbcba6;
+    font-size: 13px;
+    padding-left: 20px;
+
+}
+
+
+
+#datatables_length {
+    margin-top: 15px;
+}

@@ -10,8 +10,8 @@ public class CinemaDTO extends BaseDTO{
 
     private Long id;
     private String name;
-    private String type;
+    private String address;
     private Integer lenght;
     private Integer width;
-    private List<ShowtimeEntity> showtime;
+    private List<ShowtimeDTO> showtime;
 }
