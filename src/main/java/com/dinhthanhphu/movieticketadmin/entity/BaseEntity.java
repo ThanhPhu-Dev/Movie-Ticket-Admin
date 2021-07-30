@@ -18,11 +18,11 @@ import java.util.Date;
 @EntityListeners(AuditingEntityListener.class)
 public abstract class BaseEntity {
 
-    @Column(name = "createBy")
+    @Column(name = "createBy", updatable = false)
     @CreatedBy
     private String createBy;
 
-    @Column(name = "createDate")
+    @Column(name = "createDate", updatable = false)
     @CreatedDate
     private Date createDate;
 
