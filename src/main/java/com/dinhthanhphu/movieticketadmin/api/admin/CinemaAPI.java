@@ -35,8 +35,8 @@ public class CinemaAPI {
     }
 
     @DeleteMapping(value = "/delete-cinema")
-    public void deleteCinema(@RequestBody Long[] ids){
-        cinemaService.delete(ids);
-        return;
+    public boolean deleteCinema(@RequestBody Long[] ids){
+
+        return cinemaService.delete(ids);
     }
 }
