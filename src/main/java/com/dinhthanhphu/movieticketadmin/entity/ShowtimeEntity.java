@@ -26,7 +26,7 @@ public class ShowtimeEntity extends BaseEntity {
 
     @ManyToOne()
     @JoinColumn(name = "cinema_id")
-    private MovieEntity cinema;
+    private CinemaEntity cinema;
 
     @ManyToOne()
     @JoinColumn(name = "movie_id")

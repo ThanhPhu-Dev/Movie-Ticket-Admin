@@ -77,15 +77,32 @@
             </nav>
         </div>
     </li>
-    <li class="nav-item">
+
+    <!--Rap-->
+    <li class="nav-item" onclick="showItem(this)">
         <a aria-controls="collapseTwo"
            aria-expanded="true"
-           class="nav-link collapsed"
-           href="/admin/suat-phim">
-            <i class="fas fa-fw fa-cog"></i>
-            <span>Quản Lý Suất Chiếu</span>
+           class="nav-link collapsed  d-flex justify-content-between"
+           href="#"
+        >
+            <div>
+                <i class="fas fa-fw fa-cog"></i>
+                <span>Quản Lý Suất Chiếu</span>
+            </div>
+            <div class="sb-sidenav-collapse-arrow icon-show">
+                <i class="fas fa-angle-right"></i>
+            </div>
         </a>
+        <div class="tabItem">
+            <nav class="sb-sidenav-menu-nested nav">
+                <a class="nav-link pl-5" th:href="@{/edit-showtime}"><i class="fas fa-plus-square"></i></i>
+                    <span>Thêm Suất Chiếu</span></a>
+                <a class="nav-link pl-5" th:href="@{/list-showtime}"><i class="fas fa-list-alt"></i></i>
+                    <span>Danh Sách Suất Chiếu</span></a>
+            </nav>
+        </div>
     </li>
+
     <li class="nav-item" onclick="showItem(this)">
         <a aria-controls="collapseTwo"
            aria-expanded="true"

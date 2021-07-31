@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+
+<!--  main-fragment (title, otherStaticResources, header, nav, mainContent, footer)  -->
+<html th:replace="~{layouts/main-layout :: main-fragment(
+                                                ~{::title},
+                                                ~{:: #home-static-resources},
+                                                ~{:: #home-main-content}
+                                               )}"
+      xmlns:th="http://www.thymeleaf.org">
+<title>Showtime</title>
+
+<th:block id="home-static-resources">
+    <link rel="stylesheet" th:href="@{/css/admin/addShowtimeStyle.css}" type="text/css"/>
+</th:block>
+<div id="home-main-content">
+    <div class="link-ref shadow mt-3">
+        <span>Quản Lý Suất Chiếu/</span> <a th:href="@{/edit-showtime}">Thêm Suất Chiếu</a>
+    </div>
+
+    <div class="content shadow">
+        <form id="formsubmit">
+            <div class="d-flex justify-content-center">
+                <div class="mb-3 mr-5 w-25">
+                    <label class="form-label" for="startDate">Ngày Bắt Đầu</label>
+                    <input class="form-control" id="startDate" name="startTime" placeholder="Ngày Bắt Đầu"
+                           type="datetime-local">
+                </div>
+                <div class="mb-3 w-25">
+                    <label class="form-label" for="endDate">Ngày Kết Thúc</label>
+                    <input class="form-control" id="endDate" name="endTime" type="datetime-local">
+                </div>
+            </div>
+            <div class="d-flex justify-content-center">
+                <div class="mr-5 w-25">
+                    <input class="form-control" id="cinema" list="listCinema" name="cinemaName" placeholder="Rạp">
+                    <datalist id="listCinema">
+                        <th:block th:each="c: ${cinema}">
+                            <option th:attr="data-value= ${c.id}" th:value="${c.name}">
+                        </th:block>
+                    </datalist>
+                </div>
+                <div class="w-25">
+                    <input class="form-control " id="movie" list="listMovie" name="movieName" placeholder="Phim">
+                    <datalist id="listMovie">
+                        <th:block th:each="m: ${movie}">
+                            <option th:attr="data-value= ${m.id}" th:value="${m.name}">
+                        </th:block>
+
+                    </datalist>
+                </div>
+            </div>
+            <div class="d-flex justify-content-center mt-3">
+                <div class="mb-3 w-25 mr-5">
+                    <input class="form-control" id="fare" name="fare" placeholder="Giá Vé" type="number">
+                </div>
+            </div>
+            <div class="text-center">
+                <button class="btn btn-primary" id="submit" type="submit">Thêm</button>
+            </div>
+        </form>
+    </div>
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+
+        const submit = document.getElementById("submit");
+        let cinema = document.getElementById("cinema");
+        let movie = document.getElementById("movie");
+
+
+        submit.addEventListener("click", e => {
+            e.preventDefault();
+            let data = {};
+            data.cinemaId = +document.querySelector("#listCinema option[value='" + cinema.value + "']").dataset.value;
+            data.movieId = +document.querySelector("#listMovie option[value='" + movie.value + "']").dataset.value;
+            data.startTime = new Date(document.getElementsByName("startTime")[0].value)
+            data.endTime = new Date(document.getElementsByName("endTime")[0].value)
+            data.fare = +document.getElementsByName("fare")[0].value;
+            addShowtime(data);
+        });
+
+        async function addShowtime(data) {
+            let url = "/api/edit-showtime";
+            let json = JSON.stringify(data);
+            console.log(json)
+            axios.post(url, json, {
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            }).then(function (response) {
+                Swal.fire({
+                    icon: 'success',
+                    title: '',
+                    text: 'Thêm Suất Chiếu Phim Thành Công!',
+                    timer: 1000
+                });
+            }).catch(function (error) {
+                Swal.fire({
+                    icon: 'error',
+                    title: '',
+                    text: 'Thêm Suất Chiếu Phim Thất Bại!',
+                    timer: 1000
+                });
+            })
+        }
+    </script>
+</div>

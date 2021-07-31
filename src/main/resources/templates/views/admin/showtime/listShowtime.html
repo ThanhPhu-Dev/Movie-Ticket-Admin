@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+
+<!--  main-fragment (title, otherStaticResources, header, nav, mainContent, footer)  -->
+<html       th:replace="~{layouts/main-layout :: main-fragment(
+                                                ~{::title},
+                                                ~{:: #home-static-resources},
+                                                ~{:: #home-main-content}
+                                               )}"
+            xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Helo world</title>
+
+  <!-- <th:block id="home-static-resources">
+
+   </th:block>-->
+
+</head>
+<body>
+<div id="home-main-content">
+  <h2>List Showtime</h2>
+</div>
+</body>
+</html>

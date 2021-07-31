@@ -30,7 +30,6 @@ public class CinemaEntity extends BaseEntity {
     @Column
     private Integer width;
 
-
     @OneToMany(mappedBy = "cinema")
     private List<ShowtimeEntity> showtime;
 

@@ -12,6 +12,8 @@ public class ShowtimeDTO extends BaseDTO{
     private Date startTime;
     private Date endTime;
     private Float fare;
-    private MovieEntity cinema;
-    private MovieEntity movie;
+    private CinemaDTO cinema;
+    private MovieDTO movie;
+    private Long cinemaId;
+    private Long movieId;
 }
