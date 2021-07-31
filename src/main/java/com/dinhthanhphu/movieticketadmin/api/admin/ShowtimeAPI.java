@@ -19,5 +19,18 @@ public class ShowtimeAPI {
         return showtimeService.save(showtime);
     }
 
-   
+    @GetMapping("/list-showtime")
+    public List<ShowtimeDTO> getlistShowtime(){
+        return showtimeService.findAll();
+    }
+
+    @DeleteMapping("/delete-showtime")
+    public void deleteShowtime(@RequestBody Long[] ids){
+        showtimeService.delete(ids);
+    }
+
+    @PutMapping("/edit-showtime")
+    public ShowtimeDTO updateShowtime(@RequestBody ShowtimeDTO showtime){
+        return showtimeService.save(showtime);
+    }
 }

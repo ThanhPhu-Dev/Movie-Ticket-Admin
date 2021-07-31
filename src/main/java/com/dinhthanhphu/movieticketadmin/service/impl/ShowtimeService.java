@@ -12,7 +12,10 @@ import com.dinhthanhphu.movieticketadmin.utils.MapperModelUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ShowtimeService implements IShowtimeService {
@@ -31,7 +34,13 @@ public class ShowtimeService implements IShowtimeService {
 
     @Override
     public ShowtimeDTO save(ShowtimeDTO showtime) {
-        ShowtimeEntity showtimenew = new ShowtimeEntity();
+
+        ShowtimeEntity showtimenew = null;
+        if (showtime.getId() != null) {
+            showtimenew = showtimeRepository.findById(showtime.getId()).orElse(null);
+        }else{
+            showtimenew = new ShowtimeEntity();
+        }
         MovieEntity movie = movieRepository.findById(showtime.getMovieId()).orElse(null);
         CinemaEntity cinema = cinemaRepository.findById(showtime.getCinemaId()).orElse(null);
         if(movie != null){
@@ -47,4 +56,22 @@ public class ShowtimeService implements IShowtimeService {
         showtimeRepository.save(showtimenew);
         return cvt.convertToDTO(new ShowtimeDTO(), showtimenew);
     }
+
+    @Override
+    public List<ShowtimeDTO> findAll() {
+        return showtimeRepository.findAll().stream().map(s -> cvt.convertToDTO(new ShowtimeDTO(), s)).collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
+    public boolean delete(Long[] ids) {
+        try{
+            showtimeRepository.deleteAllById(Arrays.asList(ids));
+        }catch (Exception error){
+            return false;
+        }
+        return true;
+    }
+
+
 }
