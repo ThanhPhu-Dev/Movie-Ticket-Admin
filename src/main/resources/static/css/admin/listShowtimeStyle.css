@@ -1,23 +1,22 @@
-.link-ref {
+.link-ref{
     padding: 10px 50px;
     width: 90%;
     margin: auto;
 }
 
-.link-ref a:hover {
+.link-ref a:hover{
     color: #007bff;
 }
 
-.link-ref a {
+.link-ref a{
     color: gray;
 }
 
-.content {
+.content{
+    margin: 10px auto;
+    padding: 25px;
     width: 90%;
-    margin: 20px auto;
-    padding: 20px;
 }
-
 
 #new-search-area {
     width: 100%;
@@ -42,7 +41,14 @@
     margin-top: 15px;
 }
 
-th, td { white-space: nowrap; }
+table.dataTable{
+    border-collapse: collapse;
+}
+
+th, td {
+    white-space: nowrap;
+    border-style: none;
+}
 div.dataTables_wrapper {
     margin: 0 auto;
 }
@@ -50,10 +56,14 @@ div.dataTables_wrapper {
 #datatables .even { background-color: white !important;}
 #datatables .odd { background-color: white  !important;}
 .table-striped{
-
     background: white !important;
 }
 
 .table{
     color: black;
 }
+
+.table-striped tbody tr:nth-of-type(odd){
+    background: white;
+}
+

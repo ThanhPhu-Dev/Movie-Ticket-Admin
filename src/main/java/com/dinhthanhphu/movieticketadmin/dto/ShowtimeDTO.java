@@ -1,11 +1,15 @@
 package com.dinhthanhphu.movieticketadmin.dto;
 
 import com.dinhthanhphu.movieticketadmin.entity.MovieEntity;
-import lombok.Data;
+import lombok.*;
 
 import java.util.Date;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class ShowtimeDTO extends BaseDTO{
 
     private Long id;

@@ -1,5 +1,7 @@
 package com.dinhthanhphu.movieticketadmin.service.impl;
 
+import com.dinhthanhphu.movieticketadmin.dto.CinemaDTO;
+import com.dinhthanhphu.movieticketadmin.dto.MovieDTO;
 import com.dinhthanhphu.movieticketadmin.dto.ShowtimeDTO;
 import com.dinhthanhphu.movieticketadmin.entity.CinemaEntity;
 import com.dinhthanhphu.movieticketadmin.entity.MovieEntity;
@@ -59,7 +61,11 @@ public class ShowtimeService implements IShowtimeService {
 
     @Override
     public List<ShowtimeDTO> findAll() {
-        return showtimeRepository.findAll().stream().map(s -> cvt.convertToDTO(new ShowtimeDTO(), s)).collect(Collectors.toList());
+        return showtimeRepository.findAll().stream()
+                .map(s -> cvt.convertToDTO(ShowtimeDTO.builder()
+                                            .movie(cvt.convertToDTO(new MovieDTO(),s.getMovie()))
+                                            .cinema(cvt.convertToDTO(new CinemaDTO(), s.getCinema()))
+                                            .build(), s)).collect(Collectors.toList());
     }
 
     @Override
