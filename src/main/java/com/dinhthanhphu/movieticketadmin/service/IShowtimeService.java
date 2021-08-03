@@ -8,5 +8,6 @@ public interface IShowtimeService {
     ShowtimeDTO save(ShowtimeDTO showtime);
     List<ShowtimeDTO> findAll();
     boolean delete(Long[] ids);
+    ShowtimeDTO findById(String id);
 
 }

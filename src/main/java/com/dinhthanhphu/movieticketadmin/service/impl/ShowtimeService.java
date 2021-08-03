@@ -79,5 +79,14 @@ public class ShowtimeService implements IShowtimeService {
         return true;
     }
 
+    @Override
+    public ShowtimeDTO findById(String id) {
+        return showtimeRepository.findById(Long.parseLong(id))
+                                .map(s -> cvt.convertToDTO(ShowtimeDTO.builder()
+                                                    .cinema(cvt.convertToDTO(new CinemaDTO(), s.getCinema()))
+                                                    .movie(cvt.convertToDTO(new MovieDTO(), s.getMovie()))
+                                                    .build(),s)).orElse(null);
+    }
+
 
 }

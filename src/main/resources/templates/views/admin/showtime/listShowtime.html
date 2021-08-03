@@ -27,6 +27,7 @@
                 <th scope="col"></th>
                 <th scope="col">Tên Phim</th>
                 <th scope="col">Tên Rạp</th>
+                <th scope="col">Giá Vé (VNĐ)</th>
                 <th scope="col">Ngày Khởi Chiếu</th>
                 <th scope="col">Ngày Kết Thúc</th>
                 <th scope="col">người tạo</th>
@@ -90,17 +91,18 @@
                             id: `<input type="checkbox" id="vehicle1" name="vehicle1" value="${e.id}">`,
                             movie: e.movie.name,
                             cinema: e.cinema.name,
+                            fare: e.fare,
                             startDate: e.startTime,
                             endTime: e.endTime,
                             createBy: e.createBy,
                             createDate: e.createDate,
                             modifyBy: e.modifyBy,
                             modifyDate: e.modifyDate,
-                            detail: `<a  onclick=updateCinemaView(${e.id}) class="btn p-0" data-bs-toggle="modal" href="#exampleModalToggle" role="button"><i class="fas fa-tools"></i></a>`
+                            detail: `<a  class="btn p-0"  href="/edit-showtime/${e.id}" role="button"><i class="fas fa-tools"></i></a>`
                         }
                     });
                     return resolve(modified);
-                })
+                });
             }).catch(function (error){
               alert(error)
             })
@@ -130,7 +132,7 @@
                 "scrollX": true,
                 scrollCollapse: true,
                 fixedColumns:   {
-                    leftColumns: 3,
+                    leftColumns: 4,
                     rightColumns: 1
                 },
                 data: datas,
@@ -140,6 +142,9 @@
                     },
                     {data: 'movie'},
                     {data: 'cinema'},
+                    {
+                        data: 'fare'
+                    },
                     {
                         data: 'startDate',
                         render: function (data, type, row) {

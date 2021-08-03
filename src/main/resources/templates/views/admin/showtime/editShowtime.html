@@ -14,7 +14,9 @@
 </th:block>
 <div id="home-main-content">
     <div class="link-ref shadow mt-3">
-        <span>Quản Lý Suất Chiếu/</span> <a th:href="@{/edit-showtime}">Thêm Suất Chiếu</a>
+        <span>Quản Lý Suất Chiếu/</span> <a th:if="${showtime == null}" th:href="@{/edit-showtime}">Thêm Suất Chiếu</a>
+        <a th:if="${showtime != null}" th:href="@{/list-showtime}">Danh sách Suất Chiếu</a>
+        <span th:if="${showtime != null}">/ </span><a th:if="${showtime != null}" th:href="@{/edit-showtime}">Chỉnh Sửa Suất Chiếu</a>
     </div>
 
     <div class="content shadow">
@@ -22,17 +24,19 @@
             <div class="d-flex justify-content-center">
                 <div class="mb-3 mr-5 w-25">
                     <label class="form-label" for="startDate">Ngày Bắt Đầu</label>
-                    <input class="form-control" id="startDate" name="startTime" placeholder="Ngày Bắt Đầu"
-                           type="datetime-local">
+                    <input class="form-control" id="startDate"  name="startTime" placeholder="Ngày Bắt Đầu"
+                           type="datetime-local"
+                            th:value="${showtime != null ? #dates.format(showtime.startTime,'yyyy-MM-dd')+'T'+ #dates.format(showtime.startTime,'HH:mm:ss') : ''}">
                 </div>
                 <div class="mb-3 w-25">
                     <label class="form-label" for="endDate">Ngày Kết Thúc</label>
-                    <input class="form-control" id="endDate" name="endTime" type="datetime-local">
+                    <input class="form-control"  id="endDate" name="endTime" type="datetime-local"
+                           th:value="${showtime != null ? #dates.format(showtime.endTime,'yyyy-MM-dd')+'T'+ #dates.format(showtime.endTime,'HH:mm:ss') : ''}">
                 </div>
             </div>
             <div class="d-flex justify-content-center">
                 <div class="mr-5 w-25">
-                    <input class="form-control" id="cinema" list="listCinema" name="cinemaName" placeholder="Rạp">
+                    <input class="form-control" th:value="${showtime != null ? showtime.cinema.name : ''}" id="cinema" list="listCinema" name="cinemaName" placeholder="Rạp">
                     <datalist id="listCinema">
                         <th:block th:each="c: ${cinema}">
                             <option th:attr="data-value= ${c.id}" th:value="${c.name}">
@@ -40,7 +44,7 @@
                     </datalist>
                 </div>
                 <div class="w-25">
-                    <input class="form-control " id="movie" list="listMovie" name="movieName" placeholder="Phim">
+                    <input class="form-control " th:value="${showtime != null ? showtime.movie.name : ''}" id="movie" list="listMovie" name="movieName" placeholder="Phim">
                     <datalist id="listMovie">
                         <th:block th:each="m: ${movie}">
                             <option th:attr="data-value= ${m.id}" th:value="${m.name}">
@@ -51,11 +55,13 @@
             </div>
             <div class="d-flex justify-content-center mt-3">
                 <div class="mb-3 w-25 mr-5">
-                    <input class="form-control" id="fare" name="fare" placeholder="Giá Vé" type="number">
+                    <input class="form-control" th:value="${showtime != null ? showtime.fare : ''}" id="fare" name="fare" placeholder="Giá Vé" type="number">
                 </div>
             </div>
+            <input type="hidden" name="id" th:if="${showtime != null}" th:value="${showtime.id}">
             <div class="text-center">
-                <button class="btn btn-primary" id="submit" type="submit">Thêm</button>
+                <button class="btn btn-primary" id="submit" type="submit"
+                        th:text="${showtime != null ? 'Cập Nhập' : 'Thêm'}"></button>
             </div>
         </form>
     </div>
@@ -68,7 +74,7 @@
         let movie = document.getElementById("movie");
 
 
-        submit.addEventListener("click", e => {
+        submit.addEventListener("click",async e => {
             e.preventDefault();
             let data = {};
             data.cinemaId = +document.querySelector("#listCinema option[value='" + cinema.value + "']").dataset.value;
@@ -76,13 +82,41 @@
             data.startTime = new Date(document.getElementsByName("startTime")[0].value)
             data.endTime = new Date(document.getElementsByName("endTime")[0].value)
             data.fare = +document.getElementsByName("fare")[0].value;
-            addShowtime(data);
+            data.id = +document.getElementsByName("id")[0]?.value;
+            if(data.id){
+                await updateShowtime(data);
+                window.location.href = "/list-showtime";
+            }else{
+                addShowtime(data);
+                // setCalueDefault();
+            }
         });
+
+        async function updateShowtime(data){
+            return new Promise(resolve => {
+               let url = "/api/edit-showtime";
+               let json = JSON.stringify(data);
+               axios.put(url, json,{
+                   headers:{
+                       "Content-Type": "application/json"
+                   }
+               }).then(function (response){
+                   Swal.fire({
+                       icon: 'success',
+                       title: '',
+                       text: 'Cập Nhật Suất Chiếu Phim Thành Công!',
+                       timer: 1000
+                   });
+                   return resolve(response);
+               });
+            }).catch(function (error){
+                alert(error);
+            });
+        }
 
         async function addShowtime(data) {
             let url = "/api/edit-showtime";
             let json = JSON.stringify(data);
-            console.log(json)
             axios.post(url, json, {
                 headers: {
                     "Content-Type": "application/json"
