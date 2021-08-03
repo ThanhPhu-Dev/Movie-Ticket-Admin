@@ -87,10 +87,18 @@
                 await updateShowtime(data);
                 window.location.href = "/list-showtime";
             }else{
-                addShowtime(data);
-                // setCalueDefault();
+                await addShowtime(data);
+                setValueDefault();
             }
         });
+
+        function setValueDefault(){
+            document.getElementsByName("startTime")[0].value = '';
+            document.getElementsByName("endTime")[0].value = '';
+            document.getElementsByName("cinemaName")[0].value = '';
+            document.getElementsByName("movieName")[0].value = '';
+            document.getElementsByName("fare")[0].value = '';
+        }
 
         async function updateShowtime(data){
             return new Promise(resolve => {
@@ -115,27 +123,30 @@
         }
 
         async function addShowtime(data) {
-            let url = "/api/edit-showtime";
-            let json = JSON.stringify(data);
-            axios.post(url, json, {
-                headers: {
-                    "Content-Type": "application/json"
-                }
-            }).then(function (response) {
-                Swal.fire({
-                    icon: 'success',
-                    title: '',
-                    text: 'Thêm Suất Chiếu Phim Thành Công!',
-                    timer: 1000
-                });
-            }).catch(function (error) {
-                Swal.fire({
-                    icon: 'error',
-                    title: '',
-                    text: 'Thêm Suất Chiếu Phim Thất Bại!',
-                    timer: 1000
-                });
-            })
+            return new Promise(resolve => {
+                let url = "/api/edit-showtime";
+                let json = JSON.stringify(data);
+                axios.post(url, json, {
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                }).then(function (response) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: '',
+                        text: 'Thêm Suất Chiếu Phim Thành Công!',
+                        timer: 1000
+                    });
+                    return resolve(response);
+                }).catch(function (error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: '',
+                        text: 'Thêm Suất Chiếu Phim Thất Bại!',
+                        timer: 1000
+                    });
+                })
+            });
         }
     </script>
 </div>
