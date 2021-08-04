@@ -1,8 +1,5 @@
 package com.dinhthanhphu.movieticketadmin.dto;
 
-import com.dinhthanhphu.movieticketadmin.entity.CategoryEntity;
-import com.dinhthanhphu.movieticketadmin.entity.ImageEntity;
-import com.dinhthanhphu.movieticketadmin.entity.ShowtimeEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

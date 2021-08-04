@@ -3,12 +3,14 @@ package com.dinhthanhphu.movieticketadmin.service.impl;
 import com.dinhthanhphu.movieticketadmin.dto.ActorDTO;
 import com.dinhthanhphu.movieticketadmin.dto.MovieDTO;
 import com.dinhthanhphu.movieticketadmin.entity.ActorEntity;
-import com.dinhthanhphu.movieticketadmin.entity.MovieEntity;
 import com.dinhthanhphu.movieticketadmin.repository.IActorRepository;
 import com.dinhthanhphu.movieticketadmin.repository.IMovieRepository;
 import com.dinhthanhphu.movieticketadmin.service.IActorService;
 import com.dinhthanhphu.movieticketadmin.utils.MapperModelUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -75,5 +77,18 @@ public class ActorService implements IActorService {
     public List<ActorDTO> findByMovie_id(String movie_id) {
         return movieRepository.findById(Long.parseLong(movie_id)).get().getActors()
                 .stream().map(m -> cvt.convertToDTO(new ActorDTO(), m)).collect(Collectors.toList());
+    }
+
+    @Override
+    public Page<ActorDTO> findPaginated(int pageNo, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
+        return actorRepository.findAll(pageable).map(m  -> cvt.convertToDTO(new ActorDTO(), m));
+//        List<ActorDTO> lstActor  = actorRepository.findAll()
+//                                    .stream().map( m -> cvt.convertToDTO(new ActorDTO(), m)).collect(Collectors.toList());
+//        int start = (int)pageable.getOffset();
+//        int end = start + pageable.getPageSize();
+//        Page<ActorDTO> rs =  new PageImpl<ActorDTO>(lstActor.subList(start,end), pageable, lstActor.size());
+//        System.out.println(rs.getSize());
+//        System.out.println(rs.getTotalPages());
     }
 }
