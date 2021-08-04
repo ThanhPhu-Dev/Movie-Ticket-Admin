@@ -17,6 +17,9 @@ import com.dinhthanhphu.movieticketadmin.service.IMovieService;
 import com.dinhthanhphu.movieticketadmin.utils.CloudinaryUtils;
 import com.dinhthanhphu.movieticketadmin.utils.MapperModelUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -194,5 +197,11 @@ public class MovieService implements IMovieService {
         return result.stream()
                      .map(m -> cvt.convertToDTO(new MovieDTO(), m))
                      .collect(Collectors.toList());
+    }
+
+    @Override
+    public Page<MovieDTO> findPaginated(int pageNo, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNo-1, pageSize);
+        return movieRepository.findAll(pageable).map(m -> cvt.convertToDTO(new MovieDTO(), m));
     }
 }

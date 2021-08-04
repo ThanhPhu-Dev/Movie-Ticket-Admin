@@ -9,7 +9,9 @@ import com.dinhthanhphu.movieticketadmin.service.ICategoryService;
 import com.dinhthanhphu.movieticketadmin.service.IImageService;
 import com.dinhthanhphu.movieticketadmin.service.IMovieService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.ModelAndView;
@@ -45,13 +47,20 @@ public class MovieController {
     }
 
     @GetMapping("/listMovie")
-    public ModelAndView findAll(){
-        ModelAndView mav = new ModelAndView("/views/admin/movie/listMovie");
-        List<MovieDTO> lst = movieService.findAll();
-        List<CategoryDTO> lstCategory = categoryService.findAll();
-        mav.addObject("listMovie", lst);
-        mav.addObject("lstCategory", lstCategory);
-        return mav;
+    public String findAll(Model model){
+        return findPaginated(1,model);
+    }
+
+    @GetMapping("/listMovie/page/{pageNo}")
+    public String findPaginated(@PathVariable(value = "pageNo") int pageNo, Model model){
+        int pageSize = 4;
+        Page<MovieDTO> page = movieService.findPaginated(pageNo,pageSize);
+        model.addAttribute("currentPage", pageNo);
+        model.addAttribute("totalPages", page.getTotalPages());
+        model.addAttribute("totalItems", page.getTotalElements());
+        model.addAttribute("listMovie", page.getContent());
+        model.addAttribute("lstCategory", categoryService.findAll());
+        return "/views/admin/movie/listMovie";
     }
 
     @GetMapping("/movie/{id}")

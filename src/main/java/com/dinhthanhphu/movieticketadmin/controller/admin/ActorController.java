@@ -41,7 +41,6 @@ public class ActorController {
         int pageSize=4;
         Page<ActorDTO> page = actorService.findPaginated(pageNo,pageSize);
         List<ActorDTO> result = page.getContent();
-        System.out.println(page.getTotalPages());
         model.addAttribute("currentPage", pageNo);
         model.addAttribute("totalPages", page.getTotalPages());
         model.addAttribute("totalItems", page.getTotalElements());

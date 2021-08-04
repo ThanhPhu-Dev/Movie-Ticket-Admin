@@ -49,6 +49,14 @@
                 </div>
             </th:block>
         </div>
+        <div class="pagination mt-4">
+            <a th:class="${currentPage >  1 ? '' : 'disabled'}" th:href="@{'/listMovie/page/' + ${currentPage - 1 }}">Last</a>
+            <th:block th:each="i: ${#numbers.sequence(1, totalPages)}">
+                <a th:class="'page-link ' + ${currentPage == i ? 'active disabled ' : ''}" th:href="@{'/listMovie/page/' + ${i}}"
+                >[[${i}]]</a>
+            </th:block>
+            <a th:class="${currentPage < totalPages ? '' : 'disabled'}" th:href="@{'/listMovie/page/' + ${currentPage + 1}}">Next</a>
+        </div>
     </div>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script>
