@@ -1,10 +1,13 @@
 package com.dinhthanhphu.movieticketadmin.api.admin;
 
 import com.dinhthanhphu.movieticketadmin.dto.MovieDTO;
-import com.dinhthanhphu.movieticketadmin.payload.MovieRequest;
+import com.dinhthanhphu.movieticketadmin.payload.request.MovieRequest;
+import com.dinhthanhphu.movieticketadmin.payload.response.MoviePaginatedResponse;
 import com.dinhthanhphu.movieticketadmin.service.IMovieService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -34,11 +37,25 @@ public class MovieAPI {
         return ResponseEntity.badRequest().build();
     }
 
-    @GetMapping(value = {"/movie/{idCategory}/{name}", "//movie/{idCategory}"})
-    public List<MovieDTO> findByNameAndCategoryName(@PathVariable String idCategory,
-                                                    @PathVariable(required = false) String name){
-        List<MovieDTO> result = movieService.findByNameAndIdCategory(name,idCategory);
-        return result;
+    @GetMapping(value = {"/movie/{idCategory}/{name}", "/movie/{idCategory}"})
+    public MoviePaginatedResponse findByNameAndCategoryName(@PathVariable String idCategory,
+                                                            @PathVariable(required = false) String name){
+        return findByNameAndCategoryNamePaginated(idCategory, name, 1);
+    }
+
+    @GetMapping(value = {"/movie/{idCategory}/{name}/page/{pageNo}", "/movie/{idCategory}/page/{pageNo}"})
+    public MoviePaginatedResponse findByNameAndCategoryNamePaginated(@PathVariable String idCategory,
+                                                                     @PathVariable(required = false) String name,
+                                                                     @PathVariable(value = "pageNo") int pageNo
+                                                                     ){
+        int pageSize = 4;
+        Page<MovieDTO> page = movieService.findByNameAndIdCategoryPaginated(pageNo,pageSize,name,idCategory);
+        return MoviePaginatedResponse.builder()
+                                    .content(page.getContent())
+                                    .currentPage(pageNo)
+                                    .totalPages(page.getTotalPages())
+                                    .totalItems(page.getTotalElements())
+                                    .build();
     }
 
     @GetMapping(value = {"/category-movie/{idCategory}"})

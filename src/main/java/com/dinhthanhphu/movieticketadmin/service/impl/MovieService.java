@@ -8,7 +8,7 @@ import com.dinhthanhphu.movieticketadmin.entity.ActorEntity;
 import com.dinhthanhphu.movieticketadmin.entity.CategoryEntity;
 import com.dinhthanhphu.movieticketadmin.entity.ImageEntity;
 import com.dinhthanhphu.movieticketadmin.entity.MovieEntity;
-import com.dinhthanhphu.movieticketadmin.payload.MovieRequest;
+import com.dinhthanhphu.movieticketadmin.payload.request.MovieRequest;
 import com.dinhthanhphu.movieticketadmin.repository.IActorRepository;
 import com.dinhthanhphu.movieticketadmin.repository.ICategoryRepository;
 import com.dinhthanhphu.movieticketadmin.repository.IImageRepository;
@@ -24,7 +24,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
-import java.math.BigInteger;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -203,5 +202,21 @@ public class MovieService implements IMovieService {
     public Page<MovieDTO> findPaginated(int pageNo, int pageSize) {
         Pageable pageable = PageRequest.of(pageNo-1, pageSize);
         return movieRepository.findAll(pageable).map(m -> cvt.convertToDTO(new MovieDTO(), m));
+    }
+
+    @Override
+    public Page<MovieDTO> findByNameAndIdCategoryPaginated(int pageNo, int pageSize, String name, String idCategory) {
+        Pageable pageable = PageRequest.of(pageNo-1, pageSize);
+        Page<MovieEntity> lstMovie = null;
+        String namemovie = "";
+        if(name != null){
+            namemovie = name;
+        }
+        if (Integer.parseInt(idCategory) == 0) {
+            lstMovie = movieRepository.findByNameContainingCustom(namemovie, pageable);
+        } else {
+            lstMovie = movieRepository.findByNameContainingAndNameCategoryCustom(namemovie,Integer.parseInt(idCategory),pageable);
+        }
+        return lstMovie.map(m -> cvt.convertToDTO(new MovieDTO(), m));
     }
 }

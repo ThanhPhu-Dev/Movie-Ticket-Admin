@@ -1,4 +1,4 @@
-package com.dinhthanhphu.movieticketadmin.payload;
+package com.dinhthanhphu.movieticketadmin.payload.request;
 
 import com.cloudinary.StoredFile;
 import lombok.Data;

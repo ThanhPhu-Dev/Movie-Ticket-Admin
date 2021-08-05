@@ -49,15 +49,18 @@
                 </div>
             </th:block>
         </div>
-        <div class="pagination mt-4">
+        <div class="pagination mt-4" id="pagination">
             <a th:class="${currentPage >  1 ? '' : 'disabled'}" th:href="@{'/listMovie/page/' + ${currentPage - 1 }}">Last</a>
             <th:block th:each="i: ${#numbers.sequence(1, totalPages)}">
-                <a th:class="'page-link ' + ${currentPage == i ? 'active disabled ' : ''}" th:href="@{'/listMovie/page/' + ${i}}"
+                <a th:class="'page-link ' + ${currentPage == i ? 'active disabled ' : ''}"
+                   th:href="@{'/listMovie/page/' + ${i}}"
                 >[[${i}]]</a>
             </th:block>
-            <a th:class="${currentPage < totalPages ? '' : 'disabled'}" th:href="@{'/listMovie/page/' + ${currentPage + 1}}">Next</a>
+            <a th:class="${currentPage < totalPages ? '' : 'disabled'}"
+               th:href="@{'/listMovie/page/' + ${currentPage + 1}}">Next</a>
         </div>
     </div>
+
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script>
         let input = document.getElementById("search-name");
@@ -88,8 +91,8 @@
 
         category.addEventListener("change", async e => {
             let divContent = document.getElementById("list-movie");
-            let idCategory  = e.target.value;
-            let url = '/api/category-movie/'+idCategory;
+            let idCategory = e.target.value;
+            let url = '/api/category-movie/' + idCategory;
             console.log(url)
             axios.get(url).then(function (response) {
                 let content = response.data.map(element => {
@@ -110,16 +113,25 @@
         })
 
         async function findByName(name) {
-            let divContent = document.getElementById("list-movie");
             let idCategory = category.value;
-
             let url = "/api/movie/" + idCategory + "/" + name;
             if (name == '') {
-                url = "/api/movie/"+idCategory;
+                url = "/api/movie/" + idCategory;
             }
             axios.get(url).then(function (response) {
-                let content = response.data.map(element => {
-                    return ` <div class="movie-info d-inline-block ml-3 mr-2 mb-1 mt-2">
+                let data = response.data;
+                renderDataSearch(data);
+            }).catch(function (error) {
+                console.log(error)
+            })
+        }
+
+        function renderDataSearch(data){
+            let divContent = document.getElementById("list-movie");
+            let paging = document.getElementById("pagination");
+
+            let content = data.content.map(element => {
+                return ` <div class="movie-info d-inline-block ml-3 mr-2 mb-1 mt-2">
                     <a href="/movie/${element.id}">
                         <div class="movie-info--img">
                             <img  src="${element.posterUrl}" width="200" style="height: auto">
@@ -127,12 +139,30 @@
                         <p>${element.name}</p>
                     </a>
                 </div>`
-                });
+            });
+            divContent.innerHTML = content.join('');
 
-                divContent.innerHTML = content.join('');
-            }).catch(function (error) {
-                console.log(error)
-            })
+            /*paginated*/
+            let btn_last = `<a class="${data.currentPage > 1 ? '' : 'disabled'}" onclick="nextprev(${data.currentPage - 1})" href="#">Last</a>`;
+            let itempage = '';
+            for (let i = 1; i < data.totalPages; i++) {
+                itempage += `<a class="page-link ${data.currentPage == i ? 'active disabled ' : ''}"
+                                   href="/listMovie/page/${i}"
+                                >${i}</a>
+                                 `;
+            }
+            let btn_next = `<a class="${data.currentPage < data.totalPages ? '' : 'disabled'}" onclick="nextprev(${data.currentPage + 1})"
+                                    href="#">Next</a>`;
+            paging.innerHTML = '';
+            if(data.totalPages > 1){
+                paging.innerHTML =btn_last;
+                paging.insertAdjacentHTML("beforeend", itempage);
+                paging.insertAdjacentHTML("beforeend", btn_next);
+            }
+        }
+
+        function nextprev(currentPage){
+            alert(currentPage);
         }
     </script>
 </div>

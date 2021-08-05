@@ -1,7 +1,7 @@
 package com.dinhthanhphu.movieticketadmin.api.admin;
 
 import com.dinhthanhphu.movieticketadmin.dto.ActorDTO;
-import com.dinhthanhphu.movieticketadmin.payload.ActorRequest;
+import com.dinhthanhphu.movieticketadmin.payload.request.ActorRequest;
 import com.dinhthanhphu.movieticketadmin.service.IActorService;
 import com.dinhthanhphu.movieticketadmin.utils.CloudinaryUtils;
 import org.springframework.beans.factory.annotation.Autowired;

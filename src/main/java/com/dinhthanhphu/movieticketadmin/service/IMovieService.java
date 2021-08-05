@@ -1,7 +1,7 @@
 package com.dinhthanhphu.movieticketadmin.service;
 
 import com.dinhthanhphu.movieticketadmin.dto.MovieDTO;
-import com.dinhthanhphu.movieticketadmin.payload.MovieRequest;
+import com.dinhthanhphu.movieticketadmin.payload.request.MovieRequest;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
@@ -14,4 +14,5 @@ public interface IMovieService {
     List<MovieDTO> findByNameAndIdCategory(String name, String idCategory);
     List<MovieDTO> findByIdCategory(String idCategory);
     Page<MovieDTO> findPaginated(int pageNo, int pageSize);
+    Page<MovieDTO> findByNameAndIdCategoryPaginated(int pageNo, int pageSize, String name, String idCategory);
 }

@@ -1,4 +1,4 @@
-package com.dinhthanhphu.movieticketadmin.payload;
+package com.dinhthanhphu.movieticketadmin.payload.request;
 
 
 import lombok.Data;

@@ -1,7 +1,7 @@
 package com.dinhthanhphu.movieticketadmin.service;
 
 import com.dinhthanhphu.movieticketadmin.dto.UserDTO;
-import com.dinhthanhphu.movieticketadmin.payload.RegisterRequest;
+import com.dinhthanhphu.movieticketadmin.payload.request.RegisterRequest;
 
 import java.util.UUID;
 
