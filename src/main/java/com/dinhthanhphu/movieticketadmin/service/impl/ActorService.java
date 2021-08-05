@@ -91,4 +91,15 @@ public class ActorService implements IActorService {
 //        System.out.println(rs.getSize());
 //        System.out.println(rs.getTotalPages());
     }
+
+    @Override
+    public Page<ActorDTO> findByNameContainingPaginated(String name, int pageNo, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNo - 1,pageSize);
+        String nameidol = "";
+        if(name != null){
+            nameidol = name;
+        }
+        return actorRepository.findByNameContainingPaginated(nameidol, pageable)
+                .map(m -> cvt.convertToDTO(new ActorDTO(), m));
+    }
 }

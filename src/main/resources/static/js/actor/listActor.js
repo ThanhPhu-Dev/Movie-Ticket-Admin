@@ -31,11 +31,21 @@ async function findByName(name) {
         url = "/api/idol";
     }
     axios.get(url).then(function (response) {
+        renderDataSearch(response.data);
+    }).catch(function (error) {
+        console.log(error)
+    })
+}
 
-        let content = response.data.map(element => {
-            return ` <div class="actor-info d-inline-block ml-3 mr-2 mb-1 mt-2">
+function renderDataSearch(data) {
+    let divContent = document.getElementById("list-idol");
+    let paging = document.getElementById("pagination");
+
+    let content = data.content.map(element => {
+        return ` <div class="actor-info d-inline-block ml-3 mr-2 mb-1 mt-2">
                     <a href="/actor/detail/${element.id}">
                         <img height="auto"
+                            style="max-height: 400px"
                              src="${element.public_url}"
                              width="200px">
                         <div class="name-actor">
@@ -43,9 +53,37 @@ async function findByName(name) {
                         </div>
                     </a>
                 </div>`
-        });
+    });
+    divContent.innerHTML = content.join('');
 
-        divContent.innerHTML = content.join('');
+    /*paginated*/
+    let btn_last = `<a class="${data.currentPage > 1 ? '' : 'disabled'}" onclick="nextprev(${data.currentPage - 1})" href="#">Last</a>`;
+    let itempage = '';
+    for (let i = 1; i <= data.totalPages; i++) {
+        itempage = itempage + `<a class="page-link ${data.currentPage == i ? 'active disabled ' : ''}"
+                                   href="#" onclick="nextprev(${i})"
+                                >${i}</a>
+                                 `;
+    }
+    let btn_next = `<a class="${data.currentPage < data.totalPages ? '' : 'disabled'}" onclick="nextprev(${data.currentPage + 1})"
+                                    href="#">Next</a>`;
+    paging.innerHTML = '';
+    if (data.totalPages > 1) {
+        paging.innerHTML = btn_last;
+        paging.insertAdjacentHTML("beforeend", itempage);
+        paging.insertAdjacentHTML("beforeend", btn_next);
+    }
+}
+
+function nextprev(currentPage) {
+    let name = input.value;
+    let url = "/api/idol/" + name + "/page/" + currentPage;
+    if (name == '') {
+        url = "/api/idol/page/" + currentPage;
+    }
+    axios.get(url).then(function (response) {
+        let data = response.data;
+        renderDataSearch(data);
     }).catch(function (error) {
         console.log(error)
     })

@@ -2,9 +2,11 @@ package com.dinhthanhphu.movieticketadmin.api.admin;
 
 import com.dinhthanhphu.movieticketadmin.dto.ActorDTO;
 import com.dinhthanhphu.movieticketadmin.payload.request.ActorRequest;
+import com.dinhthanhphu.movieticketadmin.payload.response.ActorPaginatedResponse;
 import com.dinhthanhphu.movieticketadmin.service.IActorService;
 import com.dinhthanhphu.movieticketadmin.utils.CloudinaryUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,9 +47,22 @@ public class ActorAPI {
     }
 
     @GetMapping(value = {"/idol", "/idol/{name}"})
-    public List<ActorDTO> findNameIdol(@PathVariable( required = false) String name){
-        List<ActorDTO> lst = actorService.findByNameContaining(name);
-        return lst;
+    public ActorPaginatedResponse findNameIdol(@PathVariable( required = false) String name){
+
+        return findNameIdolPaginated(name, 1);
+    }
+
+    @GetMapping(value = {"/idol/page/{pageNo}", "/idol/{name}/page/{pageNo}"})
+    public ActorPaginatedResponse findNameIdolPaginated(@PathVariable( required = false) String name,
+                                                        @PathVariable int pageNo){
+        int pageSize = 4;
+        Page<ActorDTO> page = actorService.findByNameContainingPaginated(name, pageNo,pageSize);
+        return ActorPaginatedResponse.builder()
+                                     .content(page.getContent())
+                                     .currentPage(pageNo)
+                                     .totalItems(page.getTotalElements())
+                                     .totalPages(page.getTotalPages())
+                                     .build();
     }
 
     @GetMapping(value = "/allIdol")

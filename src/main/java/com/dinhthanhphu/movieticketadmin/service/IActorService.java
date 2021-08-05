@@ -14,4 +14,5 @@ public interface IActorService {
     boolean delete(String id);
     List<ActorDTO> findByMovie_id(String movie_id);
     Page<ActorDTO> findPaginated(int pageNo, int pageSize);
+    Page<ActorDTO> findByNameContainingPaginated(String name, int pageNo, int pageSize);
 }

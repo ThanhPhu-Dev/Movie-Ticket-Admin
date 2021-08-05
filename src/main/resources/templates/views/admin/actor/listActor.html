@@ -40,7 +40,7 @@
                 </div>
             </th:block>
         </div>
-        <div class="pagination mt-4">
+        <div class="pagination mt-4" id="pagination">
             <a th:class="${currentPage >  1 ? '' : 'disabled'}" th:href="@{'/actorlist/page/' + ${currentPage - 1 }}">Last</a>
             <th:block th:each="i: ${#numbers.sequence(1, totalPages)}">
                 <a th:class="'page-link ' + ${currentPage == i ? 'active disabled ' : ''}" th:href="@{'/actorlist/page/' + ${i}}"
