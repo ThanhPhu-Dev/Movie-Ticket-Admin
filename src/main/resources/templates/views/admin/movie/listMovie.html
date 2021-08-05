@@ -126,7 +126,7 @@
             })
         }
 
-        function renderDataSearch(data){
+        function renderDataSearch(data) {
             let divContent = document.getElementById("list-movie");
             let paging = document.getElementById("pagination");
 
@@ -145,24 +145,35 @@
             /*paginated*/
             let btn_last = `<a class="${data.currentPage > 1 ? '' : 'disabled'}" onclick="nextprev(${data.currentPage - 1})" href="#">Last</a>`;
             let itempage = '';
-            for (let i = 1; i < data.totalPages; i++) {
-                itempage += `<a class="page-link ${data.currentPage == i ? 'active disabled ' : ''}"
-                                   href="/listMovie/page/${i}"
+            for (let i = 1; i <= data.totalPages; i++) {
+                itempage = itempage + `<a class="page-link ${data.currentPage == i ? 'active disabled ' : ''}"
+                                   href="#" onclick="nextprev(${i})"
                                 >${i}</a>
                                  `;
             }
             let btn_next = `<a class="${data.currentPage < data.totalPages ? '' : 'disabled'}" onclick="nextprev(${data.currentPage + 1})"
                                     href="#">Next</a>`;
             paging.innerHTML = '';
-            if(data.totalPages > 1){
-                paging.innerHTML =btn_last;
+            if (data.totalPages > 1) {
+                paging.innerHTML = btn_last;
                 paging.insertAdjacentHTML("beforeend", itempage);
                 paging.insertAdjacentHTML("beforeend", btn_next);
             }
         }
 
-        function nextprev(currentPage){
-            alert(currentPage);
+        function nextprev(currentPage) {
+            let name = input.value;
+            let idCategory = category.value;
+            let url = "/api/movie/" + idCategory + "/" + name +"/page/" + currentPage;
+            if (name == "") {
+                url = "/api/movie/" + idCategory + "/page/" + currentPage;
+            }
+            axios.get(url).then(function (response) {
+                let data = response.data;
+                renderDataSearch(data);
+            }).catch(function (error) {
+                console.log(error)
+            })
         }
     </script>
 </div>
