@@ -18,6 +18,7 @@ import com.dinhthanhphu.movieticketadmin.utils.CloudinaryUtils;
 import com.dinhthanhphu.movieticketadmin.utils.MapperModelUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -207,16 +208,33 @@ public class MovieService implements IMovieService {
     @Override
     public Page<MovieDTO> findByNameAndIdCategoryPaginated(int pageNo, int pageSize, String name, String idCategory) {
         Pageable pageable = PageRequest.of(pageNo-1, pageSize);
-        Page<MovieEntity> lstMovie = null;
+        Page<MovieEntity> page = null;
         String namemovie = "";
         if(name != null){
             namemovie = name;
         }
         if (Integer.parseInt(idCategory) == 0) {
-            lstMovie = movieRepository.findByNameContainingCustom(namemovie, pageable);
+            page = movieRepository.findByNameContainingCustom(namemovie, pageable);
         } else {
-            lstMovie = movieRepository.findByNameContainingAndNameCategoryCustom(namemovie,Integer.parseInt(idCategory),pageable);
+            page = movieRepository.findByNameContainingAndNameCategoryCustom(namemovie,Integer.parseInt(idCategory),pageable);
         }
-        return lstMovie.map(m -> cvt.convertToDTO(new MovieDTO(), m));
+        return page.map(m -> cvt.convertToDTO(new MovieDTO(), m));
+    }
+
+    @Override
+    public Page<MovieDTO> findByIdCategoryPaginated(String idCategory, int pageNo, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNo - 1,pageSize);
+        Page<MovieEntity> page = null;
+
+        if(idCategory.equals("0")){
+            page = movieRepository.findAll(pageable);
+        }else{
+            CategoryEntity category = categoryRepository.findById(Long.parseLong(idCategory)).orElse(null);
+            List<MovieEntity> rs = category.getMovies();
+            int start = (int)pageable.getOffset();
+            int end = Math.min((start + pageable.getPageSize()), rs.size());
+            page = new PageImpl<>(rs.subList(start, end), pageable, rs.size());
+        }
+        return page.map(m -> cvt.convertToDTO(new MovieDTO(), m));
     }
 }

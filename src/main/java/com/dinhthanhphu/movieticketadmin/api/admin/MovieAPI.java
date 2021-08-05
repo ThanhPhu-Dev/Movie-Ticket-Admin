@@ -59,8 +59,19 @@ public class MovieAPI {
     }
 
     @GetMapping(value = {"/category-movie/{idCategory}"})
-    public List<MovieDTO> findByIdCategory(@PathVariable String idCategory){
-        List<MovieDTO> result = movieService.findByIdCategory(idCategory);
-        return result;
+    public MoviePaginatedResponse findByIdCategory(@PathVariable String idCategory){
+        return findByIdCategoryPaginated(idCategory,1);
+    }
+
+    @GetMapping(value = {"/category-movie/{idCategory}/page/{pageNo}"})
+    public MoviePaginatedResponse findByIdCategoryPaginated(@PathVariable String idCategory, @PathVariable int pageNo){
+        int pageSize = 4;
+        Page<MovieDTO> page = movieService.findByIdCategoryPaginated(idCategory, pageNo,pageSize);
+        return MoviePaginatedResponse.builder()
+                .content(page.getContent())
+                .currentPage(pageNo)
+                .totalPages(page.getTotalPages())
+                .totalItems(page.getTotalElements())
+                .build();
     }
 }

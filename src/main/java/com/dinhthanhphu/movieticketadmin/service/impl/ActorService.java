@@ -86,7 +86,7 @@ public class ActorService implements IActorService {
 //        List<ActorDTO> lstActor  = actorRepository.findAll()
 //                                    .stream().map( m -> cvt.convertToDTO(new ActorDTO(), m)).collect(Collectors.toList());
 //        int start = (int)pageable.getOffset();
-//        int end = start + pageable.getPageSize();
+//        int end = Math.min((start + pageable.getPageSize()), lstActor.size());
 //        Page<ActorDTO> rs =  new PageImpl<ActorDTO>(lstActor.subList(start,end), pageable, lstActor.size());
 //        System.out.println(rs.getSize());
 //        System.out.println(rs.getTotalPages());
