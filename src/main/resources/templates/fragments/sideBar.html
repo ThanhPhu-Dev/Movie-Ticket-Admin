@@ -103,6 +103,28 @@
         </div>
     </li>
 
+    <li class="nav-item" onclick="showItem(this)" >
+        <a aria-controls="collapseTwo"
+           aria-expanded="true"
+           class="nav-link collapsed  d-flex justify-content-between"
+           href="#"
+        >
+            <div>
+                <i class="fas fa-ticket-alt"></i>
+                <span>Quản Lý Vé</span>
+            </div>
+            <div class="sb-sidenav-collapse-arrow icon-show">
+                <i class="fas fa-angle-right"></i>
+            </div>
+        </a>
+        <div class="tabItem">
+            <nav class="sb-sidenav-menu-nested nav">
+                <a class="nav-link pl-5" th:href="@{/edit-actor}"><i class="fas fa-torah"></i> Đặt Vé</a>
+                <a class="nav-link pl-5" th:href="@{/actorlist}"><i class="fas fa-dumbbell"></i> Lịch Sử Đặt Vé</a>
+            </nav>
+        </div>
+    </li>
+
     <li class="nav-item" onclick="showItem(this)">
         <a aria-controls="collapseTwo"
            aria-expanded="true"
