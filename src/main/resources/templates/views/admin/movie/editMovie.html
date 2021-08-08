@@ -19,6 +19,11 @@
     <div class="link-ref shadow mt-3">
         <span>Quản Lý Phim/</span>
         <a th:href="@{/edit-actor}" th:if="${movie == null}">Thêm Phim</a>
+        <th:block th:if="${movie != null}">
+            <span> / </span><a th:href="@{/listMovie}">Danh sách Phim</a>
+            <span> / </span><a th:href="@{/movie/{id}(id=${movie.id})}">Thông tin phim Phim</a>
+            <span> / </span><a th:href="@{/edit-movie/{id}(id=${movie.id})}">Thông tin phim</a>
+        </th:block>
     </div>
     <form enctype="multipart/form-data" id="formSubmit">
         <div class="form-content shadow">

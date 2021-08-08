@@ -30,7 +30,7 @@
 <div id="home-main-content">
     <div class="link-ref shadow mt-3">
         <span>Quản Lý Diễn Viên /</span> <a th:href="@{/listMovie}">Danh Sách Phim</a><span> / </span>
-        <a th:href="@{/listMovie}">Thông Tin Phim</a>
+        <a th:href="@{/movie/{id}(id=${movie.id})}">Thông Tin Phim</a>
     </div>
 
     <div class="shadow content">

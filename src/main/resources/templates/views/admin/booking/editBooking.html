@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+
+<!--  main-fragment (title, otherStaticResources, header, nav, mainContent, footer)  -->
+<html       th:replace="~{layouts/main-layout :: main-fragment(
+                                                ~{::title},
+                                                ~{:: #home-static-resources},
+                                                ~{:: #home-main-content}
+                                               )}"
+            xmlns:th="http://www.thymeleaf.org">
+  <title>Booking</title>
+
+   <th:block id="home-static-resources">
+       <link rel="stylesheet" th:href="@{/css/admin/addMovieStyle.css}"
+             type="text/css"/>
+   </th:block>
+
+<div id="home-main-content">
+    <div class="link-ref shadow mt-3">
+        <span>Quản Lý Vé/</span>
+        <a th:href="@{/edit-booking}" th:if="${booking == null}">Đặt vé</a>
+    </div>
+
+</div>

@@ -22,9 +22,6 @@ public class BookingEntity extends BaseEntity {
     private UUID id;
 
     @Column
-    private Date time;
-
-    @Column
     private Long total;
 
     @OneToOne
