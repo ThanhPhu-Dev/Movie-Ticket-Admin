@@ -46,6 +46,18 @@ public class MovieController {
         return mav;
     }
 
+    @GetMapping(value = {"/edit-movie-test", "/edit-movie-test/{id}"})
+    public ModelAndView testmovie(@PathVariable(required = false) String id){
+        ModelAndView mav = new ModelAndView("views/admin/movie/editMovie");
+        if(id != null){
+            MovieDTO movie = movieService.findOneById(id);
+            mav.addObject("movie", movie);
+        }
+        mav.addObject("lstActor", actorService.findAll());
+        mav.addObject("lstCategory", categoryService.findAll());
+        return mav;
+    }
+
     @GetMapping("/listMovie")
     public String findAll(Model model){
         return findPaginated(1,model);
