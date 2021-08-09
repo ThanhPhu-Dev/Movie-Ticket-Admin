@@ -36,7 +36,7 @@ public class MovieController {
 
     @GetMapping(value = {"/edit-movie", "/edit-movie/{id}"})
     public ModelAndView editMovie(@PathVariable(required = false) String id){
-        ModelAndView mav = new ModelAndView("/views/admin/movie/editMovie");
+        ModelAndView mav = new ModelAndView("views/admin/movie/editMovie");
         if(id != null){
             MovieDTO movie = movieService.findOneById(id);
             mav.addObject("movie", movie);
