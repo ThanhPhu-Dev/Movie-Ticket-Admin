@@ -10,7 +10,7 @@
 <th:block id="home-static-resources">
     <link rel="stylesheet" th:href="@{/css/admin/addMovieStyle.css}"
           type="text/css"/>
-    <link rel="stylesheet" th:href="@{/css/multiload.css}"
+    <link rel="stylesheet" th:href="@{css/multiLoad.css}"
           type="text/css"/>
 </th:block>
 
@@ -32,7 +32,7 @@
 
                     <div id="avatar">
                         <img height="auto" style="max-height: 350px"
-                             th:src="${movie != null ? movie.posterUrl : 'http://placehold.it/300x350'}" width="300px">
+                             th:src="${movie != null ? movie.posterUrl : 'https://via.placeholder.com/300x350'}" width="300px">
                     </div>
                     <div class="input-avatar">
                         <input class="custom-file-poster-input" id="avatarinput"
@@ -190,7 +190,7 @@
                            onchange="videoFileAsURL()" type="file">
                 </div>
                 <div id="video">
-                    <img height="auto" src="http://placehold.it/1040x500" th:if="${movie == null}"
+                    <img height="auto" src="https://via.placeholder.com/1040x500" th:if="${movie == null}"
                          width="auto">
                     <video controls height="auto" style="width: 100%;"
                            th:if="${movie != null}">

@@ -22,7 +22,7 @@ public class ActorController {
 
     @GetMapping("/edit-actor")
     public ModelAndView editActor(@RequestParam(required = false) String id){
-        ModelAndView mav = new ModelAndView("/views/admin/actor/editActor");
+        ModelAndView mav = new ModelAndView("views/admin/actor/editActor");
         mav.addObject("idol", null);
         if(id != null){
             ActorDTO dto = actorService.findById(id);

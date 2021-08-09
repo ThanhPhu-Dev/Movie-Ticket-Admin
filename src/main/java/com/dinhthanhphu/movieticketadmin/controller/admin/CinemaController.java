@@ -9,6 +9,6 @@ public class CinemaController {
 
     @RequestMapping(value = "/list-cinema", method = RequestMethod.GET)
     public String listCinema(){
-        return "/views/admin/cinema/listCinema";
+        return "views/admin/cinema/listCinema";
     }
 }
