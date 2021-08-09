@@ -48,7 +48,7 @@ public class MovieController {
 
     @GetMapping(value = {"/edit-movie-test", "/edit-movie-test/{id}"})
     public ModelAndView testmovie(@PathVariable(required = false) String id){
-        ModelAndView mav = new ModelAndView("views/admin/movie/editMovie");
+        ModelAndView mav = new ModelAndView("views/admin/movie/test3");
         return mav;
     }
 
