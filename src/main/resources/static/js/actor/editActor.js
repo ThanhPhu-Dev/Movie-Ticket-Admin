@@ -48,7 +48,7 @@ function setvalueDefaul(){
     newImage.style.height = "auto";
     newImage.style.width = "300px"
     newImage.style.maxHeight = "350px";
-    newImage.src = "http://placehold.it/1000x1500";
+    newImage.src = "https://via.placeholder.com/540x500";
     document.getElementById('avatar').innerHTML = newImage.outerHTML;
     editor.setData("");
     document.getElementById("name").value = '';

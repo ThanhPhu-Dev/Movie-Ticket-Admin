@@ -58,8 +58,8 @@ function setvalueDefaul() {
         e.value = '';
     });
     editor.setData('');
-    document.getElementById("avatar").getElementsByTagName('img')[0].src = 'http://placehold.it/300x350';
-    document.getElementById("video").innerHTML = `<img height="auto" src="http://placehold.it/1040x500" width="auto">`;
+    document.getElementById("avatar").getElementsByTagName('img')[0].src = 'https://via.placeholder.com/300x350';
+    document.getElementById("video").innerHTML = `<img height="auto" src="https://via.placeholder.com/1040x500" width="auto">`;
     let imgedes = document.getElementsByClassName('dandev_attach_view')[0];
     imgedes.innerHTML = '';
     imgedes.parentElement.classList.remove('show-btn');
