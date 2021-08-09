@@ -24,12 +24,12 @@ public class ShowtimeController {
 
     @RequestMapping(value = "/list-showtime", method = RequestMethod.GET)
     public String findAll(){
-        return "/views/admin/showtime/listShowtime";
+        return "views/admin/showtime/listShowtime";
     }
 
     @RequestMapping(value = {"/edit-showtime", "/edit-showtime/{id}"}, method = RequestMethod.GET)
     public ModelAndView editShowtime(@PathVariable(required = false) String id){
-        ModelAndView mav= new ModelAndView("/views/admin/showtime/editShowtime");
+        ModelAndView mav= new ModelAndView("views/admin/showtime/editShowtime");
         if(id != null){
             mav.addObject("showtime",showtimeService.findById(id));
         }

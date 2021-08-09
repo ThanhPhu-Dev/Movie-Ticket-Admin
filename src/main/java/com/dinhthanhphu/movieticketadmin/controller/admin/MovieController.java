@@ -60,12 +60,12 @@ public class MovieController {
         model.addAttribute("totalItems", page.getTotalElements());
         model.addAttribute("listMovie", page.getContent());
         model.addAttribute("lstCategory", categoryService.findAll());
-        return "/views/admin/movie/listMovie";
+        return "views/admin/movie/listMovie";
     }
 
     @GetMapping("/movie/{id}")
     public ModelAndView findMovieById(@PathVariable("id") String id){
-        ModelAndView mav = new ModelAndView("/views/admin/movie/detailMovie");
+        ModelAndView mav = new ModelAndView("views/admin/movie/detailMovie");
         MovieDTO movie = movieService.findOneById(id);
         mav.addObject("movie", movie);
         return mav;
