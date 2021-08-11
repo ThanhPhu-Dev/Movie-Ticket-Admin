@@ -22,7 +22,7 @@ public class ShowtimeEntity extends BaseEntity {
     private Date endTime;
 
     @Column(name = "fare")
-    private Float fare;
+    private Long fare;
 
     @ManyToOne()
     @JoinColumn(name = "cinema_id")

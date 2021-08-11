@@ -1,0 +1,20 @@
+.link-ref {
+    padding: 10px 50px;
+    width: 90%;
+    margin: auto;
+}
+
+.link-ref a:hover {
+    color: #007bff;
+}
+
+.link-ref a {
+    color: gray;
+}
+
+.content {
+    width: 90%;
+    margin: 20px auto;
+    padding: 20px;
+}
+

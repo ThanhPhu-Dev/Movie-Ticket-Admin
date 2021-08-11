@@ -2,6 +2,7 @@ package com.dinhthanhphu.movieticketadmin.service;
 
 import com.dinhthanhphu.movieticketadmin.dto.ShowtimeDTO;
 
+import java.util.Date;
 import java.util.List;
 
 public interface IShowtimeService {
@@ -9,5 +10,6 @@ public interface IShowtimeService {
     List<ShowtimeDTO> findAll();
     boolean delete(Long[] ids);
     ShowtimeDTO findById(String id);
+    List<ShowtimeDTO> findByStartDateAfter(Date date);
 
 }

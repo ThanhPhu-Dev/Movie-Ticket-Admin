@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+
+<!--  main-fragment (title, otherStaticResources, header, nav, mainContent, footer)  -->
+<html th:replace="~{layouts/main-layout :: main-fragment(
+                                                ~{::title},
+                                                ~{:: #home-static-resources},
+                                                ~{:: #home-main-content}
+                                               )}"
+      xmlns:th="http://www.thymeleaf.org">
+<title>Seat Book</title>
+
+<th:block id="home-static-resources">
+    <link rel="stylesheet" th:href="@{/css/admin/addBookSeatStyle.css}"
+          type="text/css"/>
+</th:block>
+
+<div id="home-main-content">
+    <div class="link-ref shadow mt-3">
+        <span>Quản Lý Vé/</span>
+        <a th:href="@{/edit-booking}">Đặt vé</a>
+        <span> / </span><a th:href="@{/book-seat/{id}id=${showtime.id}}">Đặt ghế</a>
+    </div>
+    <div class="content shadow">
+        <div class="infoShowtime d-flex justify-content-around mb-3">
+            <div>
+                <div>Phim:<span th:text="${showtime.movie.name}"></span></div>
+                <div>Cinema: <span th:text="${showtime.cinema.name}"></span></div>
+            </div>
+            <div>
+                <div>Thời gian Bắt Đầu:
+                    <span th:text="${ #dates.format(showtime.startTime,'dd-MM-yyyy')+' '+ #dates.format(showtime.startTime,'HH:mm')}"></span>
+                </div>
+                <div>Thời gian Kết thúc:
+                    <span th:text="${#dates.format(showtime.endTime,'dd-MM-yyyy')+' '+ #dates.format(showtime.endTime,'HH:mm')}"></span>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex priceFare">
+            <div class="text-center">Giá vé: <span
+                    th:text="${#numbers.formatDecimal(showtime.fare, 1, 'DEFAULT', 0, 'DEFAULT')} + 'VNĐ'"></span></div>
+            <div id="total-price" th:attr="data-price=${showtime.fare}"></div>
+        </div>
+        <table id="seatsBlock">
+            <p class="screen" id="notification">Màn Chiếu</p>
+
+            <tr>
+                <td height="22px" width="22px"></td>
+                <th:block th:each="i: ${#numbers.sequence(1, showtime.cinema.width)}">
+                    <td height="22px" th:text="${i}" width="22px"><%- i %></td>
+                </th:block>
+            </tr>
+            <th:block th:each="j: ${#numbers.sequence(1, showtime.cinema.lenght)}">
+                <tr>
+                    <td th:text="${j}"></td>
+                    <th:block th:each="k: ${#numbers.sequence(1, showtime.cinema.width)}">
+                        <td>
+                            <input class="seats seat-checkbox"
+                                   th:value="${j +'-'+ k}" type="checkbox">
+                        </td>
+                    </th:block>
+                </tr>
+            </th:block>
+        </table>
+        <div class="col-12 d-flex justify-content-around">
+            <div class="smallBox redBox">Chổ đã được đặt</div>
+            <div class="smallBox greenBox">Chổ đã chọn</div>
+            <div class="smallBox grayBox">Ghế trống</div>
+        </div>
+        <div class="text-center">
+            <button class="btn btn-primary" id="submit" th:attr="data-id=${showtime.id}" type="button">Đặt Chổ</button>
+        </div>
+    </div>
+    <script th:src="@{/js/booking/editBookSeat.js}"></script>
+</div>

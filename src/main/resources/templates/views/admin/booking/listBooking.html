@@ -9,10 +9,17 @@
             xmlns:th="http://www.thymeleaf.org">
 <title>Booking</title>
 
-<!-- <th:block id="home-static-resources">
-
- </th:block>-->
+ <th:block id="home-static-resources">
+     <link rel="stylesheet" th:href="@{/css/admin/listBookingStyle.css}"
+           type="text/css"/>
+ </th:block>
 
 <div id="home-main-content">
-  <h2>List booking</h2>
+    <div class="link-ref shadow mt-3">
+        <span>Quản Lý Vé/</span>
+        <a th:href="@{/edit-booking}">Lịch Sử Đặt Vé</a>
+    </div>
+    <div class="content shadow">
+        asd
+    </div>
 </div>

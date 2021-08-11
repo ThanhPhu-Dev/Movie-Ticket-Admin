@@ -1,23 +1,44 @@
 <!DOCTYPE html>
 
 <!--  main-fragment (title, otherStaticResources, header, nav, mainContent, footer)  -->
-<html       th:replace="~{layouts/main-layout :: main-fragment(
+<html th:replace="~{layouts/main-layout :: main-fragment(
                                                 ~{::title},
                                                 ~{:: #home-static-resources},
                                                 ~{:: #home-main-content}
                                                )}"
-            xmlns:th="http://www.thymeleaf.org">
-  <title>Booking</title>
+      xmlns:th="http://www.thymeleaf.org">
+<title>Booking</title>
 
-   <th:block id="home-static-resources">
-       <link rel="stylesheet" th:href="@{/css/admin/addMovieStyle.css}"
-             type="text/css"/>
-   </th:block>
+<th:block id="home-static-resources">
+    <link rel="stylesheet" th:href="@{/css/admin/addBookingStyle.css}"
+          type="text/css"/>
+</th:block>
 
 <div id="home-main-content">
     <div class="link-ref shadow mt-3">
         <span>Quản Lý Vé/</span>
         <a th:href="@{/edit-booking}" th:if="${booking == null}">Đặt vé</a>
     </div>
+    <div class="content shadow">
+        <div id="new-search-area"></div>
+        <table class="table table-striped" id="datatables" style="width: 100%;">
+            <thead class="text-center">
+            <tr id="list-header">
+                <th scope="col">Tên Phim</th>
+                <th scope="col">Tên Rạp</th>
+                <th scope="col">Giá Vé (VNĐ)</th>
+                <th scope="col">Ngày Khởi Chiếu</th>
+                <th scope="col">Ngày Kết Thúc</th>
+                <th></th>
+            </tr>
+            </thead>
+        </table>
 
+
+    </div>
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script referrerpolicy="no-referrer"
+            src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script th:src="@{js/booking/editBooking.js}"></script>
 </div>

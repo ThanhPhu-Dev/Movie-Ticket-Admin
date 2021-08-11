@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -86,6 +87,16 @@ public class ShowtimeService implements IShowtimeService {
                                                     .cinema(cvt.convertToDTO(new CinemaDTO(), s.getCinema()))
                                                     .movie(cvt.convertToDTO(new MovieDTO(), s.getMovie()))
                                                     .build(),s)).orElse(null);
+    }
+
+    @Override
+    public List<ShowtimeDTO> findByStartDateAfter(Date date) {
+        List<ShowtimeEntity> list = showtimeRepository.findByStartTimeBeforeAndEndTimeAfter(date,date);
+        return list.stream()
+                .map(s -> cvt.convertToDTO(ShowtimeDTO.builder()
+                        .movie(cvt.convertToDTO(new MovieDTO(),s.getMovie()))
+                        .cinema(cvt.convertToDTO(new CinemaDTO(), s.getCinema()))
+                        .build(), s)).collect(Collectors.toList());
     }
 
 

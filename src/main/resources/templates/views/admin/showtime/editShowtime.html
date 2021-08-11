@@ -16,7 +16,7 @@
     <div class="link-ref shadow mt-3">
         <span>Quản Lý Suất Chiếu/</span> <a th:if="${showtime == null}" th:href="@{/edit-showtime}">Thêm Suất Chiếu</a>
         <a th:if="${showtime != null}" th:href="@{/list-showtime}">Danh sách Suất Chiếu</a>
-        <span th:if="${showtime != null}">/ </span><a th:if="${showtime != null}" th:href="@{/edit-showtime}">Chỉnh Sửa Suất Chiếu</a>
+        <span th:if="${showtime != null}">/ </span><a th:if="${showtime != null}" th:href="@{/edit-showtime/{id}id=${showtime.id}">Chỉnh Sửa Suất Chiếu</a>
     </div>
 
     <div class="content shadow">

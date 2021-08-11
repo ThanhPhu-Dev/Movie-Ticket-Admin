@@ -25,14 +25,10 @@ public class BookingEntity extends BaseEntity {
     private Long total;
 
     @OneToOne
-    @JoinColumn(name = "user_id")
-    private UserEntity user;
-
-    @OneToOne
     @JoinColumn(name = "showtime_id")
-    private UserEntity showtime;
+    private ShowtimeEntity showtime;
 
-    @OneToMany(mappedBy = "booking")
+    @OneToMany(mappedBy = "booking", fetch = FetchType.LAZY)
     private List<TicketEntity> ticket;
 
 }

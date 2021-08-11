@@ -1,0 +1,82 @@
+.link-ref{
+    padding: 10px 50px;
+    width: 90%;
+    margin: auto;
+}
+
+.link-ref a:hover{
+    color: #007bff;
+}
+
+.link-ref a{
+    color: gray;
+}
+
+.content{
+    width: 90%;
+    margin: 20px auto;
+    padding: 20px;
+}
+
+#seatsBlock{
+    width: fit-content;
+    margin: auto;
+}
+
+.seat-checkbox::before{
+    content: '';
+    width: 15px;
+    height: 15px;
+    display: inline-block;
+    text-align: center;
+    box-shadow: inset 0px 2px 3px 0px rgb(0 0 0 / 30%), 0px 1px 0px 0px rgb(255 255 255 / 80%);
+    background-color: #ccc;
+}
+
+.seat-checkbox:checked:before{
+    background-color: Green;
+    font-size: 15px;
+}
+
+.smallBox::before{
+    content: '';
+    width: 15px;
+    height: 15px;
+    float: left;
+    margin-right: 10px;
+    margin-top: 4px;
+}
+
+.redBox::before{
+    content: '';
+    background: Red;
+}
+
+.greenBox::before{
+    content: '';
+    background: Green;
+}
+
+.grayBox::before{
+    content: '';
+    box-shadow: inset 0px 2px 3px 0px rgb(0 0 0 / 30%), 0px 1px 0px 0px rgb(255 255 255 / 80%);
+    background-color: #ccc;
+}
+
+.screen{
+    width: 500px;
+    margin: auto;
+    background-image: linear-gradient(to right, rgb(118 110 110 / 44%), rgb(157 145 145));
+    text-align: center;
+}
+
+.infoShowtime{
+    border: 1px solid;
+    box-shadow: 3px 4px #afa9a9;
+}
+
+.priceFare{
+    justify-content: space-around;
+    width: 500px;
+    margin: auto;
+}

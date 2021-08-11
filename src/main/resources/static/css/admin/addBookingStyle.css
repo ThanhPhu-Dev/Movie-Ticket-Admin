@@ -16,5 +16,47 @@
     width: 90%;
     margin: 20px auto;
     padding: 20px;
-    text-align: center;
+}
+
+#new-search-area {
+    width: 100%;
+    clear: both;
+    padding-top: 20px;
+}
+
+#new-search-area input {
+    width: 600px;
+    border-top: 0;
+    border-right: 0;
+    border-left: 0;
+    border-bottom: 1px solid #cecbcba6;
+    font-size: 13px;
+    padding-left: 20px;
+
+}
+
+.table{
+    color: black;
+}
+
+#datatables .even { background-color: white !important;}
+#datatables .odd { background-color: white  !important;}
+.table-striped{
+    background: white !important;
+}
+
+.table-striped>tbody>tr:nth-of-type(odd){
+    --bs-table-accent-bg: none !important;
+}
+
+th, td {
+    white-space: nowrap;
+    border-style: none;
+}
+div.dataTables_wrapper {
+    margin: 0 auto;
+}
+
+td.details-control {
+    cursor: pointer;
 }
