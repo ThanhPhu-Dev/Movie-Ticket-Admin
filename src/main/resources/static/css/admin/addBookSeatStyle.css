@@ -38,6 +38,11 @@
     font-size: 15px;
 }
 
+.seated-checkbox:checked:before{
+    background-color: red;
+    font-size: 15px;
+}
+
 .smallBox::before{
     content: '';
     width: 15px;

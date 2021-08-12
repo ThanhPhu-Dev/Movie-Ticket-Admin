@@ -54,8 +54,8 @@
                     <td th:text="${j}"></td>
                     <th:block th:each="k: ${#numbers.sequence(1, showtime.cinema.width)}">
                         <td>
-                            <input class="seats seat-checkbox"
-                                   th:value="${j +'-'+ k}" type="checkbox">
+                                <input th:class="'seats seat-checkbox ' + ${#lists.contains(seats, j +'-'+ k) == true ? 'seated-checkbox' : ''}"
+                                       th:value="${j +'-'+ k}" th:checked="${#lists.contains(seats, j +'-'+ k)}" type="checkbox">
                         </td>
                     </th:block>
                 </tr>
