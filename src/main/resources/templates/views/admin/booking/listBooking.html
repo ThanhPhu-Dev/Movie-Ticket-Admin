@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 
 <!--  main-fragment (title, otherStaticResources, header, nav, mainContent, footer)  -->
-<html       th:replace="~{layouts/main-layout :: main-fragment(
+<html th:replace="~{layouts/main-layout :: main-fragment(
                                                 ~{::title},
                                                 ~{:: #home-static-resources},
                                                 ~{:: #home-main-content}
                                                )}"
-            xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org">
 <title>Booking</title>
 
- <th:block id="home-static-resources">
-     <link rel="stylesheet" th:href="@{/css/admin/listBookingStyle.css}"
-           type="text/css"/>
- </th:block>
+<th:block id="home-static-resources">
+    <link rel="stylesheet" th:href="@{/css/admin/listBookingStyle.css}"
+          type="text/css"/>
+</th:block>
 
 <div id="home-main-content">
     <div class="link-ref shadow mt-3">
@@ -20,6 +20,22 @@
         <a th:href="@{/edit-booking}">Lịch Sử Đặt Vé</a>
     </div>
     <div class="content shadow">
-        asd
+        <div id="new-search-area"></div>
+        <table class="table table-striped" id="datatables" style="width: 100%;">
+            <thead class="text-center">
+            <tr id="list-header">
+                <th scope="col"></th>
+                <th scope="col">Tên Phim</th>
+                <th scope="col">Tên Rạp</th>
+                <th scope="col">Ngày Khởi Chiếu</th>
+                <th scope="col">Ngày Kết Thúc</th>
+                <th scope="col">Tổng Tiền (VNĐ)</th>
+                <th scope="col">Người Tạo</th>
+                <th scope="col">Ngày Tạo</th>
+                <th></th>
+            </tr>
+            </thead>
+        </table>
     </div>
+    <script th:src="@{/js/booking/listBookSeat.js}"></script>
 </div>

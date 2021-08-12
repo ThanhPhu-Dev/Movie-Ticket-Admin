@@ -18,3 +18,52 @@
     padding: 20px;
 }
 
+#new-search-area {
+    width: 100%;
+    clear: both;
+    padding-top: 20px;
+}
+
+#new-search-area input {
+    width: 600px;
+    border-top: 0;
+    border-right: 0;
+    border-left: 0;
+    border-bottom: 1px solid #cecbcba6;
+    font-size: 13px;
+    padding-left: 20px;
+
+}
+
+td.details-control {
+    cursor: pointer;
+}
+
+#datatables_length {
+    margin-top: 15px;
+}
+
+
+th, td {
+    white-space: nowrap;
+    border-style: none;
+}
+
+
+#datatables .even { background-color: white !important;}
+#datatables .odd { background-color: white  !important;}
+.table-striped{
+    background: white !important;
+}
+
+.table{
+    color: black;
+}
+
+td.details-control {
+    background: url('https://res.cloudinary.com/imagetp/image/upload/v1628760809/details_open_i3foun.png') no-repeat center center;
+    cursor: pointer;
+}
+tr.shown td.details-control {
+    background: url('https://res.cloudinary.com/imagetp/image/upload/v1628760813/details_close_wergdw.png') no-repeat center center;
+}
