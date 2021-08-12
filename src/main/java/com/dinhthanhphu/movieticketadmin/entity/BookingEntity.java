@@ -28,7 +28,7 @@ public class BookingEntity extends BaseEntity {
     @JoinColumn(name = "showtime_id")
     private ShowtimeEntity showtime;
 
-    @OneToMany(mappedBy = "booking", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "booking", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<TicketEntity> ticket;
 
 }

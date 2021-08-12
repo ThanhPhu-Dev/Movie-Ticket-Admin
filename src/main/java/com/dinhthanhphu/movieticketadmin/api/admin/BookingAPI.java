@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RestController
@@ -51,5 +52,10 @@ public class BookingAPI {
             rs.add(brp);
         }
         return rs;
+    }
+
+    @DeleteMapping("/delete-book")
+    public boolean deleteBooking(@RequestBody List<UUID> ids){
+        return bookingService.delete(ids);
     }
 }

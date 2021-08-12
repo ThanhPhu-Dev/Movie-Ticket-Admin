@@ -7,7 +7,6 @@ function sleep(ms) {
 }
 
 btn_delete.addEventListener("click", function (e){
-    let tbody = document.getElementsByTagName("tbody");
     let arrayDelete = [];
     document.querySelectorAll("input[type='checkbox']:checked").forEach( element =>{
         arrayDelete.push(+element.value);

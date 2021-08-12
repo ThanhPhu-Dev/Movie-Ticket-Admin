@@ -16,7 +16,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -52,7 +55,7 @@ public class BookingService implements IBookingService {
                 ticketEntity.setSeatId(seat);
                 ticketRepository.save(ticketEntity);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             return false;
         }
         return true;
@@ -62,8 +65,19 @@ public class BookingService implements IBookingService {
     public List<BookingDTO> findAll() {
         return bookingRepository.findAll()
                 .stream().map(b -> cvt.convertToDTO(BookingDTO.builder()
-                                                    .ticket(b.getTicket().stream().map(t -> cvt.convertToDTO(new TicketDTO(), t)).collect(Collectors.toList()))
-                                                    .showtime(cvt.convertToDTO(new ShowtimeDTO(), b.getShowtime())).build(), b)).collect(Collectors.toList());
+                        .ticket(b.getTicket().stream().map(t -> cvt.convertToDTO(new TicketDTO(), t)).collect(Collectors.toList()))
+                        .showtime(cvt.convertToDTO(new ShowtimeDTO(), b.getShowtime())).build(), b)).collect(Collectors.toList());
+    }
+
+    @Override
+    public boolean delete(List<UUID> ids) {
+        try {
+            bookingRepository.deleteAllById(ids);
+        } catch (Exception e) {
+            System.out.println(e.getCause());
+            return false;
+        }
+        return true;
     }
 
 

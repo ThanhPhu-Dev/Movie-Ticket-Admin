@@ -1,4 +1,5 @@
 let table;
+let btn_delete = document.getElementById("btn-delete");
 
 async function getDateBooking() {
     return new Promise(resolve => {
@@ -102,7 +103,7 @@ function detail(row){
     console.log(row);
 }
 
-$('.table').on('click', 'tbody td.details-control', function () {
+$('#datatables').on('click', 'tbody td.details-control', function () {
     var tr = $(this).closest('tr');
     var row = table.row(tr);
     if (row.child.isShown()) {
@@ -124,6 +125,52 @@ function format ( d ) {
         '<td>'+d.seats.join(", ")+'</td>'+
         '</tr>'+
         '</table>';
+}
+
+btn_delete.addEventListener("click", function (e){
+    Swal.fire({
+        title: 'Bạn có chắc chắn?',
+        text: "Thao tác này sẽ xóa vĩnh viễn, Không thể quay lại!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Xóa',
+        cancelButtonText: 'Hủy bỏ'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            deleteBook()
+        }
+    })
+
+})
+
+
+function deleteBook(){
+    let arrayDelete = [];
+    document.querySelectorAll("input[type='checkbox']:checked").forEach( element =>{
+        arrayDelete.push(element.value);
+    });
+
+    let url = "/api/delete-book"
+    let json = JSON.stringify(arrayDelete);
+    axios.delete(url,{
+        headers: {
+            "Content-Type": "application/json"
+        },
+        data: json
+    }).then( async function (reponse){
+        Swal.fire({
+            icon: 'success',
+            title: '',
+            text: 'Xóa Thành Công!',
+            timer: 1000
+        });
+        location.reload();
+        return;
+    }).catch(function (error){
+        alert(error);
+    })
 }
 
 window.addEventListener("load", e => {
