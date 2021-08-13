@@ -21,7 +21,6 @@ document.getElementById("submit").addEventListener("click", e =>{
     let data = JSON.stringify({"showtimeId": e.target.dataset.id,
                                      "total": totalPrice,
                                      "seats": arrayBookSeat})
-    console.log(data)
     axios.post(url, data, {
         headers: {
             'Content-Type': 'application/json'
