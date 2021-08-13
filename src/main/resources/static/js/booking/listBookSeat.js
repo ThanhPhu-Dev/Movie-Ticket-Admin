@@ -97,6 +97,7 @@ async function initDataTables() {
                 "defaultContent": ''
             },
         ],
+        "order": [[ 7, 'des' ]]
     });
 }
 function detail(row){

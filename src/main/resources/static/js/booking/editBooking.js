@@ -53,7 +53,7 @@ async function initDataTables() {
                     if (type === "sort" || type === "type") {
                         return data;
                     }
-                    return moment(data).format("MM-DD-YYYY");
+                    return moment(data).format("DD-MM-YYYY HH:mm");
                 },
             },
             {
@@ -62,7 +62,7 @@ async function initDataTables() {
                     if (type === "sort" || type === "type") {
                         return data;
                     }
-                    return moment(data).format("MM-DD-YYYY");
+                    return moment(data).format("DD-MM-YYYY HH:mm");
                 },
             },
             {
@@ -75,20 +75,6 @@ async function initDataTables() {
         ],
     });
 }
-
-// $('#datatables').on('click', 'tbody td.details-control', function () {
-//     var tr = $(this).closest('tr');
-//     var row = table.row(tr);
-//     if (row.child.isShown()) {
-//         // This row is already open - close it
-//         row.child.hide();
-//         tr.find('svg').attr('data-icon', 'plus-circle');    // FontAwesome 5
-//     } else {
-//         // Open this row
-//         row.child(format(row.data())).show();
-//         tr.find('svg').attr('data-icon', 'minus-circle'); // FontAwesome 5
-//     }
-// });
 
 window.addEventListener("load", e => {
     initDataTables();
