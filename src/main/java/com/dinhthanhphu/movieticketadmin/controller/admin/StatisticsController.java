@@ -11,4 +11,9 @@ public class StatisticsController {
     public String statisticsCinema(){
         return "views/admin/statistics/statisticsCinema";
     }
+
+    @RequestMapping(value = "/statistics-movie", method = RequestMethod.GET)
+    public String statisticsMovie(){
+        return "views/admin/statistics/statisticsMovie";
+    }
 }

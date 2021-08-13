@@ -1,6 +1,6 @@
 function callData() {
     return new Promise(resolve => {
-        let url = "/api/statistics-cinema";
+        let url = "/api/statistics-movie";
         axios.get(url).then(function (response) {
             return resolve(response.data);
         }).catch(function (error) {
@@ -44,7 +44,7 @@ async function callChart() {
                 },
                 title: {
                     display: true,
-                    text: "Biểu đồ doanh thu rap",
+                    text: "Biểu đồ doanh thu phim",
                 }
             },
             scales: {
@@ -60,7 +60,7 @@ async function callChart() {
 
     };
 
-    let myChart = new Chart(document.getElementById('StatisticsCinemaChart'), config);
+    let myChart = new Chart(document.getElementById('StatisticsMovieChart'), config);
 }
 window.addEventListener("load", e => {
     callChart();

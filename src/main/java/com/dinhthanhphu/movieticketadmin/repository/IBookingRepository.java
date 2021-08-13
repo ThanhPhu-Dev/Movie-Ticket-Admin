@@ -16,4 +16,8 @@ public interface IBookingRepository extends JpaRepository<BookingEntity, UUID> {
     @Query(value = "SELECT c.id,c.\"name\",SUM(b.total) FROM cinemas c join showtimes s on c.id = s.cinema_id join bookings b on s.id = b.showtime_id group BY c.\"name\",c.id",
             nativeQuery = true)
     List<Object[]> revenueCinema();
+
+    @Query(value = "SELECT m.id, m.\"name\", SUM(b.total) FROM movies m join showtimes s on s.movie_id = m.id join bookings b on s.id = b.showtime_id GROUP BY m.id, m.\"name\"",
+            nativeQuery = true)
+    List<Object[]> revenueMovie();
 }

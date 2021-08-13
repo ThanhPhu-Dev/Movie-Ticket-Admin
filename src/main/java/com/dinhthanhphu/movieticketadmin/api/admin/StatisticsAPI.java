@@ -18,6 +18,11 @@ public class StatisticsAPI {
 
     @GetMapping("/statistics-cinema")
     public List<StatisticsResponse> getStatisticsCinema(){
-        return bookingService.statisticsRevenue();
+        return bookingService.statisticsRevenueCinema();
+    }
+
+    @GetMapping("/statistics-movie")
+    public List<StatisticsResponse> getStatisticsMovie(){
+        return bookingService.statisticsRevenueMovie();
     }
 }

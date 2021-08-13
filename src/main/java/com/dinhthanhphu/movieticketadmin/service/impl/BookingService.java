@@ -83,7 +83,7 @@ public class BookingService implements IBookingService {
     }
 
     @Override
-    public List<StatisticsResponse> statisticsRevenue() {
+    public List<StatisticsResponse> statisticsRevenueCinema() {
         List<Object[]> rs = bookingRepository.revenueCinema();
         List<StatisticsResponse> listRevenue = new ArrayList<>();
         StatisticsResponse revenue = null;
@@ -97,6 +97,23 @@ public class BookingService implements IBookingService {
             }
         }
         return listRevenue;
+    }
+
+    @Override
+    public List<StatisticsResponse> statisticsRevenueMovie() {
+        List<Object[]> rs = bookingRepository.revenueMovie();
+        List<StatisticsResponse> listRevenueMovie = new ArrayList<>();
+        StatisticsResponse revenue = null;
+        if (rs != null && !rs.isEmpty()) {
+            for (Object[] object : rs) {
+                revenue = new StatisticsResponse();
+                revenue.setId(((BigInteger)object[0]).longValue());
+                revenue.setName((String) object[1]);
+                revenue.setTotal(((BigDecimal)object[2]).longValue());
+                listRevenueMovie.add(revenue);
+            }
+        }
+        return listRevenueMovie;
     }
 
 

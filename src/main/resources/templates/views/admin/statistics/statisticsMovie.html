@@ -10,19 +10,19 @@
 
 
 <th:block id="home-static-resources">
-    <link rel="stylesheet" th:href="@{/css/admin/statisticsStyle.css}" type="text/css"/>
+  <link rel="stylesheet" th:href="@{/css/admin/statisticsStyle.css}" type="text/css"/>
 </th:block>
-<title>Doanh Thu Rạp</title>
+<title>Doanh Thu Phim</title>
 <div id="home-main-content">
-    <div class="link-ref shadow mt-3">
-        <span>Doanh Thu /</span> <a th:href="@{/statistics-cinema}">Doanh Thu Rạp</a>
-    </div>
+  <div class="link-ref shadow mt-3">
+    <span>Doanh Thu /</span> <a th:href="@{/statistics-movie}">Doanh Thu Phim</a>
+  </div>
 
-    <div class="content shadow">
-        <div>
-            <canvas id="StatisticsCinemaChart" width="400" height="180"></canvas>
-        </div>
+  <div class="content shadow">
+    <div>
+      <canvas id="StatisticsMovieChart" width="400" height="180"></canvas>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script th:src="@{/js/statistics/cinemaStatistics.js}"></script>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script th:src="@{/js/statistics/movieStatistics.js}"></script>
 </div>
