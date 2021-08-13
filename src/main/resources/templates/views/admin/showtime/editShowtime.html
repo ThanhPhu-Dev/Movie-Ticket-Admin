@@ -7,16 +7,18 @@
                                                 ~{:: #home-main-content}
                                                )}"
       xmlns:th="http://www.thymeleaf.org">
-<title>Showtime</title>
+<title th:text="${showtime != null ? 'Chinh Sửa Suất Chiếu' : 'Thêm Suất Chiếu'}">Showtime</title>
 
 <th:block id="home-static-resources">
     <link rel="stylesheet" th:href="@{/css/admin/addShowtimeStyle.css}" type="text/css"/>
 </th:block>
 <div id="home-main-content">
     <div class="link-ref shadow mt-3">
-        <span>Quản Lý Suất Chiếu/</span> <a th:if="${showtime == null}" th:href="@{/edit-showtime}">Thêm Suất Chiếu</a>
-        <a th:if="${showtime != null}" th:href="@{/list-showtime}">Danh sách Suất Chiếu</a>
-        <span th:if="${showtime != null}">/ </span><a th:if="${showtime != null}" th:href="@{/edit-showtime/{id}id=${showtime.id}">Chỉnh Sửa Suất Chiếu</a>
+        <span>Quản Lý Suất Chiếu/</span> <a th:href="@{/edit-showtime}" th:if="${showtime == null}">Thêm Suất Chiếu</a>
+        <th:block th:if="${showtime != null}">
+            <a th:href="@{/list-showtime}">Danh sách Suất Chiếu</a>
+            <span>/ </span><a th:href="@{/edit-showtime/{id}id=${showtime.id}}">Chỉnh Sửa Suất Chiếu</a>
+        </th:block>
     </div>
 
     <div class="content shadow">
@@ -24,19 +26,20 @@
             <div class="d-flex justify-content-center">
                 <div class="mb-3 mr-5 w-25">
                     <label class="form-label" for="startDate">Ngày Bắt Đầu</label>
-                    <input class="form-control" id="startDate"  name="startTime" placeholder="Ngày Bắt Đầu"
-                           type="datetime-local"
-                            th:value="${showtime != null ? #dates.format(showtime.startTime,'yyyy-MM-dd')+'T'+ #dates.format(showtime.startTime,'HH:mm:ss') : ''}">
+                    <input class="form-control" id="startDate" name="startTime" placeholder="Ngày Bắt Đầu"
+                           th:value="${showtime != null ? #dates.format(showtime.startTime,'yyyy-MM-dd')+'T'+ #dates.format(showtime.startTime,'HH:mm:ss') : ''}"
+                           type="datetime-local">
                 </div>
                 <div class="mb-3 w-25">
                     <label class="form-label" for="endDate">Ngày Kết Thúc</label>
-                    <input class="form-control"  id="endDate" name="endTime" type="datetime-local"
-                           th:value="${showtime != null ? #dates.format(showtime.endTime,'yyyy-MM-dd')+'T'+ #dates.format(showtime.endTime,'HH:mm:ss') : ''}">
+                    <input class="form-control" id="endDate" name="endTime" th:value="${showtime != null ? #dates.format(showtime.endTime,'yyyy-MM-dd')+'T'+ #dates.format(showtime.endTime,'HH:mm:ss') : ''}"
+                           type="datetime-local">
                 </div>
             </div>
             <div class="d-flex justify-content-center">
                 <div class="mr-5 w-25">
-                    <input class="form-control" th:value="${showtime != null ? showtime.cinema.name : ''}" id="cinema" list="listCinema" name="cinemaName" placeholder="Rạp">
+                    <input class="form-control" id="cinema" list="listCinema"
+                           name="cinemaName" placeholder="Rạp" th:value="${showtime != null ? showtime.cinema.name : ''}">
                     <datalist id="listCinema">
                         <th:block th:each="c: ${cinema}">
                             <option th:attr="data-value= ${c.id}" th:value="${c.name}">
@@ -44,7 +47,8 @@
                     </datalist>
                 </div>
                 <div class="w-25">
-                    <input class="form-control " th:value="${showtime != null ? showtime.movie.name : ''}" id="movie" list="listMovie" name="movieName" placeholder="Phim">
+                    <input class="form-control " id="movie" list="listMovie"
+                           name="movieName" placeholder="Phim" th:value="${showtime != null ? showtime.movie.name : ''}">
                     <datalist id="listMovie">
                         <th:block th:each="m: ${movie}">
                             <option th:attr="data-value= ${m.id}" th:value="${m.name}">
@@ -55,13 +59,14 @@
             </div>
             <div class="d-flex justify-content-center mt-3">
                 <div class="mb-3 w-25 mr-5">
-                    <input class="form-control" th:value="${showtime != null ? showtime.fare : ''}" id="fare" name="fare" placeholder="Giá Vé" type="number">
+                    <input class="form-control" id="fare" name="fare"
+                           placeholder="Giá Vé" th:value="${showtime != null ? showtime.fare : ''}" type="number">
                 </div>
             </div>
-            <input type="hidden" name="id" th:if="${showtime != null}" th:value="${showtime.id}">
+            <input name="id" th:if="${showtime != null}" th:value="${showtime.id}" type="hidden">
             <div class="text-center">
-                <button class="btn btn-primary" id="submit" type="submit"
-                        th:text="${showtime != null ? 'Cập Nhập' : 'Thêm'}"></button>
+                <button class="btn btn-primary" id="submit" th:text="${showtime != null ? 'Cập Nhập' : 'Thêm'}"
+                        type="submit"></button>
             </div>
         </form>
     </div>

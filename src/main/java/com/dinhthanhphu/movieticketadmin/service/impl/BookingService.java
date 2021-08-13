@@ -7,6 +7,7 @@ import com.dinhthanhphu.movieticketadmin.entity.BookingEntity;
 import com.dinhthanhphu.movieticketadmin.entity.ShowtimeEntity;
 import com.dinhthanhphu.movieticketadmin.entity.TicketEntity;
 import com.dinhthanhphu.movieticketadmin.payload.request.BookingRequest;
+import com.dinhthanhphu.movieticketadmin.payload.response.StatisticsResponse;
 import com.dinhthanhphu.movieticketadmin.repository.IBookingRepository;
 import com.dinhthanhphu.movieticketadmin.repository.IShowtimeRepository;
 import com.dinhthanhphu.movieticketadmin.repository.ITicketRepository;
@@ -16,6 +17,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -78,6 +82,22 @@ public class BookingService implements IBookingService {
         return true;
     }
 
+    @Override
+    public List<StatisticsResponse> statisticsRevenue() {
+        List<Object[]> rs = bookingRepository.revenueCinema();
+        List<StatisticsResponse> listRevenue = new ArrayList<>();
+        StatisticsResponse revenue = null;
+        if (rs != null && !rs.isEmpty()) {
+            for (Object[] object : rs) {
+                revenue = new StatisticsResponse();
+                revenue.setId(((BigInteger)object[0]).longValue());
+                revenue.setName((String) object[1]);
+                revenue.setTotal(((BigDecimal)object[2]).longValue());
+                listRevenue.add(revenue);
+            }
+        }
+        return listRevenue;
+    }
 
 
 }

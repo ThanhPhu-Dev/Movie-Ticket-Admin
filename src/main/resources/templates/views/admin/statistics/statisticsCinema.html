@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+
+<!--  main-fragment (title, otherStaticResources, header, nav, mainContent, footer)  -->
+<html th:replace="~{layouts/main-layout :: main-fragment(
+                                                ~{::title},
+                                                ~{:: #home-static-resources},
+                                                ~{:: #home-main-content}
+                                               )}"
+      xmlns:th="http://www.thymeleaf.org">
+
+
+<th:block id="home-static-resources">
+    <link rel="stylesheet" th:href="@{/css/admin/statisticsStyle.css}" type="text/css"/>
+</th:block>
+<title>Helo world</title>
+<div id="home-main-content">
+    <div class="link-ref shadow mt-3">
+        <span>Doanh Thu/</span> <a th:href="@{/statistics-cinema}">Doanh Thu Rạp</a>
+    </div>
+
+    <div class="content shadow">
+        <div>
+            <canvas id="myChart" width="400" height="180"></canvas>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script th:src="@{/js/statistics/cinemaStatistics.js}"></script>
+</div>

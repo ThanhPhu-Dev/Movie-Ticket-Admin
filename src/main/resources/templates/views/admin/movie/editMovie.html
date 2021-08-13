@@ -14,7 +14,7 @@
           type="text/css"/>
 </th:block>
 
-<title>Movie</title>
+<title th:text="${movie == null ? 'Thêm Phim': 'Cập Nhật Phim'}"></title>
 <div id="home-main-content">
     <div class="link-ref shadow mt-3">
         <span>Quản Lý Phim/</span>
