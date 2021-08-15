@@ -1,7 +1,15 @@
-function callData() {
+function callData(date1, date2) {
     return new Promise(resolve => {
+        let data = {
+            "startDate": date1,
+            "endDate": date2
+        };
         let url = "/api/statistics-movie";
-        axios.get(url).then(function (response) {
+        axios.post(url, JSON.stringify(data),{
+            headers:{
+                'Content-Type': 'application/json'
+            }
+        }).then(function (response) {
             return resolve(response.data);
         }).catch(function (error) {
             alert(error)
@@ -9,9 +17,7 @@ function callData() {
     })
 }
 
-async function callChart() {
-    let datas =  await callData();
-    console.log(datas);
+async function callChart(datas) {
     const config =  {
         type: 'bar',
         data: {
@@ -62,6 +68,22 @@ async function callChart() {
 
     let myChart = new Chart(document.getElementById('StatisticsMovieChart'), config);
 }
-window.addEventListener("load", e => {
-    callChart();
-});
+
+document.getElementById("btn-submit").addEventListener("click", async e => {
+    e.preventDefault();
+    let start = document.getElementById("startDate").value;
+    let end = document.getElementById("endDate").value;
+    if (new Date(start) < new Date(end)) {
+        let data = await callData(start, end);
+        document.getElementById("render_chart").innerHTML = `<canvas height="180" id="StatisticsMovieChart" width="400"></canvas>`
+        await callChart(data);
+    } else {
+        document.getElementById("render_chart").innerHTML = `<div class="alert alert-danger" style="text-align: center;" role="alert">
+        Ngày Không Hợp Lệ
+      </div>`;
+    }
+})
+
+// window.addEventListener("load", e => {
+//     callChart();
+// });

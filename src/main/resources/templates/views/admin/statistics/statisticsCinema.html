@@ -19,8 +19,21 @@
     </div>
 
     <div class="content shadow">
-        <div>
-            <canvas id="StatisticsCinemaChart" width="400" height="180"></canvas>
+        <form class="d-flex justify-content-center align-items-center">
+            <div class="form-group">
+                <label for="startDate">Từ Ngày</label>
+                <input class="form-control" id="startDate" type="Date">
+            </div>
+            <div class="form-group">
+                <label for="endDate">Đến Ngày </label>
+                <input class="form-control" id="endDate" type="Date">
+            </div>
+            <div>
+                <button class="btn btn-primary btn-submit" id="btn-submit" type="submit">Tra Cứu</button>
+            </div>
+        </form>
+        <div id="render_chart">
+            <canvas height="180" id="StatisticsCinemaChart" width="400"></canvas>
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

@@ -20,6 +20,7 @@ import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -83,8 +84,8 @@ public class BookingService implements IBookingService {
     }
 
     @Override
-    public List<StatisticsResponse> statisticsRevenueCinema() {
-        List<Object[]> rs = bookingRepository.revenueCinema();
+    public List<StatisticsResponse> statisticsRevenueCinema(Date start, Date end) {
+        List<Object[]> rs = bookingRepository.revenueCinema(start,end);
         List<StatisticsResponse> listRevenue = new ArrayList<>();
         StatisticsResponse revenue = null;
         if (rs != null && !rs.isEmpty()) {
@@ -100,8 +101,8 @@ public class BookingService implements IBookingService {
     }
 
     @Override
-    public List<StatisticsResponse> statisticsRevenueMovie() {
-        List<Object[]> rs = bookingRepository.revenueMovie();
+    public List<StatisticsResponse> statisticsRevenueMovie(Date start, Date end) {
+        List<Object[]> rs = bookingRepository.revenueMovie(start,end);
         List<StatisticsResponse> listRevenueMovie = new ArrayList<>();
         StatisticsResponse revenue = null;
         if (rs != null && !rs.isEmpty()) {

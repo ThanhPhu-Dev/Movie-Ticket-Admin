@@ -1,7 +1,7 @@
 let table;
 let btn_delete = document.getElementById("btn-delete");
 
-btn_delete.addEventListener("click", function (e){
+btn_delete.addEventListener("click", function (e) {
     Swal.fire({
         title: 'Bạn có chắc chắn?',
         text: "Thao tác này sẽ xóa vĩnh viễn, không thể quay lại!",
@@ -19,28 +19,28 @@ btn_delete.addEventListener("click", function (e){
 });
 
 
-function deleteShowtime(){
+function deleteShowtime() {
     let arrayDelete = [];
-    document.querySelectorAll("input[type='checkbox']:checked").forEach( element =>{
+    document.querySelectorAll("input[type='checkbox']:checked").forEach(element => {
         arrayDelete.push(+element.value);
     });
     let url = "/api/delete-showtime";
-    axios.delete(url,{
-        headers:{
+    axios.delete(url, {
+        headers: {
             "Content-Type": "application/json"
         },
         data: JSON.stringify(arrayDelete)
-    }).then(function (response){
+    }).then(function (response) {
         location.reload();
-    }).catch(function (error){
+    }).catch(function (error) {
         alert(error);
     })
 }
 
-async function getDateShowtime(){
+async function getDateShowtime() {
     return new Promise(resolve => {
         let url = "api/list-showtime";
-        axios.get(url).then(function (response){
+        axios.get(url).then(function (response) {
             let modified = response.data.map((e, index) => {
                 return {
                     id: `<input type="checkbox" id="vehicle1" name="vehicle1" value="${e.id}">`,
@@ -58,12 +58,12 @@ async function getDateShowtime(){
             });
             return resolve(modified);
         });
-    }).catch(function (error){
+    }).catch(function (error) {
         alert(error)
     })
 }
 
-async function initDataTables(){
+async function initDataTables() {
     let datas = await getDateShowtime();
     table = $('#datatables').DataTable({
         "pageLength": 5,
@@ -86,7 +86,7 @@ async function initDataTables(){
         },
         "scrollX": true,
         scrollCollapse: true,
-        fixedColumns:   {
+        fixedColumns: {
             leftColumns: 4,
             rightColumns: 1
         },
@@ -157,8 +157,31 @@ async function initDataTables(){
     });
 }
 
+function findGetParameter(parameterName) {
+    var result = null,
+        tmp = [];
+    location.search
+        .substr(1)
+        .split("&")
+        .forEach(function (item) {
+            tmp = item.split("=");
+            if (tmp[0] === parameterName) result = decodeURIComponent(tmp[1]);
+        });
+    return result;
+}
 
+window.addEventListener("load", async e => {
+    await initDataTables();
+    let param = findGetParameter("filler");
+    let d = new Date();
+    if (param == "thang") {
+        let mounth = d.getMonth() + 1;
+        console.log(mounth)
+        table.columns(4).search(mounth).draw();
 
-window.addEventListener("load", e => {
-    initDataTables();
+    }
+    if (param == "nam") {
+        let year = d.getFullYear()
+        table.columns(4).search(year).draw();
+    }
 });

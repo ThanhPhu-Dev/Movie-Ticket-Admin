@@ -1,11 +1,10 @@
 package com.dinhthanhphu.movieticketadmin.api.admin;
 
+import com.dinhthanhphu.movieticketadmin.payload.request.StatisticsRequest;
 import com.dinhthanhphu.movieticketadmin.payload.response.StatisticsResponse;
 import com.dinhthanhphu.movieticketadmin.service.IBookingService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -16,13 +15,13 @@ public class StatisticsAPI {
     @Autowired
     private IBookingService bookingService;
 
-    @GetMapping("/statistics-cinema")
-    public List<StatisticsResponse> getStatisticsCinema(){
-        return bookingService.statisticsRevenueCinema();
+    @PostMapping("/statistics-cinema")
+    public List<StatisticsResponse> getStatisticsCinema(@RequestBody StatisticsRequest payload){
+        return bookingService.statisticsRevenueCinema(payload.getStartDate(), payload.getEndDate());
     }
 
-    @GetMapping("/statistics-movie")
-    public List<StatisticsResponse> getStatisticsMovie(){
-        return bookingService.statisticsRevenueMovie();
+    @PostMapping("/statistics-movie")
+    public List<StatisticsResponse> getStatisticsMovie(@RequestBody StatisticsRequest payload){
+        return bookingService.statisticsRevenueMovie(payload.getStartDate(), payload.getEndDate());
     }
 }

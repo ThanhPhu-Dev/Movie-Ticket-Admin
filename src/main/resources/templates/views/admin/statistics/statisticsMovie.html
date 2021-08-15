@@ -10,19 +10,32 @@
 
 
 <th:block id="home-static-resources">
-  <link rel="stylesheet" th:href="@{/css/admin/statisticsStyle.css}" type="text/css"/>
+    <link rel="stylesheet" th:href="@{/css/admin/statisticsStyle.css}" type="text/css"/>
 </th:block>
 <title>Doanh Thu Phim</title>
 <div id="home-main-content">
-  <div class="link-ref shadow mt-3">
-    <span>Doanh Thu /</span> <a th:href="@{/statistics-movie}">Doanh Thu Phim</a>
-  </div>
-
-  <div class="content shadow">
-    <div>
-      <canvas id="StatisticsMovieChart" width="400" height="180"></canvas>
+    <div class="link-ref shadow mt-3">
+        <span>Doanh Thu /</span> <a th:href="@{/statistics-movie}">Doanh Thu Phim</a>
     </div>
-  </div>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script th:src="@{/js/statistics/movieStatistics.js}"></script>
+
+    <div class="content shadow">
+        <form class="d-flex justify-content-center align-items-center">
+            <div class="form-group">
+                <label for="startDate">Từ Ngày</label>
+                <input class="form-control" id="startDate" type="Date">
+            </div>
+            <div class="form-group">
+                <label for="endDate">Đến Ngày </label>
+                <input class="form-control" id="endDate" type="Date">
+            </div>
+            <div >
+                <button class="btn btn-primary btn-submit" id="btn-submit" type="submit">Tra Cứu</button>
+            </div>
+        </form>
+        <div id="render_chart">
+            <canvas height="180" id="StatisticsMovieChart" width="400"></canvas>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script th:src="@{/js/statistics/movieStatistics.js}"></script>
 </div>

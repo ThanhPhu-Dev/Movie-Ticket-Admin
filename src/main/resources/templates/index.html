@@ -1,23 +1,147 @@
 <!DOCTYPE html>
 
 <!--  main-fragment (title, otherStaticResources, header, nav, mainContent, footer)  -->
-<html       th:replace="~{layouts/main-layout :: main-fragment(
+<html th:replace="~{layouts/main-layout :: main-fragment(
                                                 ~{::title},
                                                 ~{:: #home-static-resources},
                                                 ~{:: #home-main-content}
                                                )}"
       xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Helo world</title>
 
-   <!-- <th:block id="home-static-resources">
 
-    </th:block>-->
-
-</head>
-<body>
+<th:block id="home-static-resources">
+    <link rel="stylesheet" th:href="@{/css/admin/homeStyle.css}" type="text/css"/>
+</th:block>
+<title>Home</title>
 <div id="home-main-content">
-    <div>Content of Home Page</div>
+    <div class="row">
+        <div class="col-lg-3 col-6">
+            <div class="small-box shadow bg-Blue">
+                <div class="inner">
+                    <h3>150 <sup>Vé</sup></h3>
+                    <p>Trong Tháng</p>
+                </div>
+                <div class="icon">
+                    <ion-icon name="ticket-outline"></ion-icon>
+                </div>
+                <a href="#">Chi tiết <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-6">
+            <div class="small-box shadow bg-success">
+                <div class="inner">
+                    <h3>150 <sup>Vé</sup></h3>
+                    <p>Trong Năm</p>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-layer-group"></i>
+                </div>
+                <a href="#">Chi tiết <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-6">
+            <div class="small-box shadow bg-warning">
+                <div class="inner">
+                    <h3>150 <sup>Suất Chiếu</sup></h3>
+                    <p>Trong Tháng</p>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-film"></i>
+                </div>
+                <a th:href="@{/list-showtime?filler=thang}">Chi tiết <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-6">
+            <div class="small-box shadow bg-danger">
+                <div class="inner">
+                    <h3>150 <sup>Suất Chiếu</sup></h3>
+                    <p>Trong Năm</p>
+                </div>
+                <div class="icon">
+                    <ion-icon name="videocam-outline"></ion-icon>
+                </div>
+                <a th:href="@{/list-showtime?filler=nam}">Chi tiết <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="shadow  mt-3">
+        <div class="d-flex">
+            <div class="width_TurnoverMonth ">
+                <canvas height="370" id="StatisticsTurnoverMonthChart" width="700"></canvas>
+            </div>
+            <div class="pieChart">
+                <canvas height="100px" id="StatisticsTurnoverQuarterChart" width="500"></canvas>
+            </div>
+
+        </div>
+        <div class="d-flex mt-3">
+            <div class="bar-chart">
+                <canvas height="400" id="StatisticsTurnoverCinemaChart" width="600"></canvas>
+            </div>
+            <div class="top_movie mt-3 width_topView">
+                <div class="text-center title-topview">
+                    <p>Top 10 Lượt Xem</p>
+                </div>
+                <div class="pl-3 pr-3 pt-3 list_movie">
+                    <div class="d-flex justify-content-between pl-3 pr-3">
+                        <p>Tên Phim 1</p>
+                        <p>2000 <i class="far fa-eye"></i></p>
+                    </div>
+
+                    <div class="d-flex justify-content-between pl-3 pr-3">
+                        <p>Tên Phim 2</p>
+                        <p>2000 <i class="far fa-eye"></i></p>
+                    </div>
+
+                    <div class="d-flex justify-content-between pl-3 pr-3">
+                        <p>Tên Phim 3</p>
+                        <p>2000 <i class="far fa-eye"></i></p>
+                    </div>
+
+                    <div class="d-flex justify-content-between pl-3 pr-3">
+                        <p>Tên Phim 4</p>
+                        <p>2000 <i class="far fa-eye"></i></p>
+                    </div>
+
+                    <div class="d-flex justify-content-between pl-3 pr-3">
+                        <p>Tên Phim 5</p>
+                        <p>2000 <i class="far fa-eye"></i></p>
+                    </div>
+
+                    <div class="d-flex justify-content-between pl-3 pr-3">
+                        <p>Tên Phim 6</p>
+                        <p>2000 <i class="far fa-eye"></i></p>
+                    </div>
+
+                    <div class="d-flex justify-content-between pl-3 pr-3">
+                        <p>Tên Phim 7</p>
+                        <p>2000 <i class="far fa-eye"></i></p>
+                    </div>
+
+                    <div class="d-flex justify-content-between pl-3 pr-3">
+                        <p>Tên Phim 8</p>
+                        <p>2000 <i class="far fa-eye"></i></p>
+                    </div>
+
+                    <div class="d-flex justify-content-between pl-3 pr-3">
+                        <p>Tên Phim 9</p>
+                        <p>2000 <i class="far fa-eye"></i></p>
+                    </div>
+
+                    <div class="d-flex justify-content-between pl-3 pr-3">
+                        <p>Tên Phim 10</p>
+                        <p>2000 <i class="far fa-eye"></i></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script th:src="@{/js/home.js}"></script>
 </div>
-</body>
-</html>

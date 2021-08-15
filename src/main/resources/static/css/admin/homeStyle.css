@@ -1,0 +1,130 @@
+#home-main-content{
+    padding: 20px;
+}
+.small-box{
+    color: white;
+    display: block;
+    position: relative;
+    border-radius: 0.35rem;
+}
+
+.bg-Blue{
+    background-color: #17a2b8!important;
+}
+
+.bg-success{
+    background-color: #28a745!important;
+}
+
+.bg-warning{
+    background-color: #ffc107!important;
+}
+
+.bg-danger{
+    background-color: #dc3545!important;
+}
+
+.inner{
+    padding: 8px 25px 0px 10px;
+}
+
+.inner > h3{
+    font-size: 35px;
+    font-weight: 600 !important;
+}
+
+.inner > p{
+    font-size: 18px;
+}
+
+.inner > h3 > sup{
+    font-size: 18px;
+}
+
+.icon{
+    color: rgba(0,0,0,.15);
+    z-index: 0;
+}
+
+.icon >ion-icon {
+    position: absolute;
+    right: 15px;
+    top: 8px;
+    font-size: 90px;
+}
+
+.icon >i {
+    position: absolute;
+    right: 15px;
+    top: 10px;
+    font-size: 75px;
+}
+
+.small-box > a{
+    background-color: rgba(0,0,0,.1);
+    color: rgba(255,255,255,.8);
+    display: block;
+    padding: 3px 0;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+}
+
+.width_TurnoverMonth{
+    width: 725px;
+    margin-top: 25px;
+}
+
+.width_topView{
+    width: 40%;
+}
+.title-topview{
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #3f65d4;
+    color: white;
+}
+
+.title-topview > p{
+    margin: 0;
+}
+
+.top_movie{
+    margin-right: 30px;
+    border: 1px solid;
+    color: white;
+}
+
+.list_movie{
+    background: #f8f9fc;
+    color: black;
+    border: 1px solid gray;
+    padding: 0 !important;
+}
+
+.list_movie > div{
+    border-bottom: 1px solid gray;
+    padding: 10px;
+}
+
+.list_movie > div > p{
+    margin: 0;
+}
+
+.pieChart{
+    width: 400px;
+    padding-top: 20px;
+}
+
+.bar-chart{
+    width: 746px;
+    margin-top: 10px;
+    margin-left: 13px;
+}
+
+.bar-chart > canvas{
+    height: 501.8px !important;
+    width: 689.4px !important;
+}
