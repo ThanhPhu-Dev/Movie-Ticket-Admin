@@ -28,4 +28,6 @@ public interface IMovieRepository extends JpaRepository<MovieEntity, Long> {
 
     @Query("select a from MovieEntity a where upper(a.name) like upper(concat('%', ?1,'%'))")
     Page<MovieEntity> findByNameContainingCustom(String name, Pageable pageable);
+
+
 }

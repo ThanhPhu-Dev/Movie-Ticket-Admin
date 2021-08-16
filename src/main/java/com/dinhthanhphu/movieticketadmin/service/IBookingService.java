@@ -12,6 +12,12 @@ public interface IBookingService {
     boolean save(BookingRequest payload);
     List<BookingDTO> findAll();
     boolean delete(List<UUID> ids);
-    List<StatisticsResponse> statisticsRevenueCinema (Date start, Date end);
-    List<StatisticsResponse> statisticsRevenueMovie (Date start, Date end);
+    List<StatisticsResponse> statisticsRevenueCinemaOfTime (Date start, Date end);
+    List<StatisticsResponse> statisticsRevenueCinema();
+    List<StatisticsResponse> statisticsRevenueMovieOfTime (Date start, Date end);
+    List<StatisticsResponse> statisticsRevenueMovie();
+    List<StatisticsResponse> statisticsRevenueBookingByMonth();
+    List<StatisticsResponse> statisticsRevenueBookingByQuarter();
+
+
 }

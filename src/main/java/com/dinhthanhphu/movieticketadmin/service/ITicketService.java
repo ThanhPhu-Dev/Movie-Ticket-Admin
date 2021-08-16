@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface ITicketService {
     List<TicketDTO> findByShowtimeId(Long id);
+    Integer totalTicketOfYear();
+    Integer totalTicketOfMonth();
 }

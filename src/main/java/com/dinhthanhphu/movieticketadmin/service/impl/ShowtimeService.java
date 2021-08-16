@@ -99,5 +99,15 @@ public class ShowtimeService implements IShowtimeService {
                         .build(), s)).collect(Collectors.toList());
     }
 
+    @Override
+    public Integer totalShowtimeOfMonth() {
+        return showtimeRepository.totalShowtimeOfMonth();
+    }
+
+    @Override
+    public Integer totalShowtimeOfYear() {
+        return showtimeRepository.totalShowtimeOfYear();
+    }
+
 
 }

@@ -11,5 +11,6 @@ public interface IShowtimeService {
     boolean delete(Long[] ids);
     ShowtimeDTO findById(String id);
     List<ShowtimeDTO> findByStartDateAfter(Date date);
-
+    Integer totalShowtimeOfMonth();
+    Integer totalShowtimeOfYear();
 }

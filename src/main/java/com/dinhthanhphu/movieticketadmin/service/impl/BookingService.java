@@ -84,16 +84,16 @@ public class BookingService implements IBookingService {
     }
 
     @Override
-    public List<StatisticsResponse> statisticsRevenueCinema(Date start, Date end) {
-        List<Object[]> rs = bookingRepository.revenueCinema(start,end);
+    public List<StatisticsResponse> statisticsRevenueCinemaOfTime(Date start, Date end) {
+        List<Object[]> rs = bookingRepository.revenueCinemaOfTime(start, end);
         List<StatisticsResponse> listRevenue = new ArrayList<>();
         StatisticsResponse revenue = null;
         if (rs != null && !rs.isEmpty()) {
             for (Object[] object : rs) {
                 revenue = new StatisticsResponse();
-                revenue.setId(((BigInteger)object[0]).longValue());
+                revenue.setId(((BigInteger) object[0]).longValue());
                 revenue.setName((String) object[1]);
-                revenue.setTotal(((BigDecimal)object[2]).longValue());
+                revenue.setTotal(((BigDecimal) object[2]).longValue());
                 listRevenue.add(revenue);
             }
         }
@@ -101,21 +101,91 @@ public class BookingService implements IBookingService {
     }
 
     @Override
-    public List<StatisticsResponse> statisticsRevenueMovie(Date start, Date end) {
-        List<Object[]> rs = bookingRepository.revenueMovie(start,end);
+    public List<StatisticsResponse> statisticsRevenueCinema() {
+        List<Object[]> rs = bookingRepository.revenueCinema();
+        List<StatisticsResponse> listRevenue = new ArrayList<>();
+        StatisticsResponse revenue = null;
+        if (rs != null && !rs.isEmpty()) {
+            for (Object[] object : rs) {
+                revenue = new StatisticsResponse();
+                revenue.setId(((BigInteger) object[0]).longValue());
+                revenue.setName((String) object[1]);
+                revenue.setTotal(((BigDecimal) object[2]).longValue());
+                listRevenue.add(revenue);
+            }
+        }
+        return listRevenue;
+    }
+
+    @Override
+    public List<StatisticsResponse> statisticsRevenueMovieOfTime(Date start, Date end) {
+        List<Object[]> rs = bookingRepository.revenueMovieOfTime(start, end);
         List<StatisticsResponse> listRevenueMovie = new ArrayList<>();
         StatisticsResponse revenue = null;
         if (rs != null && !rs.isEmpty()) {
             for (Object[] object : rs) {
                 revenue = new StatisticsResponse();
-                revenue.setId(((BigInteger)object[0]).longValue());
+                revenue.setId(((BigInteger) object[0]).longValue());
                 revenue.setName((String) object[1]);
-                revenue.setTotal(((BigDecimal)object[2]).longValue());
+                revenue.setTotal(((BigDecimal) object[2]).longValue());
                 listRevenueMovie.add(revenue);
             }
         }
         return listRevenueMovie;
     }
 
+    @Override
+    public List<StatisticsResponse> statisticsRevenueMovie() {
+        List<Object[]> rs = bookingRepository.revenueMovieTop10();
+        List<StatisticsResponse> listRevenueMovie = new ArrayList<>();
+        StatisticsResponse revenue = null;
+        if (rs != null && !rs.isEmpty()) {
+            for (Object[] object : rs) {
+                revenue = new StatisticsResponse();
+                revenue.setName((String) object[0]);
+                revenue.setTotal(((BigDecimal) object[1]).longValue());
+                listRevenueMovie.add(revenue);
+            }
+        }
+        return listRevenueMovie;
+    }
 
+    @Override
+    public List<StatisticsResponse> statisticsRevenueBookingByMonth() {
+        Integer maxMonth = bookingRepository.getMaxMonthBooking();
+        List<Object[]> rs = bookingRepository.revenueBookingByMonth();
+        List<StatisticsResponse> listBooking = new ArrayList<>();
+        StatisticsResponse sr = null;
+        for (int i = 1; i <= maxMonth; i++) {
+            sr = new StatisticsResponse();
+            sr.setName(String.valueOf(i));
+            sr.setTotal(0L);
+            for (Object[] object : rs) {
+                if (((Double) object[0]).intValue() == i) {
+                    sr.setTotal(((BigDecimal) object[1]).longValue());
+                }
+            }
+            listBooking.add(sr);
+        }
+        return listBooking;
+    }
+
+    @Override
+    public List<StatisticsResponse> statisticsRevenueBookingByQuarter() {
+        List<Object[]> rs = bookingRepository.revenueBookingByQuarter();
+        List<StatisticsResponse> listBooking = new ArrayList<>();
+        StatisticsResponse sr = null;
+        for (int i = 1; i <= 4; i++) {
+            sr = new StatisticsResponse();
+            sr.setName(String.valueOf(i));
+            sr.setTotal(0L);
+            for (Object[] object : rs) {
+                if (((Double) object[0]).intValue() == i) {
+                    sr.setTotal(((BigDecimal) object[1]).longValue());
+                }
+            }
+            listBooking.add(sr);
+        }
+        return listBooking;
+    }
 }

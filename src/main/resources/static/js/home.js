@@ -1,25 +1,46 @@
-function lineTurnoverMonth(){
-    const labels = [
-        'tháng 1',
-        'tháng 2',
-        'tháng 3',
-        'tháng 4',
-        'tháng 5',
-        'tháng 6',
-        'tháng 7',
-        'tháng 8',
-        'tháng 9',
-        'tháng 10',
-        'tháng 11',
-        'tháng 12',
-    ];
+function getDataStatisticsCinema() {
+    return new Promise(resolve => {
+        let url = '/api/statistics-cinema';
+        axios.get(url).then(function (response) {
+            return resolve(response.data)
+        }).catch(function (error) {
+            alert(error);
+        });
+    })
+}
+
+function getDataStatisticsBookingByMonth() {
+    return new Promise(resolve => {
+        let url = '/api/statistics-booking-month';
+        axios.get(url).then(function (response) {
+            return resolve(response.data)
+        }).catch(function (error) {
+            alert(error);
+        });
+    })
+}
+
+function getDataStatisticsBookingByQuarter() {
+    return new Promise(resolve => {
+        let url = '/api/statistics-booking-quarter';
+        axios.get(url).then(function (response) {
+            return resolve(response.data)
+        }).catch(function (error) {
+            alert(error);
+        });
+    })
+}
+
+async function lineTurnoverMonth() {
+    let datas = await getDataStatisticsBookingByMonth();
+    const labels = datas.map(m => 'Tháng ' + m.name);
     const data = {
         labels: labels,
         datasets: [{
             label: 'Doanh Thu(VNĐ)',
             backgroundColor: 'rgb(255, 99, 132)',
             borderColor: 'rgb(255, 99, 132)',
-            data: [0, 10, 5, 2, 20, 30, 45, 50, 45, 15, 70, 60],
+            data: datas.map(m => m.total),
         }]
     };
 
@@ -50,21 +71,18 @@ function lineTurnoverMonth(){
     let myChart = new Chart(document.getElementById('StatisticsTurnoverMonthChart'), config);
 }
 
-function PieChartQuarter(){
-
+async function PieChartQuarter() {
+    let datas = await getDataStatisticsBookingByQuarter();
     const data = {
-        labels: [
-            'Red',
-            'Blue',
-            'Yellow'
-        ],
+        labels: datas.map(m => 'Quý '+m.name + ' VNĐ'),
         datasets: [{
             label: 'My First Dataset',
-            data: [300, 50, 100],
+            data: datas.map(m => m.total),
             backgroundColor: [
                 'rgb(255, 99, 132)',
                 'rgb(54, 162, 235)',
-                'rgb(255, 205, 86)'
+                'rgb(255, 205, 86)',
+                'rgb(100, 232, 90)'
             ],
             hoverOffset: 4
         }]
@@ -88,12 +106,13 @@ function PieChartQuarter(){
     let myChart = new Chart(document.getElementById('StatisticsTurnoverQuarterChart'), config);
 }
 
-function BarSatisticsCinema(){
+async function BarSatisticsCinema() {
+    let datas = await getDataStatisticsCinema();
     const data = {
-        labels: ["cinema 1", "cinema 2"],
+        labels: datas.map(m => m.name),
         datasets: [{
             label: 'Doanh Thu VNĐ',
-            data: [65, 59, 80, 81, 56, 55, 40],
+            data: datas.map(m => m.total),
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
                 'rgba(255, 159, 64, 0.2)',
@@ -144,8 +163,8 @@ function BarSatisticsCinema(){
     let myChart = new Chart(document.getElementById('StatisticsTurnoverCinemaChart'), config);
 }
 
-window.addEventListener("load", e => {
+window.addEventListener("load", async e => {
     lineTurnoverMonth();
     PieChartQuarter();
-    BarSatisticsCinema();
+    await BarSatisticsCinema();
 });

@@ -17,11 +17,26 @@ public class StatisticsAPI {
 
     @PostMapping("/statistics-cinema")
     public List<StatisticsResponse> getStatisticsCinema(@RequestBody StatisticsRequest payload){
-        return bookingService.statisticsRevenueCinema(payload.getStartDate(), payload.getEndDate());
+        return bookingService.statisticsRevenueCinemaOfTime(payload.getStartDate(), payload.getEndDate());
     }
 
     @PostMapping("/statistics-movie")
     public List<StatisticsResponse> getStatisticsMovie(@RequestBody StatisticsRequest payload){
-        return bookingService.statisticsRevenueMovie(payload.getStartDate(), payload.getEndDate());
+        return bookingService.statisticsRevenueMovieOfTime(payload.getStartDate(), payload.getEndDate());
+    }
+
+    @GetMapping("/statistics-cinema")
+    public List<StatisticsResponse> getStatisticsCinema(){
+        return bookingService.statisticsRevenueCinema();
+    }
+
+    @GetMapping("/statistics-booking-month")
+    public List<StatisticsResponse> getStatisticsBookingByMonth(){
+        return bookingService.statisticsRevenueBookingByMonth();
+    }
+
+    @GetMapping("/statistics-booking-quarter")
+    public List<StatisticsResponse> getStatisticsBookingByQuarter(){
+        return bookingService.statisticsRevenueBookingByQuarter();
     }
 }

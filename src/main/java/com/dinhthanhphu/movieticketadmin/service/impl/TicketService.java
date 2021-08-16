@@ -27,4 +27,14 @@ public class TicketService implements ITicketService {
                                .stream().map(t -> cvt.convertToDTO(new TicketDTO(), t))
                                .collect(Collectors.toList());
     }
+
+    @Override
+    public Integer totalTicketOfYear() {
+        return ticketRepository.totalTicketOfYear();
+    }
+
+    @Override
+    public Integer totalTicketOfMonth() {
+        return ticketRepository.totalTicketOfMonth();
+    }
 }

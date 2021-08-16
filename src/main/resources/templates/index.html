@@ -18,7 +18,9 @@
         <div class="col-lg-3 col-6">
             <div class="small-box shadow bg-Blue">
                 <div class="inner">
-                    <h3>150 <sup>Vé</sup></h3>
+                    <div class="d-flex align-items-center">
+                        <h3 th:text="${totalTicketOfMonth}"></h3><sup>Vé</sup>
+                    </div>
                     <p>Trong Tháng</p>
                 </div>
                 <div class="icon">
@@ -31,7 +33,9 @@
         <div class="col-lg-3 col-6">
             <div class="small-box shadow bg-success">
                 <div class="inner">
-                    <h3>150 <sup>Vé</sup></h3>
+                    <div class="d-flex align-items-center">
+                        <h3 th:text="${totalTicketOfMonth}"></h3><sup>Vé</sup>
+                    </div>
                     <p>Trong Năm</p>
                 </div>
                 <div class="icon">
@@ -44,7 +48,9 @@
         <div class="col-lg-3 col-6">
             <div class="small-box shadow bg-warning">
                 <div class="inner">
-                    <h3>150 <sup>Suất Chiếu</sup></h3>
+                    <div class="d-flex align-items-center">
+                        <h3 th:text="${totalShowtimeOfMonth}"></h3><sup>Suất Chiếu</sup>
+                    </div>
                     <p>Trong Tháng</p>
                 </div>
                 <div class="icon">
@@ -57,7 +63,9 @@
         <div class="col-lg-3 col-6">
             <div class="small-box shadow bg-danger">
                 <div class="inner">
-                    <h3>150 <sup>Suất Chiếu</sup></h3>
+                    <div class="d-flex align-items-center">
+                        <h3 th:text="${totalShowtimeOfYear}"></h3><sup>Suất Chiếu</sup>
+                    </div>
                     <p>Trong Năm</p>
                 </div>
                 <div class="icon">
@@ -76,7 +84,6 @@
             <div class="pieChart">
                 <canvas height="100px" id="StatisticsTurnoverQuarterChart" width="500"></canvas>
             </div>
-
         </div>
         <div class="d-flex mt-3">
             <div class="bar-chart">
@@ -84,64 +91,19 @@
             </div>
             <div class="top_movie mt-3 width_topView">
                 <div class="text-center title-topview">
-                    <p>Top 10 Lượt Xem</p>
+                    <p>Top 10 Phim Có Doanh Thu Cao Nhất</p>
                 </div>
                 <div class="pl-3 pr-3 pt-3 list_movie">
-                    <div class="d-flex justify-content-between pl-3 pr-3">
-                        <p>Tên Phim 1</p>
-                        <p>2000 <i class="far fa-eye"></i></p>
-                    </div>
-
-                    <div class="d-flex justify-content-between pl-3 pr-3">
-                        <p>Tên Phim 2</p>
-                        <p>2000 <i class="far fa-eye"></i></p>
-                    </div>
-
-                    <div class="d-flex justify-content-between pl-3 pr-3">
-                        <p>Tên Phim 3</p>
-                        <p>2000 <i class="far fa-eye"></i></p>
-                    </div>
-
-                    <div class="d-flex justify-content-between pl-3 pr-3">
-                        <p>Tên Phim 4</p>
-                        <p>2000 <i class="far fa-eye"></i></p>
-                    </div>
-
-                    <div class="d-flex justify-content-between pl-3 pr-3">
-                        <p>Tên Phim 5</p>
-                        <p>2000 <i class="far fa-eye"></i></p>
-                    </div>
-
-                    <div class="d-flex justify-content-between pl-3 pr-3">
-                        <p>Tên Phim 6</p>
-                        <p>2000 <i class="far fa-eye"></i></p>
-                    </div>
-
-                    <div class="d-flex justify-content-between pl-3 pr-3">
-                        <p>Tên Phim 7</p>
-                        <p>2000 <i class="far fa-eye"></i></p>
-                    </div>
-
-                    <div class="d-flex justify-content-between pl-3 pr-3">
-                        <p>Tên Phim 8</p>
-                        <p>2000 <i class="far fa-eye"></i></p>
-                    </div>
-
-                    <div class="d-flex justify-content-between pl-3 pr-3">
-                        <p>Tên Phim 9</p>
-                        <p>2000 <i class="far fa-eye"></i></p>
-                    </div>
-
-                    <div class="d-flex justify-content-between pl-3 pr-3">
-                        <p>Tên Phim 10</p>
-                        <p>2000 <i class="far fa-eye"></i></p>
-                    </div>
+                    <th:block th:each="movie : ${listMovie}">
+                        <div class="d-flex justify-content-between pl-3 pr-3">
+                            <p th:text="${movie.name}">Tên Phim 1</p>
+                            <p>[[${movie.total}]] <i class="fas fa-money-check-alt"></i></p>
+                        </div>
+                    </th:block>
                 </div>
             </div>
         </div>
     </div>
-
-
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script th:src="@{/js/home.js}"></script>
 </div>

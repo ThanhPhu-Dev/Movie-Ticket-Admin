@@ -28,7 +28,7 @@
     padding: 8px 25px 0px 10px;
 }
 
-.inner > h3{
+.inner > div > h3{
     font-size: 35px;
     font-weight: 600 !important;
 }
@@ -37,8 +37,9 @@
     font-size: 18px;
 }
 
-.inner > h3 > sup{
+.inner > div > sup{
     font-size: 18px;
+    margin-left: 5px;
 }
 
 .icon{
@@ -114,8 +115,9 @@
 }
 
 .pieChart{
-    width: 400px;
+    width: 390px;
     padding-top: 20px;
+    margin-left: 60px;
 }
 
 .bar-chart{
