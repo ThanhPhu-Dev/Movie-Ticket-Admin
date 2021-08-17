@@ -10,7 +10,7 @@
 <th:block id="home-static-resources">
     <link rel="stylesheet" th:href="@{/css/admin/addMovieStyle.css}"
           type="text/css"/>
-    <link rel="stylesheet" th:href="@{css/multiLoad.css}"
+    <link rel="stylesheet" th:href="@{/css/multiLoad.css}"
           type="text/css"/>
 </th:block>
 
@@ -49,7 +49,6 @@
                         </div>
                         <div class="list_attach">
                             <ul class="dandev_attach_view">
-                                <th:block th:if="${movie != null}">
                                     <th:block th:each="image, state : ${movie.image}">
                                         <li th:id="${'li_files_' + state.index}">
                                             <div class="img-wrap">
@@ -65,7 +64,6 @@
                                             </div>
                                         </li>
                                     </th:block>
-                                </th:block>
                                 <li class="li_file_hide" id="li_files_${_time}" th:if="${movie != null}">
                                     <div class="img-wrap">
                                         <span class="close" onclick="DelImg(this)">x</span>
