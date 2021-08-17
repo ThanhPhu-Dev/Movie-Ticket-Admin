@@ -4,7 +4,7 @@ function getDataStatisticsCinema() {
         axios.get(url).then(function (response) {
             return resolve(response.data)
         }).catch(function (error) {
-            alert(error);
+            return resolve([])
         });
     })
 }
@@ -15,6 +15,7 @@ function getDataStatisticsBookingByMonth() {
         axios.get(url).then(function (response) {
             return resolve(response.data)
         }).catch(function (error) {
+            return resolve([])
             alert(error);
         });
     })
@@ -26,6 +27,7 @@ function getDataStatisticsBookingByQuarter() {
         axios.get(url).then(function (response) {
             return resolve(response.data)
         }).catch(function (error) {
+            return resolve([])
             alert(error);
         });
     })
@@ -164,7 +166,7 @@ async function BarSatisticsCinema() {
 }
 
 window.addEventListener("load", async e => {
-    lineTurnoverMonth();
-    PieChartQuarter();
+    await lineTurnoverMonth();
+    await PieChartQuarter();
     await BarSatisticsCinema();
 });

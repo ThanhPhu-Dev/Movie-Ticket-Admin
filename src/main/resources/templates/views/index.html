@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+
+<!--  main-fragment (title, otherStaticResources, header, nav, mainContent, footer)  -->
+<html th:replace="~{layouts/main-layout :: main-fragment(
+                                                ~{::title},
+                                                ~{:: #home-static-resources},
+                                                ~{:: #home-main-content}
+                                               )}"
+      xmlns:th="http://www.thymeleaf.org">
+
+
+<th:block id="home-static-resources">
+    <link rel="stylesheet" th:href="@{/css/admin/homeStyle.css}" type="text/css"/>
+</th:block>
+<title>Home</title>
+<div id="home-main-content">
+    <div class="row">
+        <div class="col-lg-3 col-6">
+            <div class="small-box shadow bg-Blue">
+                <div class="inner">
+                    <div class="d-flex align-items-center">
+                        <h3 th:text="${totalTicketOfMonth}"></h3><sup>Vé</sup>
+                    </div>
+                    <p>Trong Tháng</p>
+                </div>
+                <div class="icon">
+                    <ion-icon name="ticket-outline"></ion-icon>
+                </div>
+                <a href="#">Chi tiết <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-6">
+            <div class="small-box shadow bg-success">
+                <div class="inner">
+                    <div class="d-flex align-items-center">
+                        <h3 th:text="${totalTicketOfMonth}"></h3><sup>Vé</sup>
+                    </div>
+                    <p>Trong Năm</p>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-layer-group"></i>
+                </div>
+                <a href="#">Chi tiết <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-6">
+            <div class="small-box shadow bg-warning">
+                <div class="inner">
+                    <div class="d-flex align-items-center">
+                        <h3 th:text="${totalShowtimeOfMonth}"></h3><sup>Suất Chiếu</sup>
+                    </div>
+                    <p>Trong Tháng</p>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-film"></i>
+                </div>
+                <a th:href="@{/list-showtime?filler=thang}">Chi tiết <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-6">
+            <div class="small-box shadow bg-danger">
+                <div class="inner">
+                    <div class="d-flex align-items-center">
+                        <h3 th:text="${totalShowtimeOfYear}"></h3><sup>Suất Chiếu</sup>
+                    </div>
+                    <p>Trong Năm</p>
+                </div>
+                <div class="icon">
+                    <ion-icon name="videocam-outline"></ion-icon>
+                </div>
+                <a th:href="@{/list-showtime?filler=nam}">Chi tiết <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="shadow  mt-3">
+        <div class="d-flex">
+            <div class="width_TurnoverMonth ">
+                <canvas height="370" id="StatisticsTurnoverMonthChart" width="700"></canvas>
+            </div>
+            <div class="pieChart">
+                <canvas height="100px" id="StatisticsTurnoverQuarterChart" width="500"></canvas>
+            </div>
+        </div>
+        <div class="d-flex mt-3">
+            <div class="bar-chart">
+                <canvas height="400" id="StatisticsTurnoverCinemaChart" width="600"></canvas>
+            </div>
+            <div class="top_movie mt-3 width_topView">
+                <div class="text-center title-topview">
+                    <p>Top 10 Phim Có Doanh Thu Cao Nhất</p>
+                </div>
+                <div class="pl-3 pr-3 pt-3 list_movie">
+                    <th:block th:each="movie : ${listMovie}">
+                        <div class="d-flex justify-content-between pl-3 pr-3">
+                            <p th:text="${movie.name}">Tên Phim 1</p>
+                            <p>[[${movie.total}]] <i class="fas fa-money-check-alt"></i></p>
+                        </div>
+                    </th:block>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script th:src="@{/js/home.js}"></script>
+</div>

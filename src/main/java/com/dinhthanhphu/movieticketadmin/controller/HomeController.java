@@ -21,8 +21,13 @@ public class HomeController {
     private IBookingService bookingService;
 
     @GetMapping("/")
-    public ModelAndView index(){
-        ModelAndView mav = new ModelAndView("index");
+    public String index(){
+        return "redirect:/home";
+    }
+
+    @GetMapping("/home")
+    public ModelAndView home(){
+        ModelAndView mav = new ModelAndView("views/index");
         mav.addObject("totalTicketOfMonth", ticketService.totalTicketOfMonth());
         mav.addObject("totalShowtimeOfMonth", showtimeService.totalShowtimeOfMonth());
         mav.addObject("totalTicketOfYear", ticketService.totalTicketOfYear());
