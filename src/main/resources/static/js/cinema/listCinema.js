@@ -9,6 +9,7 @@ function sleep(ms) {
 
 btn_add.addEventListener("click", function (){
     let formsubmit = document.getElementById("formSubmit");
+    document.getElementById('exampleModalToggleLabel').innerText= 'Thêm';
     formsubmit.getElementsByTagName("input")[0].value = '';
     formsubmit.getElementsByTagName("input")[1].value = '';
     formsubmit.getElementsByTagName("input")[2].value = '';
@@ -233,6 +234,7 @@ async function updateCinemaView(id) {
     let url = "api/cinema/" + id;
 
     axios.get(url).then(function (reponse) {
+        document.getElementById('exampleModalToggleLabel').innerText= 'Cập Nhật';
         formsubmit.getElementsByTagName("input")[0].value = reponse.data.id;
         formsubmit.getElementsByTagName("input")[1].value = reponse.data.name;
         formsubmit.getElementsByTagName("input")[2].value = reponse.data.lenght;
