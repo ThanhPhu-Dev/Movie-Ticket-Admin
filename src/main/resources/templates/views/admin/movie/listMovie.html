@@ -40,7 +40,7 @@
         <div id="list-movie">
             <th:block th:each="movie : ${listMovie}">
                 <div class="movie-info d-inline-block ml-3 mr-2 mb-1 mt-2" th:object="${movie}">
-                    <a th:href="@{/movie/{id}(id = *{id})}">
+                    <a th:href="@{/movie/{id}(id = *{id})}" class="info-link">
                         <div class="movie-info--img">
                             <img style="height: auto" th:src="*{posterUrl}" width="200">
                         </div>
