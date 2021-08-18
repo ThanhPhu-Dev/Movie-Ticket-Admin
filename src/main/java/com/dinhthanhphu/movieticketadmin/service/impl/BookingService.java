@@ -14,6 +14,7 @@ import com.dinhthanhphu.movieticketadmin.repository.ITicketRepository;
 import com.dinhthanhphu.movieticketadmin.service.IBookingService;
 import com.dinhthanhphu.movieticketadmin.utils.MapperModelUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -66,7 +67,7 @@ public class BookingService implements IBookingService {
 
     @Override
     public List<BookingDTO> findAll() {
-        return bookingRepository.findAll()
+        return bookingRepository.findAll(Sort.by("createDate").descending())
                 .stream().map(b -> cvt.convertToDTO(BookingDTO.builder()
                         .ticket(b.getTicket().stream().map(t -> cvt.convertToDTO(new TicketDTO(), t)).collect(Collectors.toList()))
                         .showtime(cvt.convertToDTO(new ShowtimeDTO(), b.getShowtime())).build(), b)).collect(Collectors.toList());

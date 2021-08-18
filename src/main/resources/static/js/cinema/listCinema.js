@@ -187,9 +187,14 @@ async function initDataTable() {
                 data: 'id',
             },
             {data: 'name'},
-            {data: 'address'},
-            {data: 'lenght'},
-            {data: 'width'},
+            { data: 'address'},
+            {
+                className: 'text-center',
+                data: 'lenght'
+            },
+            {
+                className: 'text-center',
+                data: 'width'},
             {
                 data: 'createBy',
                 "width": "13%",

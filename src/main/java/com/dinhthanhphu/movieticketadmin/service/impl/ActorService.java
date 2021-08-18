@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -37,7 +38,7 @@ public class ActorService implements IActorService {
 
     @Override
     public List<ActorDTO> findAll() {
-        return actorRepository.findAll().stream()
+        return actorRepository.findAll(Sort.by("createDate").descending()).stream()
                 .map(s -> cvt.convertToDTO(new ActorDTO(), s))
                 .collect(Collectors.toList());
     }
@@ -81,7 +82,7 @@ public class ActorService implements IActorService {
 
     @Override
     public Page<ActorDTO> findPaginated(int pageNo, int pageSize) {
-        Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
+        Pageable pageable = PageRequest.of(pageNo - 1, pageSize, Sort.by("createDate").descending());
         return actorRepository.findAll(pageable).map(m  -> cvt.convertToDTO(new ActorDTO(), m));
 //        List<ActorDTO> lstActor  = actorRepository.findAll()
 //                                    .stream().map( m -> cvt.convertToDTO(new ActorDTO(), m)).collect(Collectors.toList());
@@ -94,7 +95,7 @@ public class ActorService implements IActorService {
 
     @Override
     public Page<ActorDTO> findByNameContainingPaginated(String name, int pageNo, int pageSize) {
-        Pageable pageable = PageRequest.of(pageNo - 1,pageSize);
+        Pageable pageable = PageRequest.of(pageNo - 1,pageSize, Sort.by("createDate").descending());
         String nameidol = "";
         if(name != null){
             nameidol = name;

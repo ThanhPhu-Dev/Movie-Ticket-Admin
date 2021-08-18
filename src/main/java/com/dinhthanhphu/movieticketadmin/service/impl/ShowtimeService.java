@@ -12,6 +12,7 @@ import com.dinhthanhphu.movieticketadmin.repository.IShowtimeRepository;
 import com.dinhthanhphu.movieticketadmin.service.IShowtimeService;
 import com.dinhthanhphu.movieticketadmin.utils.MapperModelUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -62,7 +63,7 @@ public class ShowtimeService implements IShowtimeService {
 
     @Override
     public List<ShowtimeDTO> findAll() {
-        return showtimeRepository.findAll().stream()
+        return showtimeRepository.findAll(Sort.by("createDate").descending()).stream()
                 .map(s -> cvt.convertToDTO(ShowtimeDTO.builder()
                                             .movie(cvt.convertToDTO(new MovieDTO(),s.getMovie()))
                                             .cinema(cvt.convertToDTO(new CinemaDTO(), s.getCinema()))

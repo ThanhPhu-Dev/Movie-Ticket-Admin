@@ -6,6 +6,7 @@ import com.dinhthanhphu.movieticketadmin.repository.ICinemaRepository;
 import com.dinhthanhphu.movieticketadmin.service.ICinemaService;
 import com.dinhthanhphu.movieticketadmin.utils.MapperModelUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -23,7 +24,7 @@ public class CinemaService implements ICinemaService {
 
     @Override
     public List<CinemaDTO> findAll() {
-        return cinemaRepository.findAll().stream().map(m -> cvt.convertToDTO(new CinemaDTO(), m)).collect(Collectors.toList());
+        return cinemaRepository.findAll(Sort.by("createDate").descending()).stream().map(m -> cvt.convertToDTO(new CinemaDTO(), m)).collect(Collectors.toList());
     }
 
     @Override

@@ -17,10 +17,7 @@ import com.dinhthanhphu.movieticketadmin.service.IMovieService;
 import com.dinhthanhphu.movieticketadmin.utils.CloudinaryUtils;
 import com.dinhthanhphu.movieticketadmin.utils.MapperModelUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -201,13 +198,13 @@ public class MovieService implements IMovieService {
 
     @Override
     public Page<MovieDTO> findPaginated(int pageNo, int pageSize) {
-        Pageable pageable = PageRequest.of(pageNo-1, pageSize);
+        Pageable pageable = PageRequest.of(pageNo-1, pageSize, Sort.by("createDate").descending());
         return movieRepository.findAll(pageable).map(m -> cvt.convertToDTO(new MovieDTO(), m));
     }
 
     @Override
     public Page<MovieDTO> findByNameAndIdCategoryPaginated(int pageNo, int pageSize, String name, String idCategory) {
-        Pageable pageable = PageRequest.of(pageNo-1, pageSize);
+        Pageable pageable = PageRequest.of(pageNo-1, pageSize, Sort.by("createDate").descending());
         Page<MovieEntity> page = null;
         String namemovie = "";
         if(name != null){
@@ -223,7 +220,7 @@ public class MovieService implements IMovieService {
 
     @Override
     public Page<MovieDTO> findByIdCategoryPaginated(String idCategory, int pageNo, int pageSize) {
-        Pageable pageable = PageRequest.of(pageNo - 1,pageSize);
+        Pageable pageable = PageRequest.of(pageNo - 1,pageSize, Sort.by("createDate").descending());
         Page<MovieEntity> page = null;
 
         if(idCategory.equals("0")){

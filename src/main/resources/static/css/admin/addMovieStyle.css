@@ -98,5 +98,8 @@
     color: springgreen;
 }
 
-
+datalist {
+    max-height: 500px;
+    overflow-y: auto !important;
+}
 
