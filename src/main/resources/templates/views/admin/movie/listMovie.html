@@ -42,7 +42,7 @@
                 <div class="movie-info d-inline-block ml-3 mr-2 mb-1 mt-2" th:object="${movie}">
                     <a th:href="@{/movie/{id}(id = *{id})}" class="info-link">
                         <div class="movie-info--img">
-                            <img style="height: auto" th:src="*{posterUrl}" width="200">
+                            <img style="height: 100%" th:src="*{posterUrl}" width="200">
                         </div>
                         <p th:text="*{name}"></p>
                     </a>
