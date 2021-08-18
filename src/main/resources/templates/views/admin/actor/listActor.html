@@ -30,7 +30,7 @@
             <th:block th:each="actor : ${lstActor}">
                 <div class="actor-info d-inline-block ml-3 mr-2 mb-1 mt-2">
                     <a th:href="@{/actor/detail/{id}(id=${actor.id})}" class="info-link">
-                        <img height="350px"
+                        <img
                              style="max-height: 400px; height: 100%"
                              th:src="${actor.public_url}" width="200px">
                         <div class="name-actor">
