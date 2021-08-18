@@ -1,25 +1,35 @@
 const submitAdd = document.getElementById("submit-add-cinema");
 const btn_delete = document.getElementById("btn-delete");
+const btn_add = document.getElementById("btn-add");
 let table;
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-btn_delete.addEventListener("click", function (e){
+btn_add.addEventListener("click", function (){
+    let formsubmit = document.getElementById("formSubmit");
+    formsubmit.getElementsByTagName("input")[0].value = '';
+    formsubmit.getElementsByTagName("input")[1].value = '';
+    formsubmit.getElementsByTagName("input")[2].value = '';
+    formsubmit.getElementsByTagName("input")[3].value = '';
+    formsubmit.getElementsByTagName("input")[4].value = '';
+})
+
+btn_delete.addEventListener("click", function (e) {
     let arrayDelete = [];
-    document.querySelectorAll("input[type='checkbox']:checked").forEach( element =>{
+    document.querySelectorAll("input[type='checkbox']:checked").forEach(element => {
         arrayDelete.push(+element.value);
     });
 
     let url = "/api/delete-cinema"
     let json = JSON.stringify(arrayDelete);
-    axios.delete(url,{
+    axios.delete(url, {
         headers: {
             "Content-Type": "application/json"
         },
         data: json
-    }).then( async function (reponse){
+    }).then(async function (reponse) {
         Swal.fire({
             icon: 'success',
             title: '',
@@ -29,7 +39,7 @@ btn_delete.addEventListener("click", function (e){
         await sleep(1300);
         location.reload();
         return;
-    }).catch(function (error){
+    }).catch(function (error) {
         alert(error);
     })
 })
@@ -42,16 +52,16 @@ submitAdd.addEventListener("click", function (e) {
     $.each(formData, function (i, v) {
         data["" + v.name + ""] = v.value;
     });
-    if(data.id == ""){
-        submitAdd.innerText ="Thêm";
+    if (data.id == "") {
+        submitAdd.innerText = "Thêm";
         addCinema(data);
 
-    }else{
+    } else {
         updateCinema(data);
     }
 });
 
-async function updateCinema(data){
+async function updateCinema(data) {
     var url = "/api/update-cinema";
     let dataJson = JSON.stringify(data);
     axios.put(url, dataJson, {
@@ -216,17 +226,19 @@ async function initDataTable() {
     });
 }
 
-async  function updateCinemaView(id){
-    let formsubmit = document.getElementById("formSubmit");
-    let url = "api/cinema/"+id;
 
-    axios.get(url).then(function (reponse){
+
+async function updateCinemaView(id) {
+    let formsubmit = document.getElementById("formSubmit");
+    let url = "api/cinema/" + id;
+
+    axios.get(url).then(function (reponse) {
         formsubmit.getElementsByTagName("input")[0].value = reponse.data.id;
         formsubmit.getElementsByTagName("input")[1].value = reponse.data.name;
         formsubmit.getElementsByTagName("input")[2].value = reponse.data.lenght;
         formsubmit.getElementsByTagName("input")[3].value = reponse.data.width;
         formsubmit.getElementsByTagName("input")[4].value = reponse.data.address;
-    }).catch(function (error){
+    }).catch(function (error) {
         alert(error);
     })
 }
