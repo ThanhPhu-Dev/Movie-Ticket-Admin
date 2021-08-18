@@ -174,6 +174,31 @@ function deleteBook(){
     })
 }
 
+function findGetParameter(parameterName) {
+    var result = null,
+        tmp = [];
+    location.search
+        .substr(1)
+        .split("&")
+        .forEach(function (item) {
+            tmp = item.split("=");
+            if (tmp[0] === parameterName) result = decodeURIComponent(tmp[1]);
+        });
+    return result;
+}
+
 window.addEventListener("load", e => {
     initDataTables();
+    let param = findGetParameter("filler");
+    let d = new Date();
+    if (param == "thang") {
+        let mounth = d.getMonth() + 1;
+        console.log(mounth)
+        table.columns(8).search(mounth).draw();
+
+    }
+    if (param == "nam") {
+        let year = d.getFullYear()
+        table.columns(8).search(year).draw();
+    }
 });

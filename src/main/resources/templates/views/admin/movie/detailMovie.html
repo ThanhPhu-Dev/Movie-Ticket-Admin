@@ -76,12 +76,14 @@
                     <div>Người Cập Nhật: <span th:text="*{modifyBy}"></span></div>
                     <div>Ngày Cập Nhật: <span th:text="*{#dates.format(modifyDate, 'dd-MM-yyyy')}"></span></div>
                 </div>
-                <div>Thời Lượng: <span th:text="*{times}"></span></div>
+                <div>Thời Lượng: <span th:text="*{times + ' Phút'}"></span></div>
                 <div>Ngày Công Chiếu: <span th:text="*{#dates.format(openDate, 'dd-MM-yyyy')}"></span></div>
                 <div>Quốc Gia: <span th:text="*{nation}"></span></div>
-                <div>Diễn viên:
+                <div class="actor">Diễn viên:
                     <th:block th:each="actor : ${movie.actors}">
-                        <span th:text="${actor.name + ','}"></span>
+                        <a th:href="@{/actor/detail/{id}(id=${actor.id})}">
+                            <span th:text="${actor.name + ','}"></span>
+                        </a>
                     </th:block>
                 </div>
                 <div>Thể Loại:
