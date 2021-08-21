@@ -162,8 +162,8 @@ async function getDataCinema() {
 async function initDataTable() {
     let datas = await getDataCinema();
     table = $('#datatables').DataTable({
-        "pageLength": 5,
-        "lengthMenu": [5, 10, 15],
+        "pageLength": 8,
+        "lengthMenu": [8, 12, 16],
         "oLanguage": {
             "sSearch": "",
             "sLengthMenu": "Hiển Thị _MENU_ ",

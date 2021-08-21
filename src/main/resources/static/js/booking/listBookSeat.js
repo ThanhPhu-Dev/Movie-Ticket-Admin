@@ -25,8 +25,8 @@ async function getDateBooking() {
 async function initDataTables() {
     let datas = await getDateBooking();
     table = $('#datatables').DataTable({
-        "pageLength": 5,
-        "lengthMenu": [5, 10, 15],
+        "pageLength": 8,
+        "lengthMenu": [8, 12, 16],
         "oLanguage": {
             "sSearch": "",
             "sLengthMenu": "Hiển Thị _MENU_ ",
