@@ -62,6 +62,7 @@ public class authController {
                                  @RequestParam(value = "message", required = false) String message,
                                  Model model) {
         MessageUtils.setMessageToAttribute(alert, message, model);
+
         return "views/auth/forgetPassword";
     }
 

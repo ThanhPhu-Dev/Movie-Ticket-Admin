@@ -13,6 +13,7 @@ import com.dinhthanhphu.movieticketadmin.repository.IActorRepository;
 import com.dinhthanhphu.movieticketadmin.repository.ICategoryRepository;
 import com.dinhthanhphu.movieticketadmin.repository.IImageRepository;
 import com.dinhthanhphu.movieticketadmin.repository.IMovieRepository;
+import com.dinhthanhphu.movieticketadmin.service.IImageService;
 import com.dinhthanhphu.movieticketadmin.service.IMovieService;
 import com.dinhthanhphu.movieticketadmin.utils.CloudinaryUtils;
 import com.dinhthanhphu.movieticketadmin.utils.MapperModelUtils;
@@ -22,14 +23,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 @Service
 public class MovieService implements IMovieService {
+
 
     @Autowired
     private CloudinaryUtils cloudUtil;
@@ -49,34 +53,53 @@ public class MovieService implements IMovieService {
     @Autowired
     private MapperModelUtils cvt;
 
+    @Autowired
+    private IImageService imageService;
+
     @Override
     @Transactional
     public MovieDTO save(MovieRequest form) {
         try {
-            MovieEntity movie = null;
-            if (form.getId() != null) {
-                movie = movieRepository.findById(Long.parseLong(form.getId())).get();
-            } else {
-                movie = new MovieEntity();
-            }
-            List<ImageEntity> lstImage = new ArrayList<>();
             List<ActorEntity> lstActor = new ArrayList<>();
             List<CategoryEntity> lstCategory = new ArrayList<>();
             ImageEntity image = null;
             ActorEntity actor = null;
             CategoryEntity category = null;
-            Map uploadResult = null;
-            if (form.getAvatar().getSize() > 0) {
-                uploadResult = cloudUtil.uploadCloudinary(form.getAvatar(), "movieCinema/PosterMovie");
-                movie.setPosterPublicId(uploadResult.get("public_id").toString());
-                movie.setPosterUrl(uploadResult.get("url").toString());
+            CompletableFuture<Map> uploadResultPoster = null;
+            CompletableFuture<Map> uploadResultVideo = null;
+            MovieEntity movie = null;
+            Long t1 = System.currentTimeMillis();
+            System.out.println("start: "+ t1);
+            if (form.getId() != null) {
+                movie = movieRepository.findById(Long.parseLong(form.getId())).get();
+                System.out.println("imgae: "+movie.getPosterPublicId() +": "+form.getAvatar().getBytes());
+                uploadResultPoster = cloudUtil.uploadPublicIdAsync(form.getAvatar(), movie.getPosterPublicId());
+                uploadResultVideo = cloudUtil.uploadPublicIdAsync(form.getVideo(), movie.getTrailerPublicid());
+            } else {
+                movie = new MovieEntity();
+                uploadResultPoster = cloudUtil.uploadCloudinaryAsync(form.getAvatar(), "movieCinema/PosterMovie");
+                uploadResultVideo = cloudUtil.uploadCloudinaryAsync(form.getVideo(), "movieCinema/VideoMovie");
             }
-            if (form.getVideo().getSize() > 0) {
-                uploadResult = cloudUtil.uploadCloudinary(form.getVideo(), "movieCinema/VideoMovie");
-                movie.setTrailerPublicid(uploadResult.get("public_id").toString());
-                movie.setTrailerUrl(uploadResult.get("url").toString());
+            Long t2 = System.currentTimeMillis();
+            System.out.println("start thread: "+ t2);
+            CompletableFuture.allOf(uploadResultPoster, uploadResultVideo).join();
+            Long t3 = System.currentTimeMillis();
+            System.out.println("start setter: "+ t3);
+            if (uploadResultPoster.get() != null) {
+                System.out.println("sau khi setPosterPublicId: "+ uploadResultPoster.get().get("public_id").toString());
+                System.out.println("sau khi setPosterUrl: "+ uploadResultPoster.get().get("url").toString());
+                movie.setPosterPublicId(uploadResultPoster.get().get("public_id").toString());
+                movie.setPosterUrl(uploadResultPoster.get().get("url").toString());
             }
 
+            if (uploadResultVideo.get() != null) {
+                System.out.println("sau khi setTrailerPublicid: "+ uploadResultVideo.get().get("public_id").toString());
+                System.out.println("sau khi setTrailerUrl: "+ uploadResultVideo.get().get("url").toString());
+                movie.setTrailerPublicid(uploadResultVideo.get().get("public_id").toString());
+                movie.setTrailerUrl(uploadResultVideo.get().get("url").toString());
+            }
+            Long t4 = System.currentTimeMillis();
+            System.out.println("start db: "+ t4);
             for (String nameActor : form.getActor()) {
                 if (!nameActor.equals("")) {
                     actor = actorRepository.findByNameContaining(nameActor);
@@ -104,18 +127,19 @@ public class MovieService implements IMovieService {
             movie.setCategories(lstCategory);
 
             movieRepository.save(movie);
-
+            Long t5 = System.currentTimeMillis();
+            System.out.println("end db: "+ t5);
+            MovieEntity finalMovie = movie;
             for (MultipartFile i : form.getImageDescription()) {
-                if (i.getSize() > 0) {
-                    image = new ImageEntity();
-                    uploadResult = cloudUtil.uploadCloudinary(i, "movieCinema/ImageDescription");
-                    image.setPublicId(uploadResult.get("public_id").toString());
-                    image.setPublicUrl(uploadResult.get("url").toString());
-                    image.setMovie(movie);
-                    imageRepository.save(image);
-                    lstImage.add(image);
-                }
+                CompletableFuture.runAsync(() -> {
+                    try {
+                        imageService.save(finalMovie, i.getBytes());
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+                    }
+                });
             }
+
             if (form.getImageDelete() != null) {
                 for (String imagedelete : form.getImageDelete()) {
                     image = imageRepository.findByPublicId(imagedelete);
@@ -123,8 +147,10 @@ public class MovieService implements IMovieService {
                     cloudUtil.delete(imagedelete);
                 }
             }
+            Long t6 = System.currentTimeMillis();
+            System.out.println("end: "+ t6);
+            System.out.println("Tong: "+ (t6-t1) + "Video + poster: " + (t2-t1) + "Set posetr and video" + (t4-t3) +"Luu db: " + (t5-t4));
             return cvt.convertToDTO(MovieDTO.builder()
-                    .image(lstImage.stream().map(m -> cvt.convertToDTO(new ImageDTO(), m)).collect(Collectors.toList()))
                     .actors(lstActor.stream().map(m -> cvt.convertToDTO(new ActorDTO(), m)).collect(Collectors.toList()))
                     .categories(lstCategory.stream().map(m -> cvt.convertToDTO(new CategoryDTO(), m)).collect(Collectors.toList()))
                     .build(), movie);
@@ -171,7 +197,7 @@ public class MovieService implements IMovieService {
     public List<MovieDTO> findByNameAndIdCategory(String name, String idCategory) {
         List<MovieEntity> lstMovie = null;
         String namemovie = "";
-        if(name != null){
+        if (name != null) {
             namemovie = name;
         }
         if (Integer.parseInt(idCategory) == 0) {
@@ -186,49 +212,49 @@ public class MovieService implements IMovieService {
     public List<MovieDTO> findByIdCategory(String idCategory) {
         CategoryEntity category = categoryRepository.findById(Long.parseLong(idCategory)).orElse(null);
         List<MovieEntity> result = null;
-        if(category == null){
+        if (category == null) {
             result = movieRepository.findAll();
-        }else {
+        } else {
             result = category.getMovies();
         }
         return result.stream()
-                     .map(m -> cvt.convertToDTO(new MovieDTO(), m))
-                     .collect(Collectors.toList());
+                .map(m -> cvt.convertToDTO(new MovieDTO(), m))
+                .collect(Collectors.toList());
     }
 
     @Override
     public Page<MovieDTO> findPaginated(int pageNo, int pageSize) {
-        Pageable pageable = PageRequest.of(pageNo-1, pageSize, Sort.by("createDate").descending());
+        Pageable pageable = PageRequest.of(pageNo - 1, pageSize, Sort.by("createDate").descending());
         return movieRepository.findAll(pageable).map(m -> cvt.convertToDTO(new MovieDTO(), m));
     }
 
     @Override
     public Page<MovieDTO> findByNameAndIdCategoryPaginated(int pageNo, int pageSize, String name, String idCategory) {
-        Pageable pageable = PageRequest.of(pageNo-1, pageSize, Sort.by("createDate").descending());
+        Pageable pageable = PageRequest.of(pageNo - 1, pageSize, Sort.by("createDate").descending());
         Page<MovieEntity> page = null;
         String namemovie = "";
-        if(name != null){
+        if (name != null) {
             namemovie = name;
         }
         if (Integer.parseInt(idCategory) == 0) {
             page = movieRepository.findByNameContainingCustom(namemovie, pageable);
         } else {
-            page = movieRepository.findByNameContainingAndNameCategoryCustom(namemovie,Integer.parseInt(idCategory),pageable);
+            page = movieRepository.findByNameContainingAndNameCategoryCustom(namemovie, Integer.parseInt(idCategory), pageable);
         }
         return page.map(m -> cvt.convertToDTO(new MovieDTO(), m));
     }
 
     @Override
     public Page<MovieDTO> findByIdCategoryPaginated(String idCategory, int pageNo, int pageSize) {
-        Pageable pageable = PageRequest.of(pageNo - 1,pageSize, Sort.by("createDate").descending());
+        Pageable pageable = PageRequest.of(pageNo - 1, pageSize, Sort.by("createDate").descending());
         Page<MovieEntity> page = null;
 
-        if(idCategory.equals("0")){
+        if (idCategory.equals("0")) {
             page = movieRepository.findAll(pageable);
-        }else{
+        } else {
             CategoryEntity category = categoryRepository.findById(Long.parseLong(idCategory)).orElse(null);
             List<MovieEntity> rs = category.getMovies();
-            int start = (int)pageable.getOffset();
+            int start = (int) pageable.getOffset();
             int end = Math.min((start + pageable.getPageSize()), rs.size());
             page = new PageImpl<>(rs.subList(start, end), pageable, rs.size());
         }

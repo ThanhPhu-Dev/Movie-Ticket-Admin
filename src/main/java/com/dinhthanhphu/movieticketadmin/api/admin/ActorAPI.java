@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 @RestController
 @RequestMapping("/api")
@@ -24,20 +25,18 @@ public class ActorAPI {
     private IActorService actorService;
 
     @PostMapping(value = "/edit-actor")
-    public ActorDTO editActor(@ModelAttribute ActorRequest formData) {
+    public ActorDTO editActor(@ModelAttribute ActorRequest formData) throws ExecutionException, InterruptedException {
         ActorDTO dto;
-        if(formData.getId() != null){
-            dto = actorService.findById(formData.getId());
-        }else{
-            dto = new ActorDTO();
-        }
         Map uploadResult = null;
-        if (formData.getAvatar().getSize() != 0) {
-            if(formData.getId() != null){
-                uploadResult = cloudUtil.uploadPublicId(formData.getAvatar(), dto.getPublic_id());
-            }else{
-                uploadResult = cloudUtil.uploadCloudinary(formData.getAvatar(),"movieCinema/actor");
-            }
+        if (formData.getId() != null) {
+            dto = actorService.findById(formData.getId());
+            uploadResult = cloudUtil.uploadPublicId(formData.getAvatar(), dto.getPublic_id());
+        } else {
+            dto = new ActorDTO();
+            uploadResult = cloudUtil.uploadCloudinary(formData.getAvatar(), "movieCinema/actor");
+
+        }
+        if (uploadResult != null) {
             dto.setPublic_id(uploadResult.get("public_id").toString());
             dto.setPublic_url(uploadResult.get("url").toString());
         }
@@ -47,34 +46,34 @@ public class ActorAPI {
     }
 
     @GetMapping(value = {"/idol", "/idol/{name}"})
-    public ActorPaginatedResponse findNameIdol(@PathVariable( required = false) String name){
+    public ActorPaginatedResponse findNameIdol(@PathVariable(required = false) String name) {
 
         return findNameIdolPaginated(name, 1);
     }
 
     @GetMapping(value = {"/idol/page/{pageNo}", "/idol/{name}/page/{pageNo}"})
-    public ActorPaginatedResponse findNameIdolPaginated(@PathVariable( required = false) String name,
-                                                        @PathVariable int pageNo){
+    public ActorPaginatedResponse findNameIdolPaginated(@PathVariable(required = false) String name,
+                                                        @PathVariable int pageNo) {
         int pageSize = 4;
-        Page<ActorDTO> page = actorService.findByNameContainingPaginated(name, pageNo,pageSize);
+        Page<ActorDTO> page = actorService.findByNameContainingPaginated(name, pageNo, pageSize);
         return ActorPaginatedResponse.builder()
-                                     .content(page.getContent())
-                                     .currentPage(pageNo)
-                                     .totalItems(page.getTotalElements())
-                                     .totalPages(page.getTotalPages())
-                                     .build();
+                .content(page.getContent())
+                .currentPage(pageNo)
+                .totalItems(page.getTotalElements())
+                .totalPages(page.getTotalPages())
+                .build();
     }
 
     @GetMapping(value = "/allIdol")
-    public List<ActorDTO> findAll(){
+    public List<ActorDTO> findAll() {
         List<ActorDTO> lst = actorService.findAll();
         return lst;
     }
 
     @DeleteMapping("/delete/actor/{id}")
-    public ResponseEntity<?> deleteActor(@PathVariable String id){
+    public ResponseEntity<?> deleteActor(@PathVariable String id) {
         boolean rs = actorService.delete(id);
-        if(rs){
+        if (rs) {
             return ResponseEntity.accepted().body("delete success");
         }
         return ResponseEntity.badRequest().body("delete fail");
