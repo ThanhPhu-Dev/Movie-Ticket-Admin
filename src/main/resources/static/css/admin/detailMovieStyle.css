@@ -36,6 +36,7 @@
 .swiper-container {
     width: 100%;
     height: 100%;
+    overflow-x: hidden;
 }
 
 .swiper-slide {
@@ -67,4 +68,14 @@
 
 .actor > a {
     color: gray;
+}
+
+.swiper-button-left_custom{
+    right: 9% !important;
+    top: 30% !important;
+}
+
+.swiper-button-right_custom{
+    left: 25% !important;
+    top: 30% !important;
 }
